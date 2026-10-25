@@ -1,9 +1,15 @@
 ---
 title: 欢迎来到我的博客
 date: 2026-10-25 00:00:00 +0800
-categories: [随笔]
-tags: [博客]
 description: 从这里开始，记录学习与生活。
+categories:
+  - 随笔
+tags:
+  - 博客
+image: ''
+pin: false
+math: false
+mermaid: false
 comments: false
 ---
 
@@ -16,13 +22,5 @@ comments: false
 - 学习过程中整理的笔记。
 - 动手实践时遇到的问题与解决方法。
 - 生活中的想法和发现。
-
-## 开始写作
-
-博客支持 Markdown。比如，用两个井号写二级标题，用短横线写列表，也可以插入代码：
-
-```python
-print("Hello, blog!")
-```
 
 以后每一篇新的记录，都从一个小小的文件开始。
