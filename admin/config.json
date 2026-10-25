@@ -31,13 +31,13 @@
       "format": "yaml-frontmatter",
       "description": "新建文章、编辑正文、添加图片，保存后博客会自动更新。",
       "slug": {
-        "template": "{{date | date(\"YYYY-MM-DD\")}}-{{slug}}",
+        "template": "{{year}}-{{month}}-{{day}}-{{slug}}",
         "editable": [
           "create"
         ],
         "hint": "文件名会自动生成，通常无需修改。"
       },
-      "summary": "{{title}} · {{date | date(\"YYYY-MM-DD\")}}",
+      "summary": "{{title}}",
       "sortable_fields": {
         "fields": [
           "date",
