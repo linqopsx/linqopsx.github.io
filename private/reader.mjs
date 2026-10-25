@@ -1,3 +1,5 @@
+import {ensureFreshServiceWorker} from './service-worker-guard.mjs';
+await ensureFreshServiceWorker();
 import purify from './vendor/purify.mjs';
 import {createGitHubReader,renderMarkdown} from './reader-core.mjs';
 const $=selector=>document.querySelector(selector);
