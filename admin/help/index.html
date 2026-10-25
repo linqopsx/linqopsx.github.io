@@ -7,15 +7,21 @@
 <p>后台使用 GitHub 的细粒度访问令牌登录。它相当于只允许修改这个博客仓库的钥匙。</p>
 <ol><li>打开 <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">GitHub 令牌创建页面</a>，确认当前账号为 <code>linqopsx</code>。</li>
 <li><strong>Token name</strong> 填写 <code>博客写作后台</code>；<strong>Expiration</strong> 选择一个期限，例如 90 天。</li>
-<li><strong>Repository access</strong> 选择 <strong>Only select repositories</strong>，只勾选 <code>linqopsx.github.io</code>。</li>
+<li><strong>Repository access</strong> 选择 <strong>Only select repositories</strong>，勾选 <code>linqopsx.github.io</code> 和 <code>blog-private-drafts</code>，分别用于公开文章和私人草稿。</li>
 <li>在 <strong>Permissions → Repository permissions</strong> 中，将 <strong>Contents</strong> 设置为 <strong>Read and write</strong>。Metadata 的读取权限会自动添加，其他权限不用开启。</li>
 <li>点击 <strong>Generate token</strong>，复制新令牌。回到后台，点击“使用令牌登录 / Sign In with Token”，把令牌粘贴进去。</li></ol>
 <p>令牌保存在当前浏览器中。不要把它发给别人、写进文章或提交到仓库。到期后生成新令牌，再次登录即可。</p>
 <p><a class="button" href="/admin/">进入写作后台 →</a></p>
+<h2>有些文章不想公开怎么办</h2>
+<p>进入 <a href="/admin/private/">私人草稿</a>。这个编辑器把文章和图片保存在你的私有仓库中，保存后不会出现在博客首页、搜索、RSS 或公开仓库里。只有获得该私有仓库访问权限的账号才能读取。</p>
+<p>后台顶部可以在“公开文章”和“私人草稿”之间切换。两者的保存位置不同，选择前请看页面标题。新草稿默认就保存在私人空间，不需要额外打开隐藏开关。</p>
+<p>如果想把某篇私人草稿公开，请在“公开文章”中新建文章，复制正文并上传需要公开的图片，再保存。私人草稿不会自动转为公开文章。</p>
+<p>首次进入私人草稿若提示无权访问，请在现有细粒度令牌的仓库范围中加入 <code>blog-private-drafts</code>，保留 Contents 的读写权限。不要把令牌写进文章。</p>
+<p>已经公开过的文章可能仍留在公开仓库历史或他人的副本中；处理旧文章请单独确认。</p>
 <h2>发布第一篇文章</h2><ol><li>选择“文章”，点击新建按钮。</li><li>填写标题、发布时间、分类和标签，在正文编辑器中写作；可以切换可视化和 Markdown 模式。</li><li>通过图片按钮上传图片，也可以到素材库统一管理。</li><li>点击保存并确认。文章会提交到博客仓库，随后自动构建发布。</li><li>打开博客检查结果。后台内的预览用于查看内容，实际页面以发布后的博客为准。</li></ol>
 <h2>修改文章和个人介绍</h2><p>已有文章会出现在“文章”列表中，点开编辑后保存即可。“个人介绍 → 关于我”用来修改关于页面。</p>
 <h2>切换中文界面</h2><p>后台通常跟随浏览器语言。如果显示英文，登录后打开右上角账户菜单，进入 <strong>Settings → Language</strong>，选择 <strong>Chinese (China) — 中文（中国）</strong>。</p>
 <h2>保存后没有看到更新</h2><p>先查看 <a href="https://github.com/linqopsx/linqopsx.github.io/actions" target="_blank" rel="noopener noreferrer">博客发布进度</a>，等待最新任务出现绿色对勾，再刷新博客。如果发布时间设在未来，文章暂时不会显示，而且不会在该时间自动定时发布。</p>
-<p>本博客和仓库公开。已保存的文章、图片和修改历史可能被他人查看，请发布适合公开的内容。</p>
+<p>“公开文章”写入公开博客仓库，其文章、图片和修改历史可被他人查看；“私人草稿”写入私有仓库。</p>
 <p><a href="https://sveltiacms.app/en/docs/backends/github" target="_blank" rel="noopener noreferrer">Sveltia CMS 官方登录说明</a></p>
 </main></body></html>

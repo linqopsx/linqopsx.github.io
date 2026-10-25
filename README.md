@@ -57,3 +57,11 @@ bundle exec jekyll serve
 - [首次登录与使用帮助](https://linqopsx.github.io/admin/help/)
 
 使用仅限本博客仓库、Contents 读写权限的 GitHub 细粒度令牌登录。可管理文章、图片和关于页面。保存后自动构建发布。
+
+## 私人草稿
+
+进入 https://linqopsx.github.io/admin/private/ 管理未公开文章。内容和图片保存在单独的私有仓库，当前博客构建不读取该仓库。
+
+保存私人草稿不会公开发布；若要公开，请在公开文章编辑器中新建文章，复制正文和需要公开的图片。
+
+访问令牌需对公开博客仓库和私人草稿仓库具有 Contents 读写权限。不要把私人草稿文件复制到此公开仓库。
