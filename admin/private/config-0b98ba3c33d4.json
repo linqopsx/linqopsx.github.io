@@ -1,0 +1,117 @@
+{
+  "$schema": "https://unpkg.com/@sveltia/cms@0.252.0/schema/sveltia-cms.json",
+  "backend": {
+    "name": "github",
+    "repo": "linqopsx-blog/blog-private-drafts",
+    "branch": "main",
+    "auth_methods": [
+      "token"
+    ]
+  },
+  "app_title": "我的私人草稿",
+  "site_url": "https://linqopsx.github.io",
+  "display_url": "https://linqopsx.github.io",
+  "publish_mode": "simple",
+  "media_folder": "media",
+  "public_folder": "/media",
+  "slug": {
+    "encoding": "ascii",
+    "clean_accents": true,
+    "sanitize_replacement": "-",
+    "timezone": "local"
+  },
+  "collections": [
+    {
+      "name": "private-drafts",
+      "label": "私人草稿",
+      "label_singular": "私人草稿",
+      "folder": "drafts",
+      "create": true,
+      "extension": "md",
+      "format": "yaml-frontmatter",
+      "description": "保存在私有仓库中，仅授权账号可读取。保存不会发布到博客。",
+      "slug": {
+        "template": "{{year}}-{{month}}-{{day}}-{{slug}}",
+        "editable": [
+          "create"
+        ],
+        "hint": "文件名会自动生成，通常无需修改。"
+      },
+      "summary": "{{title}}",
+      "sortable_fields": {
+        "fields": [
+          "date",
+          "title"
+        ],
+        "default": {
+          "field": "date",
+          "direction": "descending"
+        }
+      },
+      "fields": [
+        {
+          "label": "标题",
+          "name": "title",
+          "widget": "string"
+        },
+        {
+          "label": "记录时间",
+          "name": "date",
+          "widget": "datetime",
+          "default": "{{now}}",
+          "input_timezone": "Asia/Shanghai",
+          "format": "YYYY-MM-DD HH:mm:ss ZZ",
+          "hint": "用于整理草稿，不会触发公开发布。"
+        },
+        {
+          "label": "摘要",
+          "name": "description",
+          "widget": "text",
+          "required": false,
+          "hint": "显示在首页文章列表中。"
+        },
+        {
+          "label": "分类",
+          "name": "categories",
+          "widget": "list",
+          "required": false,
+          "hint": "例如：学习。最多两级，第二项是第一项的子分类。",
+          "max": 2
+        },
+        {
+          "label": "标签",
+          "name": "tags",
+          "widget": "list",
+          "required": false,
+          "hint": "例如：python、笔记。"
+        },
+        {
+          "label": "封面图片",
+          "name": "image",
+          "widget": "image",
+          "required": false
+        },
+        {
+          "label": "启用数学公式",
+          "name": "math",
+          "widget": "boolean",
+          "default": false,
+          "required": false
+        },
+        {
+          "label": "启用流程图",
+          "name": "mermaid",
+          "widget": "boolean",
+          "default": false,
+          "required": false
+        },
+        {
+          "label": "正文",
+          "name": "body",
+          "widget": "markdown"
+        }
+      ]
+    }
+  ],
+  "show_preview_links": false
+}
