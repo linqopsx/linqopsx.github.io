@@ -1,0 +1,5 @@
+{
+  "version": "0.252.0",
+  "sourceSha256": "d42c8f272ecba2cca23e8ad0edb23a7382e4de66f040f1676dfe22145ca96651",
+  "modification": "Isolate private organization editor user credential cache under sveltia-private-cms.user."
+}

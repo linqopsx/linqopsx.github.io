@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src blob:; connect-src 'self' https://api.github.com; base-uri 'none'; form-action 'none'; object-src 'none'">
+<title>私密阅读 · Theodore 的博客</title><link rel="stylesheet" href="./reader.css"><script type="module" src="./reader.mjs"></script>
+</head><body>
+<header><a class="brand" href="/">THEODORE <span>／ 私密阅读</span></a><nav aria-label="阅读导航"><a href="./help/">登录与授权说明</a><span id="account"></span><button id="logout" hidden>退出阅读</button></nav></header>
+<main>
+<section id="login-panel" class="login-panel"><p class="eyebrow">PRIVATE READING</p><h1>留给获授权的人。</h1><p class="intro">这里收录未公开的文章。登录后，只能阅读账号已获授权的内容。</p>
+<form id="login-form"><label for="access-token">GitHub 访问令牌</label><input id="access-token" name="token" type="password" autocomplete="off" spellcheck="false" required placeholder="输入你自己账号的阅读令牌"><button id="login-button" type="submit">验证权限并阅读 →</button></form>
+<p class="note">令牌只在当前页面内使用。退出或关闭页面后清除。<br>请使用自己的账号，勿向他人索取写作令牌。</p></section>
+<p id="message" role="status" aria-live="polite"></p>
+<section id="workspace" class="workspace" hidden><aside><div class="list-heading"><h2>私密文章</h2><span id="count">0 篇</span></div><label class="sr-only" for="search">搜索文章</label><input id="search" type="search" placeholder="搜索标题或摘要"><div id="article-list"></div></aside><article id="article"></article></section>
+</main><footer>仅向获授权的账号开放 · 只读阅读</footer>
+</body></html>

@@ -7,16 +7,16 @@
 <p>后台使用 GitHub 的细粒度访问令牌登录。它相当于只允许修改这个博客仓库的钥匙。</p>
 <ol><li>打开 <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">GitHub 令牌创建页面</a>，确认当前账号为 <code>linqopsx</code>。</li>
 <li><strong>Token name</strong> 填写 <code>博客写作后台</code>；<strong>Expiration</strong> 选择一个期限，例如 90 天。</li>
-<li><strong>Repository access</strong> 选择 <strong>Only select repositories</strong>，勾选 <code>linqopsx.github.io</code> 和 <code>blog-private-drafts</code>，分别用于公开文章和私人草稿。</li>
+<li><strong>Repository access</strong> 选择 <strong>Only select repositories</strong>，公开写作选择个人账号下的 <code>linqopsx.github.io</code>。私人写作需另外以 <code>linqopsx-blog</code> 为 Resource owner，选择该组织下的 <code>blog-private-drafts</code>。</li>
 <li>在 <strong>Permissions → Repository permissions</strong> 中，将 <strong>Contents</strong> 设置为 <strong>Read and write</strong>。Metadata 的读取权限会自动添加，其他权限不用开启。</li>
 <li>点击 <strong>Generate token</strong>，复制新令牌。回到后台，点击“使用令牌登录 / Sign In with Token”，把令牌粘贴进去。</li></ol>
 <p>令牌保存在当前浏览器中。不要把它发给别人、写进文章或提交到仓库。到期后生成新令牌，再次登录即可。</p>
 <p><a class="button" href="/admin/">进入写作后台 →</a></p>
-<h2>有些文章不想公开怎么办</h2>
+<h2>只读阅读与统一授权</h2><p><a href="/private/">只读阅读入口</a>供读者使用。授权由博客专用组织管理；普通成员只有 Read 权限，无法修改或删除原文。具体步骤见 <a href="/private/help/">只读授权说明</a>。</p><p>组织中的私密写作需要一枚以 <code>linqopsx-blog</code> 为 Resource owner、只选择 <code>blog-private-drafts</code>、Contents 为 Read and write 的作者令牌。公开文章编辑器继续使用原有个人账号令牌；两处令牌分别保存。</p><h2>有些文章不想公开怎么办</h2>
 <p>进入 <a href="/admin/private/">私人草稿</a>。这个编辑器把文章和图片保存在你的私有仓库中，保存后不会出现在博客首页、搜索、RSS 或公开仓库里。只有获得该私有仓库访问权限的账号才能读取。</p>
 <p>后台顶部可以在“公开文章”和“私人草稿”之间切换。两者的保存位置不同，选择前请看页面标题。新草稿默认就保存在私人空间，不需要额外打开隐藏开关。</p>
 <p>如果想把某篇私人草稿公开，请在“公开文章”中新建文章，复制正文并上传需要公开的图片，再保存。私人草稿不会自动转为公开文章。</p>
-<p>首次进入私人草稿若提示无权访问，请在现有细粒度令牌的仓库范围中加入 <code>blog-private-drafts</code>，保留 Contents 的读写权限。不要把令牌写进文章。</p>
+<p>首次进入私人草稿若提示无权访问，请创建以 <code>linqopsx-blog</code> 为 Resource owner 的专用作者令牌，选择 <code>blog-private-drafts</code> 并授予 Contents 读写权限。不要把令牌写进文章。</p>
 <p>已经公开过的文章可能仍留在公开仓库历史或他人的副本中；处理旧文章请单独确认。</p>
 <h2>发布第一篇文章</h2><ol><li>选择“文章”，点击新建按钮。</li><li>填写标题、发布时间、分类和标签，在正文编辑器中写作；可以切换可视化和 Markdown 模式。</li><li>通过图片按钮上传图片，也可以到素材库统一管理。</li><li>点击保存并确认。文章会提交到博客仓库，随后自动构建发布。</li><li>打开博客检查结果。后台内的预览用于查看内容，实际页面以发布后的博客为准。</li></ol>
 <h2>修改文章和个人介绍</h2><p>已有文章会出现在“文章”列表中，点开编辑后保存即可。“个人介绍 → 关于我”用来修改关于页面。</p>

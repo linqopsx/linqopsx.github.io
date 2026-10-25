@@ -2,12 +2,11 @@
   "$schema": "https://unpkg.com/@sveltia/cms@0.252.0/schema/sveltia-cms.json",
   "backend": {
     "name": "github",
-    "repo": "linqopsx/blog-private-drafts",
+    "repo": "linqopsx-blog/blog-private-drafts",
     "branch": "main",
     "auth_methods": [
       "token"
-    ],
-    "skip_ci": true
+    ]
   },
   "app_title": "我的私人草稿",
   "site_url": "https://linqopsx.github.io",
