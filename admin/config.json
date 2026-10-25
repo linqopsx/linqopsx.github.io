@@ -1,0 +1,151 @@
+{
+  "$schema": "https://unpkg.com/@sveltia/cms@0.252.0/schema/sveltia-cms.json",
+  "backend": {
+    "name": "github",
+    "repo": "linqopsx/linqopsx.github.io",
+    "branch": "main",
+    "auth_methods": [
+      "token"
+    ]
+  },
+  "app_title": "Theodore 的写作后台",
+  "site_url": "https://linqopsx.github.io",
+  "display_url": "https://linqopsx.github.io",
+  "publish_mode": "simple",
+  "media_folder": "assets/img/uploads",
+  "public_folder": "/assets/img/uploads",
+  "slug": {
+    "encoding": "ascii",
+    "clean_accents": true,
+    "sanitize_replacement": "-",
+    "timezone": "local"
+  },
+  "collections": [
+    {
+      "name": "posts",
+      "label": "文章",
+      "label_singular": "文章",
+      "folder": "_posts",
+      "create": true,
+      "extension": "md",
+      "format": "yaml-frontmatter",
+      "description": "新建文章、编辑正文、添加图片，保存后博客会自动更新。",
+      "slug": {
+        "template": "{{date | date(\"YYYY-MM-DD\")}}-{{slug}}",
+        "editable": [
+          "create"
+        ],
+        "hint": "文件名会自动生成，通常无需修改。"
+      },
+      "summary": "{{title}} · {{date | date(\"YYYY-MM-DD\")}}",
+      "sortable_fields": {
+        "fields": [
+          "date",
+          "title"
+        ],
+        "default": {
+          "field": "date",
+          "direction": "descending"
+        }
+      },
+      "fields": [
+        {
+          "label": "标题",
+          "name": "title",
+          "widget": "string"
+        },
+        {
+          "label": "发布时间",
+          "name": "date",
+          "widget": "datetime",
+          "default": "{{now}}",
+          "input_timezone": "Asia/Shanghai",
+          "format": "YYYY-MM-DD HH:mm:ss ZZ",
+          "hint": "使用现在或过去的时间。未来时间不会自动定时上线。"
+        },
+        {
+          "label": "摘要",
+          "name": "description",
+          "widget": "text",
+          "required": false,
+          "hint": "显示在首页文章列表中。"
+        },
+        {
+          "label": "分类",
+          "name": "categories",
+          "widget": "list",
+          "required": false,
+          "hint": "例如：学习。最多两级，第二项是第一项的子分类。",
+          "max": 2
+        },
+        {
+          "label": "标签",
+          "name": "tags",
+          "widget": "list",
+          "required": false,
+          "hint": "例如：python、笔记。"
+        },
+        {
+          "label": "封面图片",
+          "name": "image",
+          "widget": "image",
+          "required": false
+        },
+        {
+          "label": "首页置顶",
+          "name": "pin",
+          "widget": "boolean",
+          "default": false,
+          "required": false
+        },
+        {
+          "label": "启用数学公式",
+          "name": "math",
+          "widget": "boolean",
+          "default": false,
+          "required": false
+        },
+        {
+          "label": "启用流程图",
+          "name": "mermaid",
+          "widget": "boolean",
+          "default": false,
+          "required": false
+        },
+        {
+          "label": "正文",
+          "name": "body",
+          "widget": "markdown"
+        }
+      ]
+    },
+    {
+      "name": "pages",
+      "label": "个人介绍",
+      "files": [
+        {
+          "name": "about",
+          "label": "关于我",
+          "file": "_tabs/about.md",
+          "fields": [
+            {
+              "name": "icon",
+              "widget": "hidden",
+              "default": "fas fa-info-circle"
+            },
+            {
+              "name": "order",
+              "widget": "hidden",
+              "default": 4
+            },
+            {
+              "label": "介绍内容",
+              "name": "body",
+              "widget": "markdown"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

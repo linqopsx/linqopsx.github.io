@@ -50,3 +50,10 @@ bundle exec jekyll serve
 - [主题项目](https://github.com/cotes2020/jekyll-theme-chirpy)
 
 本项目保留上游 MIT 许可证。
+
+## 网页写作后台
+
+- [进入后台](https://linqopsx.github.io/admin/)
+- [首次登录与使用帮助](https://linqopsx.github.io/admin/help/)
+
+使用仅限本博客仓库、Contents 读写权限的 GitHub 细粒度令牌登录。可管理文章、图片和关于页面。保存后自动构建发布。
