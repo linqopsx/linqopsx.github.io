@@ -56,7 +56,7 @@ bundle exec jekyll serve
 - [进入后台](https://linqopsx.github.io/admin/)
 - [首次登录与使用帮助](https://linqopsx.github.io/admin/help/)
 
-使用仅限本博客仓库、Contents 读写权限的 GitHub 细粒度令牌登录。可管理文章、图片和关于页面。保存后自动构建发布。
+公开文章通过 GitHub 账号登录 Pages CMS，可管理文章、图片和关于页面。保存后自动构建发布。
 
 ## 私人草稿
 
@@ -64,12 +64,4 @@ bundle exec jekyll serve
 
 保存私人草稿不会公开发布；若要公开，请在公开文章编辑器中新建文章，复制正文和需要公开的图片。
 
-公开写作与私人写作分别使用对应 Resource owner 的作者令牌，私人阅读使用读者自己账号的只读令牌。不要把私人草稿文件复制到此公开仓库。
-
-## 只读私密阅读
-
-入口：https://linqopsx.github.io/private/ 。文章保存在 `linqopsx-blog/blog-private-drafts` 私有仓库。授权名单由专用组织的普通成员管理，组织基础仓库权限为 Read，只有作者拥有管理和编辑权限。
-
-读者使用自己账号的只读令牌；作者令牌不分发给读者。前端令牌仅在当前页面内存中使用。公开页面不包含私密文章内容。
-
-管理与登录步骤：https://linqopsx.github.io/private/help/ 。
+公开写作使用 GitHub 账号登录，私人写作沿用对应 Resource owner 的作者令牌。不要把私人草稿文件复制到此公开仓库。

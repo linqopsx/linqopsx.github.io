@@ -1,4 +1,4 @@
-import {ensureFreshServiceWorker} from '/private/service-worker-guard.mjs';
+import {ensureFreshServiceWorker} from '/admin/private/service-worker-guard.mjs';
 try{
  await ensureFreshServiceWorker();
  const script=document.createElement('script');script.src='/admin/private/vendor/sveltia-cms.js';document.body.append(script);
