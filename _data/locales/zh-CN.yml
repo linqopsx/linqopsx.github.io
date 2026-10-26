@@ -9,6 +9,8 @@ layout:
 
 # The tabs of sidebar
 tabs:
+  软件下载: 软件下载
+  downloads: 软件下载
   # format: <filename_without_extension>: <value>
   home: 首页
   categories: 分类
