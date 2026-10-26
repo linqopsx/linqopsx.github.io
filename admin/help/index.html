@@ -3,7 +3,7 @@
 <style>body{margin:0;background:#f5f7fb;color:#172338;font:16px/1.85 system-ui,sans-serif}main{max-width:760px;margin:48px auto;padding:32px;background:white;border-radius:16px}a{color:#245bd1}h1{font-size:30px}h2{margin-top:32px;font-size:21px}code{background:#eef2f8;padding:2px 5px;border-radius:4px}.button{display:inline-block;padding:10px 18px;background:#245bd1;color:white;text-decoration:none;border-radius:8px}li{margin:8px 0}@media(max-width:820px){main{margin:16px;padding:24px}}@media(prefers-color-scheme:dark){body{background:#111827;color:#e5e7eb}main{background:#1f2937}a{color:#a5c6ff}code{background:#374151}}</style></head>
 <body><main>
 <a href="/">← 博客首页</a><h1>开始在网页上写文章</h1><p>以后打开写作后台，填写标题、编辑正文、插入图片并保存，就会自动更新博客。</p>
-<h2>第一次登录：创建写作凭证</h2>
+<h2>使用 GitHub 账号登录</h2><ol><li>打开 <a href="/admin/">写作后台</a>，点击“用 GitHub 登录并写文章”。</li><li>在 Pages CMS 点击 <strong>Sign in with GitHub</strong>，使用自己的 GitHub 账号登录。</li><li>首次使用按提示安装 Pages CMS 应用，选择 <strong>Only select repositories</strong>，仅勾选 <code>linqopsx.github.io</code>，核对权限后确认授权。</li><li>进入 <code>linqopsx/linqopsx.github.io</code> 的 <code>main</code> 分支，选择“公开文章”开始写作；“关于我”用于编辑个人介绍。</li></ol><p>以后使用 GitHub 账号登录即可，不必生成或粘贴访问令牌。文章仍保存到原来的博客仓库，保存后自动触发发布。登录页面属于 Pages CMS，首次使用请阅读它的服务条款和隐私政策。</p><details><summary>需要时使用备用编辑器（访问令牌登录）</summary><h2>第一次登录：创建写作凭证</h2>
 <p>后台使用 GitHub 的细粒度访问令牌登录。它相当于只允许修改这个博客仓库的钥匙。</p>
 <ol><li>打开 <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">GitHub 令牌创建页面</a>，确认当前账号为 <code>linqopsx</code>。</li>
 <li><strong>Token name</strong> 填写 <code>博客写作后台</code>；<strong>Expiration</strong> 选择一个期限，例如 90 天。</li>
@@ -11,17 +11,17 @@
 <li>在 <strong>Permissions → Repository permissions</strong> 中，将 <strong>Contents</strong> 设置为 <strong>Read and write</strong>。Metadata 的读取权限会自动添加，其他权限不用开启。</li>
 <li>点击 <strong>Generate token</strong>，复制新令牌。回到后台，点击“使用令牌登录 / Sign In with Token”，把令牌粘贴进去。</li></ol>
 <p>令牌保存在当前浏览器中。不要把它发给别人、写进文章或提交到仓库。到期后生成新令牌，再次登录即可。</p>
-<p><a class="button" href="/admin/">进入写作后台 →</a></p>
-<h2>只读阅读与统一授权</h2><p><a href="/private/">只读阅读入口</a>供读者使用。授权由博客专用组织管理；普通成员只有 Read 权限，无法修改或删除原文。具体步骤见 <a href="/private/help/">只读授权说明</a>。</p><p>组织中的私密写作需要一枚以 <code>linqopsx-blog</code> 为 Resource owner、只选择 <code>blog-private-drafts</code>、Contents 为 Read and write 的作者令牌。公开文章编辑器继续使用原有个人账号令牌；两处令牌分别保存。</p><h2>有些文章不想公开怎么办</h2>
+<p><a class="button" href="/admin/legacy/">进入写作后台 →</a></p>
+</details><h2>只读阅读与统一授权</h2><p><a href="/private/">只读阅读入口</a>供读者使用。授权由博客专用组织管理；普通成员只有 Read 权限，无法修改或删除原文。具体步骤见 <a href="/private/help/">只读授权说明</a>。</p><p>组织中的私密写作需要一枚以 <code>linqopsx-blog</code> 为 Resource owner、只选择 <code>blog-private-drafts</code>、Contents 为 Read and write 的作者令牌。公开文章使用 GitHub 账号登录，私人草稿保留原来的独立登录。</p><h2>有些文章不想公开怎么办</h2>
 <p>进入 <a href="/admin/private/">私人草稿</a>。这个编辑器把文章和图片保存在你的私有仓库中，保存后不会出现在博客首页、搜索、RSS 或公开仓库里。只有获得该私有仓库访问权限的账号才能读取。</p>
-<p>后台顶部可以在“公开文章”和“私人草稿”之间切换。两者的保存位置不同，选择前请看页面标题。新草稿默认就保存在私人空间，不需要额外打开隐藏开关。</p>
+<p>博客的写作入口可以分别进入“公开文章”和“私人草稿”。两者的保存位置不同，选择前请看页面标题。新草稿默认就保存在私人空间，不需要额外打开隐藏开关。</p>
 <p>如果想把某篇私人草稿公开，请在“公开文章”中新建文章，复制正文并上传需要公开的图片，再保存。私人草稿不会自动转为公开文章。</p>
 <p>首次进入私人草稿若提示无权访问，请创建以 <code>linqopsx-blog</code> 为 Resource owner 的专用作者令牌，选择 <code>blog-private-drafts</code> 并授予 Contents 读写权限。不要把令牌写进文章。</p>
 <p>已经公开过的文章可能仍留在公开仓库历史或他人的副本中；处理旧文章请单独确认。</p>
 <h2>发布第一篇文章</h2><ol><li>选择“文章”，点击新建按钮。</li><li>填写标题、发布时间、分类和标签，在正文编辑器中写作；可以切换可视化和 Markdown 模式。</li><li>通过图片按钮上传图片，也可以到素材库统一管理。</li><li>点击保存并确认。文章会提交到博客仓库，随后自动构建发布。</li><li>打开博客检查结果。后台内的预览用于查看内容，实际页面以发布后的博客为准。</li></ol>
 <h2>上传软件安装包</h2><p>打开 <a href="/admin/downloads/">软件上传</a>，点击“在 GitHub 上传安装包”。进入已准备好的版本编辑页后，在正文下方的 <strong>Attach binaries / choose your files</strong> 区域选择安装包，等待上传完成。在版本说明中记下软件名称和版本，再点击 <strong>Update release</strong> 保存，博客会自动更新下载清单。</p><p>返回上传页点“刷新列表”，即可复制下载链接或可直接粘贴到 Markdown 正文的“文章链接”。读者也可以从博客的 <a href="/downloads/">软件下载</a> 页面下载。支持 EXE、MSI、APK、DMG、ZIP 等格式，单个文件小于 2 GiB。上传的文件公开可见，不需要重新创建令牌。</p>
 <h2>修改文章和个人介绍</h2><p>已有文章会出现在“文章”列表中，点开编辑后保存即可。“个人介绍 → 关于我”用来修改关于页面。</p>
-<h2>切换中文界面</h2><p>后台通常跟随浏览器语言。如果显示英文，登录后打开右上角账户菜单，进入 <strong>Settings → Language</strong>，选择 <strong>Chinese (China) — 中文（中国）</strong>。</p>
+<h2>备用编辑器的界面语言</h2><p>后台通常跟随浏览器语言。如果显示英文，登录后打开右上角账户菜单，进入 <strong>Settings → Language</strong>，选择 <strong>Chinese (China) — 中文（中国）</strong>。</p>
 <h2>保存后没有看到更新</h2><p>先查看 <a href="https://github.com/linqopsx/linqopsx.github.io/actions" target="_blank" rel="noopener noreferrer">博客发布进度</a>，等待最新任务出现绿色对勾，再刷新博客。如果发布时间设在未来，文章暂时不会显示，而且不会在该时间自动定时发布。</p>
 <p>“公开文章”写入公开博客仓库，其文章、图片和修改历史可被他人查看；“私人草稿”写入私有仓库。</p>
 <p><a href="https://sveltiacms.app/en/docs/backends/github" target="_blank" rel="noopener noreferrer">Sveltia CMS 官方登录说明</a></p>
