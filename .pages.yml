@@ -22,13 +22,13 @@ content:
         type: string
         required: true
       - name: date
-        label: 发布时间
+        label: 发布时间（北京时间）
         type: date
         required: true
-        description: 使用现在或过去的时间。
+        description: 按北京时间填写，使用现在或过去的时间。
         options:
           time: true
-          format: yyyy-MM-dd HH:mm:ss xx
+          format: yyyy-MM-dd HH:mm:ss '+0800'
       - name: description
         label: 摘要
         type: text
