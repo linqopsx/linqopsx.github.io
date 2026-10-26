@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow"><meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>GitHub 账号登录 · Theodore 的写作后台</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#f5f7fb;color:#172338;font:16px/1.8 system-ui,sans-serif}nav{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding:16px 24px;background:#18212f}nav a{color:#e5edff;text-decoration:none}nav div{display:flex;gap:20px}main{max-width:860px;margin:64px auto;padding:0 24px}header{margin-bottom:30px}.eyebrow{font-size:13px;letter-spacing:2px;color:#4268ab}h1{font-size:34px;line-height:1.4;margin:10px 0}h2{font-size:22px;margin:0 0 8px}.lead,.note{color:#617087}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{padding:28px;background:white;border:1px solid #dce4ef;border-radius:16px}.card p{min-height:86px}.button{display:inline-block;padding:11px 18px;background:#245bd1;color:white;border-radius:9px;font-weight:600;text-decoration:none}.private{background:#37466b}a{color:#245bd1}.note{font-size:14px;margin-top:28px}.secondary{padding:20px 0;font-size:14px}
+    @media(max-width:600px){main{margin:32px auto;padding:0 16px}nav{padding:12px 16px;font-size:13px}.cards{grid-template-columns:1fr}.card p{min-height:0}h1{font-size:28px}}
+    @media(prefers-color-scheme:dark){body{background:#111827;color:#e5e7eb}.card{background:#1b2433;border-color:#354155}.lead,.note{color:#a2adc0}.eyebrow,a{color:#99baff}.button{color:white}}
+  </style>
+</head>
+<body>
+  <nav aria-label="写作导航"><a href="/">Theodore 的博客</a><div><a href="/admin/downloads/">软件上传</a><a href="/private/">私密阅读</a><a href="/admin/help/">帮助</a></div></nav>
+  <main>
+    <header><span class="eyebrow">GitHub 账号登录</span><h1>登录后，开始写作</h1><p class="lead">通过 GitHub 账号进入 Pages CMS 写作后台，不用创建和粘贴访问令牌。</p></header>
+    <div class="cards">
+      <section class="card"><h2>公开文章</h2><p>编辑博客文章、添加图片、修改个人介绍。保存后自动更新博客。</p><a class="button" href="https://app.pagescms.org/linqopsx/linqopsx.github.io/main" target="_blank" rel="noopener noreferrer">用 GitHub 登录并写文章 ↗</a></section>
+      <section class="card"><h2>私人草稿</h2><p>写入独立的私有仓库，保存后不会发布到公开博客。</p><a class="button private" href="https://app.pagescms.org/linqopsx-blog/blog-private-drafts/main" target="_blank" rel="noopener noreferrer">用 GitHub 登录私人草稿 ↗</a></section>
+    </div>
+    <p class="note">登录会前往 Pages CMS。首次使用需在 GitHub 安装并授权 Pages CMS 应用，只选择对应的博客仓库；公开文章和私人草稿的仓库需分别授权。</p>
+    <p class="secondary">已写好的内容仍保存在原来的 GitHub 仓库。需要时可以继续使用 <a href="/admin/">原公开文章后台</a> 或 <a href="/admin/private/">原私人草稿后台</a>。</p>
+  </main>
+</body>
+</html>

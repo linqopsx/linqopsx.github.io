@@ -1,0 +1,90 @@
+# GitHub account login editor. Credentials are managed by Pages CMS.
+media:
+  input: assets/img/uploads
+  output: /assets/img/uploads
+  categories:
+    - image
+  rename: safe
+content:
+  - name: posts
+    label: 公开文章
+    type: collection
+    path: _posts
+    format: yaml-frontmatter
+    filename:
+      template: '{year}-{month}-{day}-{hour}{minute}{second}-{primary}.md'
+      field: create
+    view:
+      primary: title
+    fields:
+      - name: title
+        label: 标题
+        type: string
+        required: true
+      - name: date
+        label: 发布时间
+        type: date
+        required: true
+        description: 使用现在或过去的时间。
+        options:
+          time: true
+          format: yyyy-MM-dd HH:mm:ss xx
+      - name: description
+        label: 摘要
+        type: text
+      - name: categories
+        label: 分类
+        type: string
+        list:
+          max: 2
+          collapsible: false
+        description: 最多两级，第二项是第一项的子分类。
+      - name: tags
+        label: 标签
+        type: string
+        list: true
+      - name: image
+        label: 封面图片（可选）
+        type: image
+      - name: pin
+        label: 首页置顶
+        type: boolean
+        default: false
+      - name: math
+        label: 数学公式
+        type: boolean
+        default: false
+      - name: mermaid
+        label: 流程图
+        type: boolean
+        default: false
+      - name: body
+        label: 正文
+        type: rich-text
+        required: true
+        options:
+          format: markdown
+          switcher: true
+  - name: about
+    label: 关于我
+    type: file
+    path: _tabs/about.md
+    format: yaml-frontmatter
+    fields:
+      - name: icon
+        type: string
+        hidden: true
+        default: fas fa-info-circle
+      - name: order
+        type: number
+        hidden: true
+        default: 4
+      - name: body
+        label: 介绍内容
+        type: rich-text
+        options:
+          format: markdown
+          switcher: true
+settings:
+  content:
+    merge: true
