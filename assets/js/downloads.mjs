@@ -8,6 +8,15 @@ if (root) {
   const refresh = root.querySelector('[data-refresh]');
   const cacheKey = 'theodore-public-downloads-v1';
   let assets = [];
+  const fromCatalog = items => items.map(a => normalizeAsset({ id: a.id, name: a.name, browser_download_url: a.url,
+    state: 'uploaded', size: a.size, updated_at: a.updated, digest: a.digest })).filter(Boolean);
+  async function catalog() {
+    const response = await fetch('/assets/data/downloads.json', { cache: 'no-cache', credentials: 'omit', signal: AbortSignal.timeout(15000) });
+    if (!response.ok) throw new Error('博客下载清单暂时无法加载，请稍后重试或直接打开 GitHub 下载页。');
+    const data = await response.json();
+    if (!Array.isArray(data.assets)) throw new Error('下载清单格式异常。');
+    return fromCatalog(data.assets);
+  }
   function node(tag, text, className) {
     const element = document.createElement(tag);
     if (text !== undefined) element.textContent = text;
@@ -18,8 +27,7 @@ if (root) {
     try {
       const value = JSON.parse(sessionStorage.getItem(cacheKey));
       if (Date.now() - value.at > 60000 || value.at > Date.now() || !Array.isArray(value.assets)) return null;
-      return value.assets.map(a => normalizeAsset({ id: a.id, name: a.name, browser_download_url: a.url,
-        state: 'uploaded', size: a.size, updated_at: a.updated, digest: a.digest })).filter(Boolean);
+      return fromCatalog(value.assets);
     } catch { return null; }
   }
   async function copy(text, button) {
@@ -69,9 +77,19 @@ if (root) {
     refresh.disabled = true;
     status.textContent = '正在读取下载列表…';
     try {
-      assets = (!force && cached()) || await loadAssets();
+      let fallback = false;
+      if (force) {
+        try { assets = await loadAssets(); }
+        catch { assets = await catalog(); fallback = true; }
+      } else {
+        assets = cached();
+        if (!assets) {
+          try { assets = await catalog(); }
+          catch { assets = await loadAssets(); }
+        }
+      }
       try { sessionStorage.setItem(cacheKey, JSON.stringify({at: Date.now(), assets})); } catch { /* Storage can be disabled. */ }
-      render(); status.textContent = '列表已更新。';
+      render(); status.textContent = fallback ? '已显示博客备用清单；刚上传的文件可能需稍等发布完成。' : '列表已更新。';
     } catch (error) {
       status.textContent = error instanceof TypeError || error.name === 'TimeoutError' ? '暂时连接不到 GitHub，可稍后刷新或直接打开 GitHub 下载页。' : error.message;
     } finally { refresh.disabled = false; }
