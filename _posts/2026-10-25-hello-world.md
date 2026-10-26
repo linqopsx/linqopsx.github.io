@@ -6,13 +6,11 @@ categories:
   - 随笔
 tags:
   - 博客
-image: ''
-pin: false
+pin: true
 math: false
 mermaid: false
 comments: false
 ---
-
 欢迎来到我的个人博客。
 
 这是一篇用于展示博客效果的示例文章，可以随时修改或删除。
