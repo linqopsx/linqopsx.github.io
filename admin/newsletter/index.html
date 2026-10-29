@@ -32,9 +32,9 @@ sitemap: false
     <section class="panel">
       <h2>订阅服务状态</h2>
       {% if site.data.newsletter.enabled %}
-        <p>已连接 follow.it。读者可以填写邮箱订阅，邮件内提供退订入口。基础版定期检查订阅源，推送存在延迟。</p>
-        <a class="button secondary" href="https://follow.it/offered-feeds" target="_blank" rel="noopener noreferrer">管理订阅者与查看发送记录 ↗</a>
-        <a href="{{ site.data.newsletter.subscribe_url | escape }}" target="_blank" rel="noopener noreferrer">查看平台订阅页 ↗</a>
+        <p>已连接 follow.it。读者可以填写邮箱订阅，邮件内提供退订入口。基础版约每 6 小时检查订阅源，推送存在延迟。读者可选择 Single emails（单条邮件）或 Newspaper（每日汇总）。确认页可能显示英文，邮件使用平台免费版样式。</p>
+        <a class="button secondary" href="https://follow.it/offered-feed/theodore/followers" target="_blank" rel="noopener noreferrer">管理订阅者 ↗</a>
+        <a href="https://follow.it/offered-feed/theodore/sending" target="_blank" rel="noopener noreferrer">查看发送记录 ↗</a> · <a href="{{ site.data.newsletter.subscribe_url | escape }}" target="_blank" rel="noopener noreferrer">查看平台订阅页 ↗</a>
       {% else %}
         <p>博客公告与订阅页面已准备好，邮件服务尚未启用。当前不会收集邮箱或发送通知。</p>
       {% endif %}
