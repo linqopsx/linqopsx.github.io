@@ -1,5 +1,5 @@
 ---
-title: 订阅更新
+title: subscribe
 icon: fas fa-envelope
 order: 6
 permalink: /subscribe/
@@ -10,4 +10,4 @@ toc: false
 
 ## 最近的更新公告
 
-{% include update-list.html %}
+{% include newsletter-updates.html %}

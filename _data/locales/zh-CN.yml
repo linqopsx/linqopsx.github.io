@@ -9,6 +9,7 @@ layout:
 
 # The tabs of sidebar
 tabs:
+  subscribe: 订阅更新
   软件下载: 软件下载
   downloads: 软件下载
   # format: <filename_without_extension>: <value>
