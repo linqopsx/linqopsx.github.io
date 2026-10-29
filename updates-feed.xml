@@ -1,0 +1,31 @@
+---
+layout: null
+permalink: /updates/feed.xml
+sitemap: false
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>{{ site.title | append: ' · 更新公告' | xml_escape }}</title>
+    <link>{{ '/subscribe/' | absolute_url | xml_escape }}</link>
+    <description>新文章、学习笔记和重要资源更新，由作者整理后发布。</description>
+    <language>zh-CN</language>
+    <atom:link href="{{ '/updates/feed.xml' | absolute_url | xml_escape }}" rel="self" type="application/rss+xml"/>
+    {% assign announcements = site.updates | where: 'published', true | sort: 'date' | reverse %}
+    {% assign now = site.time | date: '%s' | plus: 0 %}
+    {% assign visible_count = 0 %}
+    {% for announcement in announcements %}
+      {% assign published_at = announcement.date | date: '%s' | plus: 0 %}
+      {% if published_at <= now and visible_count < 30 %}
+        {% assign visible_count = visible_count | plus: 1 %}
+        <item>
+          <title>{{ announcement.title | xml_escape }}</title>
+          <link>{{ announcement.url | absolute_url | xml_escape }}</link>
+          <guid isPermaLink="true">{{ announcement.url | absolute_url | xml_escape }}</guid>
+          <pubDate>{{ announcement.date | date_to_rfc822 }}</pubDate>
+          <description>{{ announcement.description | xml_escape }}</description>
+        </item>
+      {% endif %}
+    {% endfor %}
+  </channel>
+</rss>

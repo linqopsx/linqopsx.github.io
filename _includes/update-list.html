@@ -1,0 +1,17 @@
+{% assign announcements = site.updates | where: 'published', true | sort: 'date' | reverse %}
+{% assign now = site.time | date: '%s' | plus: 0 %}
+{% assign visible_count = 0 %}
+<ul class="update-list">
+  {% for announcement in announcements %}
+    {% assign published_at = announcement.date | date: '%s' | plus: 0 %}
+    {% if published_at <= now %}
+      {% assign visible_count = visible_count | plus: 1 %}
+      <li>
+        <time datetime="{{ announcement.date | date_to_xmlschema }}">{{ announcement.date | date: '%Y/%m/%d' }}</time>
+        <h3 data-toc-skip><a href="{{ announcement.url | relative_url }}">{{ announcement.title | escape }}</a></h3>
+        <p>{{ announcement.description | escape }}</p>
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>
+{% if visible_count == 0 %}<p>还没有发布更新公告。</p>{% endif %}

@@ -1,0 +1,20 @@
+<section class="newsletter-box" aria-label="订阅博客更新">
+  <p class="newsletter-kicker">THEODORE · 更新来信</p>
+  <h2 data-toc-skip>博客更新，邮件告诉你</h2>
+  <p>新文章、学习笔记和重要的软件资源更新，整理好后发给你。无需每天回来查看。</p>
+  {% if site.data.newsletter.enabled and site.data.newsletter.form_action != '' %}
+    <form class="newsletter-form" action="{{ site.data.newsletter.form_action | escape }}" method="post" target="_blank">
+      <label for="newsletter-email">你的邮箱</label>
+      <div class="newsletter-fields">
+        <input id="newsletter-email" type="email" name="email" autocomplete="email" placeholder="例如：123456@qq.com" maxlength="254" required>
+        <button type="submit">订阅更新</button>
+      </div>
+      <label class="newsletter-consent"><input type="checkbox" required> 我愿意接收本博客的更新通知，可随时退订。</label>
+    </form>
+    <p class="newsletter-note">提交后会打开 follow.it 完成订阅，请按提示确认邮箱。邮箱交由该平台处理，不会公开显示。每封通知都提供退订入口。</p>
+    <p class="newsletter-note">若表单无法使用，可<a href="{{ site.data.newsletter.subscribe_url | escape }}" target="_blank" rel="noopener noreferrer">打开订阅页面</a>。免费邮件服务定期检查更新，收到通知会有延迟。</p>
+  {% else %}
+    <p class="newsletter-pending" role="status">邮件订阅正在开通中，暂不收集邮箱。你可以先查看下方的更新公告。</p>
+  {% endif %}
+  <p class="newsletter-note">你也可以使用 RSS 阅读器关注<a href="{{ '/updates/feed.xml' | relative_url }}">更新公告订阅源</a>。</p>
+</section>

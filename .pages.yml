@@ -65,6 +65,46 @@ content:
         options:
           format: markdown
           switcher: true
+  - name: updates
+    label: 更新公告
+    type: collection
+    path: _updates
+    format: yaml-frontmatter
+    filename:
+      template: '{year}-{month}-{day}-{hour}{minute}{second}-{primary}.md'
+      field: create
+    view:
+      primary: title
+    fields:
+      - name: title
+        label: 公告标题
+        type: string
+        required: true
+      - name: date
+        label: 发布时间（北京时间）
+        type: date
+        required: true
+        description: 请填当前或过去的时间。未来时间不会自动触发博客发布。
+        options:
+          time: true
+          format: yyyy-MM-dd HH:mm:ss '+0800'
+      - name: description
+        label: 邮件更新摘要
+        type: text
+        required: true
+        description: 用两三句话说明这次更新了什么，邮件服务会从订阅源读取此摘要。
+      - name: published
+        label: 发布公告（进入邮件订阅源）
+        type: boolean
+        default: false
+        description: 先确认相关文章和下载文件已发布成功，再开启并保存。已发邮件无法撤回；再次通知请新建公告，不要修改旧公告的日期或文件名。
+      - name: body
+        label: 详细更新说明与相关链接
+        type: rich-text
+        required: true
+        options:
+          format: markdown
+          switcher: true
   - name: about
     label: 关于我
     type: file

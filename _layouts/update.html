@@ -1,0 +1,7 @@
+---
+layout: page
+---
+<p class="update-date">更新公告 · {{ page.date | date: '%Y/%m/%d %H:%M' }}（北京时间）</p>
+{% if page.description %}<p>{{ page.description | escape }}</p>{% endif %}
+{{ content }}
+<p><a href="{{ '/subscribe/' | relative_url }}">← 查看全部更新与订阅方式</a></p>

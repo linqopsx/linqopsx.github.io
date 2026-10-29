@@ -182,8 +182,17 @@ collections:
   tabs:
     output: true
     sort_by: order
+  updates:
+    output: true
+    permalink: /updates/:name/
 
 defaults:
+  - scope:
+      path: ""
+      type: updates
+    values:
+      layout: update
+      toc: false
   - scope:
       path: "" # An empty string here means all files in the project
       type: posts

@@ -1,0 +1,46 @@
+---
+layout: null
+sitemap: false
+---
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow"><title>更新推送 · Theodore 的博客</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#f5f7fb;color:#172338;font:16px/1.8 system-ui,sans-serif}nav{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;background:#18212f;padding:16px 24px}nav a{color:#e5edff;text-decoration:none}nav div{display:flex;gap:18px}main{max-width:920px;margin:40px auto;padding:0 24px 48px}.panel{background:white;border:1px solid #dce4ef;border-radius:16px;padding:28px;margin:24px 0}h1{font-size:32px;margin:8px 0}h2{font-size:22px;margin-top:0}.eyebrow{color:#4268ab;font-size:13px;letter-spacing:2px}.lead,.note{color:#617087}a{color:#245bd1}.button{display:inline-block;margin:8px 12px 8px 0;background:#245bd1;color:white;padding:10px 18px;border-radius:9px;text-decoration:none;font-weight:600}.secondary{background:#37466b}li{margin:12px 0}code{background:#eef2f8;padding:3px 6px;border-radius:4px;overflow-wrap:anywhere}.note{font-size:14px}
+    @media(max-width:600px){main{padding:0 16px;margin:24px auto}.panel{padding:22px}nav{padding:12px 16px;font-size:13px}nav div{gap:12px}h1{font-size:28px}}
+    @media(prefers-color-scheme:dark){body{background:#111827;color:#e5e7eb}.panel{background:#1b2433;border-color:#354155}.lead,.note{color:#a2adc0}a,.eyebrow{color:#99baff}.button{color:white}code{background:#303b50}}
+  </style>
+</head>
+<body>
+  <nav><a href="/">Theodore 的博客</a><div><a href="/admin/">文章后台</a><a href="/admin/downloads/">软件上传</a><a href="/subscribe/">读者订阅页 ↗</a></div></nav>
+  <main>
+    <span class="eyebrow">让关注者知道这次更新了什么</span><h1>博客更新推送</h1>
+    <p class="lead">先更新文章和资源，再发布一条简短公告。邮件服务定期读取公告，通知主动订阅的读者。</p>
+    <section class="panel">
+      <h2>发布一条更新公告</h2>
+      <a class="button" href="https://app.pagescms.org/linqopsx/linqopsx.github.io/main/collection/updates" target="_blank" rel="noopener noreferrer">用 GitHub 登录并写公告 ↗</a>
+      <ol>
+        <li>先完成文章或软件资源更新，打开博客检查实际内容已经上线。</li>
+        <li>进入 Pages CMS 的<strong>更新公告</strong>，点击 <strong>Add an entry</strong>。填写标题、北京时间、邮件更新摘要，以及包含文章链接的详细说明。</li>
+        <li>需要通知读者时，开启<strong>发布公告（进入邮件订阅源）</strong>并保存。开关关闭时只保存公告草稿。</li>
+        <li>等待<a href="https://github.com/linqopsx/linqopsx.github.io/actions" target="_blank" rel="noopener noreferrer">博客发布任务</a>成功，确认公告出现在<a href="/subscribe/">读者页面</a>，随后由邮件平台定期发送。</li>
+      </ol>
+      <p class="note">普通文章修改、图片上传、软件上传不会自动发邮件。每次要再次通知时新建公告；不要反复修改旧公告的日期或文件名。已经发送的邮件无法撤回。</p>
+    </section>
+    <section class="panel">
+      <h2>订阅服务状态</h2>
+      {% if site.data.newsletter.enabled %}
+        <p>已连接 follow.it。读者可以填写邮箱订阅，邮件内提供退订入口。基础版定期检查订阅源，推送存在延迟。</p>
+        <a class="button secondary" href="https://follow.it/offered-feeds" target="_blank" rel="noopener noreferrer">管理订阅者与查看发送记录 ↗</a>
+        <a href="{{ site.data.newsletter.subscribe_url | escape }}" target="_blank" rel="noopener noreferrer">查看平台订阅页 ↗</a>
+      {% else %}
+        <p>博客公告与订阅页面已准备好，邮件服务尚未启用。当前不会收集邮箱或发送通知。</p>
+      {% endif %}
+      <p class="note">订阅者邮箱保存在邮件平台，不提交到公开博客仓库。发送记录与实际收信情况以邮件平台及收件箱为准。</p>
+      <p class="note">公告订阅源：<a href="/updates/feed.xml"><code>https://linqopsx.github.io/updates/feed.xml</code></a></p>
+    </section>
+  </main>
+</body>
+</html>

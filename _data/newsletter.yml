@@ -1,0 +1,4 @@
+# Public configuration only. Subscriber email addresses are managed by follow.it.
+enabled: false
+subscribe_url: ''
+form_action: ''
