@@ -1,4 +1,4 @@
-# Public configuration only. Subscriber email addresses are managed by follow.it.
-enabled: false
-subscribe_url: ''
-form_action: ''
+# Public form configuration. Subscriber addresses are managed by follow.it.
+enabled: true
+subscribe_url: https://follow.it/theodore?leanpub
+form_action: https://api.follow.it/subscription-form/M3ZUNlFpbGg4NldUalV1R3N2Uy92QUo0YTBUSU5xTzI3TUlKRVpjSlBnSDd3TVgxQUNZdWFLYVRoTTkvbWlqZUM2SWtsNEo1aUVodEx3a1Vvd0JrVnczbDhieDFJSjdXUjkvZm5DSFNGZ2RRamp6SU50ZnREbTNlWWhjRjJ2ZU58V29vd3Y0RCtENEFMTDIxM1JXRUM1c2lsZThVUmp4Tzc5N29zU2k4bGxzUT0=/8
