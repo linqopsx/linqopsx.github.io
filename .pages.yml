@@ -46,6 +46,11 @@ content:
       - name: image
         label: 封面图片（可选）
         type: image
+      - name: comments
+        label: 开放留言评论
+        type: boolean
+        default: true
+        description: 开启后，读者可在文章底部使用 GitHub 账号评论；关闭后不显示该文章的评论区。
       - name: pin
         label: 首页置顶
         type: boolean
