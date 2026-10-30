@@ -32,13 +32,13 @@ sitemap: false
     <section class="panel">
       <h2>订阅服务状态</h2>
       {% if site.data.newsletter.enabled %}
-        <p>已连接 follow.it。读者可以填写邮箱订阅，邮件内提供退订入口。基础版约每 6 小时检查订阅源，推送存在延迟。读者可选择 Single emails（单条邮件）或 Newspaper（每日汇总）。确认页可能显示英文，邮件使用平台免费版样式。</p>
-        <a class="button secondary" href="https://follow.it/offered-feed/theodore/followers" target="_blank" rel="noopener noreferrer">管理订阅者 ↗</a>
-        <a href="https://follow.it/offered-feed/theodore/sending" target="_blank" rel="noopener noreferrer">查看发送记录 ↗</a> · <a href="{{ site.data.newsletter.subscribe_url | escape }}" target="_blank" rel="noopener noreferrer">查看平台订阅页 ↗</a>
-      {% else %}
-        <p>博客公告与订阅页面已准备好，邮件服务尚未启用。当前不会收集邮箱或发送通知。</p>
-      {% endif %}
-      <p class="note">订阅者邮箱保存在邮件平台，不提交到公开博客仓库。发送记录与实际收信情况以邮件平台及收件箱为准。</p>
+        <p>已启用站内邮箱订阅。读者填写邮箱并在邮件中确认，无需注册其他平台账号。确认页与退订页均为中文。</p>
+        <a class="button secondary" href="https://dash.cloudflare.com/69a2bfe1b1630884634c93b9bcae6fba/workers-and-pages" target="_blank" rel="noopener noreferrer">进入作者云端管理 ↗</a>
+        <a href="{{ site.data.newsletter.subscribe_url | escape }}" target="_blank" rel="noopener noreferrer">打开简洁订阅页 ↗</a>
+      {% else %}<p>邮件服务尚未启用。</p>{% endif %}
+      <p class="note">系统约每5分钟检查已上线的公告，每批处理最多10封邮件。初始每天最多尝试发送50封（包含确认邮件），达到上限后公告邮件会等待后续额度。此上限是本站设置，可由作者调整。</p>
+      <p class="note">订阅者名单和发送状态保存在 Cloudflare 的 D1 数据库 theodore-blog-newsletter，需作者登录后查看。accepted 表示邮件服务器已接受，不等于保证进入收件箱；failed 或长时间停留 sending 的记录需要核查后重试。</p>
+      <p class="note">普通文章修改、软件上传和公告草稿不会推送。新读者只接收确认订阅后发布的新公告。原 follow.it 读者需从新入口重新确认。</p>
       <p class="note">公告订阅源：<a href="/updates/feed.xml"><code>https://linqopsx.github.io/updates/feed.xml</code></a></p>
     </section>
   </main>
