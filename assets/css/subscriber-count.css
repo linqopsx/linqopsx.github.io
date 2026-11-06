@@ -1,0 +1,17 @@
+#sidebar .subscriber-count {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  margin-top: .55rem;
+  padding: .22rem .75rem;
+  border: 1px solid var(--sidebar-muted-border-color, #6b72804d);
+  border-radius: 999px;
+  color: var(--text-muted-color, #8a9099);
+  font-size: .82rem;
+  line-height: 1.6;
+  text-decoration: none;
+}
+#sidebar .subscriber-count:hover {
+  color: var(--link-color, #5b9cf5);
+  border-color: currentColor;
+}
