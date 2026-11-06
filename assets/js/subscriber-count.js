@@ -11,7 +11,7 @@
   badge.textContent = '关注人数…';
   subtitle.after(badge);
 
-  fetch(config.dataset.subscriberCount, { signal: AbortSignal.timeout(8000) })
+  fetch(config.dataset.subscriberCount, { signal: AbortSignal.timeout(20000) })
     .then(response => {
       if (!response.ok) throw new Error('Subscriber count unavailable');
       return response.json();
@@ -20,7 +20,8 @@
       if (!Number.isSafeInteger(data.count) || data.count < 0) throw new Error('Invalid subscriber count');
       badge.textContent = `${data.count.toLocaleString('zh-CN')} 人关注`;
     })
-    .catch(() => {
+    .catch(error => {
+      console.warn('Subscriber count could not be loaded:', error.name, error.message);
       badge.textContent = '订阅更新';
       badge.title = '关注人数暂时无法加载，点击订阅博客更新';
     });
