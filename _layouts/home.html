@@ -1,0 +1,70 @@
+---
+layout: default
+---
+
+{% assign pinned = site.posts | where_exp: 'post', 'post.pin == true and post.hidden != true' %}
+{% assign unpinned = site.posts | where_exp: 'post', 'post.pin != true and post.hidden != true' %}
+{% assign ordered_posts = pinned | concat: unpinned %}
+{% assign page_number = paginator.page | default: 1 %}
+{% assign per_page = paginator.per_page | default: site.paginate %}
+{% assign start = page_number | minus: 1 | times: per_page %}
+
+{% if page_number == 1 %}
+  <section class="morning-hero" aria-labelledby="morning-hero-title">
+    <img class="morning-hero-image" src="{{ '/assets/img/morning/library-morning.webp' | relative_url }}" width="1536" height="1024" alt="" fetchpriority="high">
+    <div class="morning-hero-copy morning-shell">
+      <p class="morning-overline">{{ site.title | escape }}</p>
+      <h1 id="morning-hero-title">记录学习，<br>也记录生活。</h1>
+      <p class="morning-hero-deck">写下 Agent 开发、编程工具与一路学到的东西。</p>
+      <div class="morning-hero-actions">
+        <a class="morning-explore" href="#post-list">浏览文章 <span aria-hidden="true">↓</span></a>
+        <span data-subscription-summary></span>
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+<section class="morning-posts morning-shell" id="post-list" aria-labelledby="morning-posts-title">
+  <header class="morning-section-heading">
+    <h2 id="morning-posts-title">近期文章{% if page_number > 1 %} · 第 {{ page_number }} 页{% endif %}</h2>
+    <a href="{{ '/archives/' | relative_url }}">全部归档 <span aria-hidden="true">↗</span></a>
+  </header>
+  <div class="morning-list">
+    {% for post in ordered_posts offset: start limit: per_page %}
+      {% assign cover = post.image.path | default: post.image | strip %}
+      {% if cover != empty %}
+        {% capture cover_url %}{% include media-url.html src=cover subpath=post.media_subpath %}{% endcapture %}
+      {% else %}
+        {% assign post_topics = post.title | downcase %}
+        {% if post_topics contains 'agent' %}
+          {% assign cover = '/assets/img/morning/cover-study.webp' %}
+        {% elsif post_topics contains 'vscode' or post_topics contains 'github' or post_topics contains '软件' %}
+          {% assign cover = '/assets/img/morning/cover-code.webp' %}
+        {% else %}
+          {% assign cover = '/assets/img/morning/cover-notes.webp' %}
+        {% endif %}
+        {% assign cover_url = cover | relative_url %}
+      {% endif %}
+      {% capture summary %}{% include post-summary.html max_length=100 %}{% endcapture %}
+      <article class="morning-entry">
+        <a class="morning-entry-image" href="{{ post.url | relative_url }}" aria-label="{{ post.title | escape }}">
+          <img src="{{ cover_url | strip | escape }}" width="900" height="600" alt="" loading="lazy" decoding="async">
+        </a>
+        <div class="morning-entry-copy">
+          <div class="morning-entry-meta">
+            <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%Y.%m.%d' }}</time>
+            {% if post.pin %}<span>置顶</span>{% endif %}
+          </div>
+          <h3><a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a></h3>
+          {% assign excerpt = summary | strip_html | normalize_whitespace | truncate: 100 %}
+          {% if excerpt != empty %}<p>{{ excerpt | escape_once }}</p>{% endif %}
+          <a class="morning-read" href="{{ post.url | relative_url }}">阅读文章 <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+  <button type="button" class="morning-more" data-show-more hidden>加载更多</button>
+  {% if paginator.total_pages > 1 %}
+    {% include post-paginator.html %}
+  {% endif %}
+</section>

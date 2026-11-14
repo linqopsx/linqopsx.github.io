@@ -1,15 +1,17 @@
 (() => {
+  const target = document.querySelector('[data-subscription-summary]');
   const subtitle = document.querySelector('#sidebar .site-subtitle');
   const config = document.querySelector('script[data-subscriber-count]');
-  if (!subtitle || !config) return;
+  if ((!target && !subtitle) || !config) return;
 
   const badge = document.createElement('a');
   badge.className = 'subscriber-count';
-  badge.href = '/subscribe/';
+  badge.href = config.dataset.subscribePath || '/subscribe/';
   badge.title = '已确认邮箱订阅的关注人数';
   badge.setAttribute('aria-live', 'polite');
   badge.textContent = '关注人数…';
-  subtitle.after(badge);
+  if (target) target.append(badge);
+  else subtitle.after(badge);
 
   fetch(config.dataset.subscriberCount, { signal: AbortSignal.timeout(20000) })
     .then(response => {
