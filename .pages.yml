@@ -67,6 +67,7 @@ content:
         label: 正文
         type: rich-text
         required: true
+        description: 外部链接请填写 https:// 开头的完整网址。保存后可回博客写作后台查看发布状态。
         options:
           format: markdown
           switcher: true

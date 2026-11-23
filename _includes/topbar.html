@@ -66,7 +66,6 @@
         <a href="{{ '/about/' | relative_url }}">关于</a>
         <a href="{{ '/downloads/' | relative_url }}">下载</a>
         <a href="{{ '/subscribe/' | relative_url }}">订阅</a>
-        <a href="{{ '/writing/' | relative_url }}">写作</a>
       </nav>
     </div>
 
@@ -93,5 +92,9 @@
         <span aria-hidden="true">◐</span>
       </button>
     {% endunless %}
+    <a class="morning-admin" href="{{ '/admin/' | relative_url }}" aria-label="写作后台" title="进入写作后台">
+      <span class="morning-admin-label">写作后台</span>
+      <span class="morning-admin-short" aria-hidden="true">后台</span>
+    </a>
   </div>
 </header>

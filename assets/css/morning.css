@@ -75,11 +75,29 @@
   font-size: 1.15rem;
   cursor: pointer;
 }
+.morning-admin {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  min-height: 38px;
+  padding: 6px 12px;
+  border: 1px solid var(--book-accent);
+  border-radius: 6px;
+  color: var(--book-accent);
+  background: var(--book-leaf);
+  font-size: .87rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.morning-admin:hover { color: var(--book-ink); border-color: var(--book-ink); }
+.morning-admin-short { display: none; }
 
 .morning-site #main-wrapper { margin-left: 0; }
 .morning-site #search-result-wrapper { max-width: 1200px; margin-inline: auto; }
 .morning-site #search-result-wrapper > .content { min-width: 0; }
 .morning-site #topbar:has(#search-cancel.d-block) .morning-navigation,
+.morning-site #topbar:has(#search-cancel.d-block) .morning-admin,
 .morning-site #topbar:has(#search-cancel.d-block) .morning-theme-toggle { display: none; }
 .morning-site #topbar:has(#search-cancel.d-block) #search { max-width: none; }
 
@@ -191,6 +209,7 @@
 }
 @media (max-width: 990px) {
   .morning-site #topbar { gap: 11px; padding-inline: 18px !important; }
+  .morning-site #search { max-width: 120px; }
 }
 @media (max-width: 849px) {
   .morning-navigation nav { display: none; }
@@ -198,6 +217,12 @@
   .morning-brand { margin: 0; font-size: 24px; }
   .morning-theme-toggle { width: 36px; height: 36px; flex-basis: 36px; }
   .morning-site #topbar-wrapper { height: 62px; }
+  .morning-site #topbar { gap: 8px; padding-inline: 12px !important; }
+  .morning-site #topbar :is(#sidebar-trigger, #search-trigger) { width: 32px; flex: 0 0 32px; padding: 0; }
+  .morning-brand { font-size: 22px; }
+  .morning-admin { min-height: 36px; padding: 6px 9px; font-size: .8rem; }
+  .morning-admin-label { display: none; }
+  .morning-admin-short { display: inline; }
   .morning-site #topbar:has(#search-cancel.d-block) #search-trigger { display: none; }
   .morning-post main, .morning-page main, .morning-post #tail-wrapper, .morning-page #tail-wrapper { padding-inline: 16px !important; }
 }
