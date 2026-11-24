@@ -1,0 +1,21 @@
+{
+  "$schema": "https://raw.githubusercontent.com/cloudflare/workers-sdk/main/packages/wrangler/config-schema.json",
+  "name": "theodore-blog-author",
+  "main": "src/worker.mjs",
+  "account_id": "69a2bfe1b1630884634c93b9bcae6fba",
+  "compatibility_date": "2026-10-30",
+  "workers_dev": true,
+  "preview_urls": false,
+  "assets": {
+    "directory": "public",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  },
+  "observability": { "enabled": false },
+  "vars": {
+    "BLOG_URL": "https://linqopsx.github.io",
+    "PUBLIC_URL": "https://theodore-blog-author.theodore-blog-newsletter.workers.dev",
+    "AUTHOR_ID": "240416179",
+    "GITHUB_CLIENT_ID": "Ov23liRDm1IvCsZpGcwZ"
+  }
+}

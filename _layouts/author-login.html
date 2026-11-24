@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="referrer" content="no-referrer">
+  {% assign author_url = 'https://theodore-blog-author.theodore-blog-newsletter.workers.dev' | append: page.author_path %}
+  <meta http-equiv="refresh" content="0;url={{ author_url | escape }}">
+  <title>作者登录 · Theodore 的博客</title>
+  <link rel="stylesheet" href="{{ '/assets/css/morning.css' | relative_url }}">
+  <style>
+    body{margin:0;background:var(--book-paper);color:var(--book-ink);font:16px/1.8 system-ui,sans-serif}main{max-width:520px;margin:12vh auto;padding:32px;border:1px solid var(--book-line);border-radius:12px;background:var(--book-panel)}h1{font:600 34px/1.4 var(--book-serif)}p{color:var(--book-muted)}a{color:var(--book-accent)}.author-login{display:inline-block;padding:10px 20px;margin:8px 0 18px;border-radius:6px;background:var(--book-accent);color:var(--book-panel);text-decoration:none}@media(max-width:600px){main{margin:10vh 20px}}
+  </style>
+</head>
+<body class="morning-site">
+  <main>
+    <h1>作者登录</h1>
+    <p>正在前往作者专用后台。使用作者的 GitHub 账号验证后即可进入。</p>
+    <a class="author-login" href="{{ author_url | escape }}">进入作者登录 →</a>
+    <p><a href="{{ '/' | relative_url }}">← 返回博客阅读</a></p>
+  </main>
+</body>
+</html>
