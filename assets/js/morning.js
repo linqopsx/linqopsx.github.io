@@ -1,7 +1,9 @@
 (() => {
   const themeButton = document.querySelector('.morning-theme-toggle');
   const themeMenu = document.querySelector('#mode-toggle + .dropdown-menu');
-  if (themeButton && themeMenu) {
+  const modeToggle = document.querySelector('#mode-toggle');
+
+  if (themeButton && (themeMenu || modeToggle)) {
     const updateButton = () => {
       const isDark = document.documentElement.dataset.bsTheme === 'dark';
       themeButton.setAttribute('aria-pressed', String(isDark));
@@ -13,39 +15,22 @@
     });
     themeButton.addEventListener('click', () => {
       const next = document.documentElement.dataset.bsTheme === 'dark' ? 'light' : 'dark';
-      themeMenu.querySelector(`button[data-theme-mode="${next}"]`).click();
+      const menuBtn = themeMenu?.querySelector(`button[data-theme-mode="${next}"]`);
+      if (menuBtn) {
+        menuBtn.click();
+      } else if (modeToggle) {
+        modeToggle.click();
+      }
     });
     updateButton();
     themeButton.hidden = false;
   }
 
-  const list = document.querySelector('.morning-list');
-  if (list) {
-    const entries = [...list.querySelectorAll('.morning-entry')];
-    const button = document.querySelector('[data-show-more]');
-    let visible = 3;
-    entries.slice(visible).forEach(entry => { entry.hidden = true; });
-    button.hidden = entries.length <= visible;
-    button.addEventListener('click', () => {
-      const batch = entries.slice(visible, visible + 3);
-      batch.forEach(entry => { entry.hidden = false; });
-      visible += batch.length;
-      button.hidden = visible >= entries.length;
-      batch[0].querySelector('h3 a').focus({ preventScroll: true });
-    });
-  }
-
-  const hero = document.querySelector('.morning-hero');
-  if (hero && matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)').matches) {
-    const image = hero.querySelector('.morning-hero-image');
-    hero.addEventListener('pointermove', event => {
-      const bounds = hero.getBoundingClientRect();
-      image.style.setProperty('--dx', `${((event.clientX - bounds.left) / bounds.width - .5) * -19}px`);
-      image.style.setProperty('--dy', `${((event.clientY - bounds.top) / bounds.height - .5) * -13}px`);
-    });
-    hero.addEventListener('pointerleave', () => {
-      image.style.removeProperty('--dx');
-      image.style.removeProperty('--dy');
-    });
-  }
+  const currentPath = location.pathname.replace(/\/+$/, '') || '/';
+  document.querySelectorAll('.morning-navigation nav a').forEach(link => {
+    const linkPath = new URL(link.href, location.origin).pathname.replace(/\/+$/, '') || '/';
+    if (linkPath === currentPath) {
+      link.setAttribute('aria-current', 'page');
+    }
+  });
 })();

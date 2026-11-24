@@ -57,44 +57,56 @@
 
     <div class="morning-navigation">
       <a class="morning-brand" href="{{ '/' | relative_url }}" aria-label="{{ site.title | escape }}首页">
-        {{- site.social.name | escape -}}<span>.</span>
+        {{- site.social.name | escape -}}<span class="morning-brand-dot">.</span>
       </a>
       <nav aria-label="主导航">
+        <a href="{{ '/' | relative_url }}">首页</a>
         <a href="{{ '/archives/' | relative_url }}">文章</a>
         <a href="{{ '/categories/' | relative_url }}">分类</a>
         <a href="{{ '/tags/' | relative_url }}">标签</a>
-        <a href="{{ '/about/' | relative_url }}">关于</a>
         <a href="{{ '/downloads/' | relative_url }}">下载</a>
         <a href="{{ '/subscribe/' | relative_url }}">订阅</a>
+        <a href="{{ '/about/' | relative_url }}">关于</a>
       </nav>
     </div>
 
-    <button type="button" id="search-trigger" class="btn btn-link" aria-label="搜索文章">
-      <i class="fas fa-search fa-fw"></i>
-    </button>
-
-    <search id="search" class="align-items-center ms-3 ms-lg-0">
-      <i class="fas fa-search fa-fw"></i>
-      <input
-        class="form-control"
-        id="search-input"
-        type="search"
-        aria-label="搜索文章"
-        autocomplete="off"
-        placeholder="{{ site.data.locales[include.lang].search.hint | capitalize }}..."
-      >
-    </search>
-    <button type="button" class="btn btn-link text-decoration-none" id="search-cancel">
-      {{- site.data.locales[include.lang].search.cancel -}}
-    </button>
-    {% unless site.theme_mode == 'light' or site.theme_mode == 'dark' %}
-      <button type="button" class="morning-theme-toggle" aria-label="切换深色主题" aria-pressed="false" hidden>
-        <span aria-hidden="true">◐</span>
+    <div class="morning-topbar-actions">
+      <button type="button" id="search-trigger" class="btn btn-link" aria-label="搜索文章">
+        <i class="fas fa-search fa-fw"></i>
       </button>
-    {% endunless %}
-    <a class="morning-admin" href="{{ '/admin/' | relative_url }}" aria-label="写作后台" title="进入写作后台">
-      <span class="morning-admin-label">写作后台</span>
-      <span class="morning-admin-short" aria-hidden="true">后台</span>
-    </a>
+
+      <search id="search" class="align-items-center ms-3 ms-lg-0">
+        <i class="fas fa-search fa-fw"></i>
+        <input
+          class="form-control"
+          id="search-input"
+          type="search"
+          aria-label="搜索文章"
+          autocomplete="off"
+          placeholder="{{ site.data.locales[include.lang].search.hint | capitalize }}..."
+        >
+      </search>
+      <button type="button" class="btn btn-link text-decoration-none" id="search-cancel">
+        {{- site.data.locales[include.lang].search.cancel -}}
+      </button>
+      {% unless site.theme_mode == 'light' or site.theme_mode == 'dark' %}
+        <button type="button" class="morning-theme-toggle" aria-label="切换深色主题" aria-pressed="false" hidden>
+          <svg class="icon-sun" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      {% endunless %}
+      <a class="morning-admin" href="{{ '/admin/' | relative_url }}" aria-label="写作后台" title="进入写作后台">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 20h9"></path>
+          <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
+        </svg>
+        <span class="morning-admin-label">后台</span>
+      </a>
+    </div>
   </div>
 </header>
