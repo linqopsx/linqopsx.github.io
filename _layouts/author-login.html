@@ -8,17 +8,27 @@
   {% assign author_url = 'https://theodore-blog-author.theodore-blog-newsletter.workers.dev' | append: page.author_path %}
   <meta http-equiv="refresh" content="0;url={{ author_url | escape }}">
   <title>作者登录 · Theodore 的博客</title>
+  <script src="{{ '/assets/js/dist/theme.min.js' | relative_url }}"></script>
   <link rel="stylesheet" href="{{ '/assets/css/morning.css' | relative_url }}">
   <style>
-    body{margin:0;background:var(--book-paper);color:var(--book-ink);font:16px/1.8 system-ui,sans-serif}main{max-width:520px;margin:12vh auto;padding:32px;border:1px solid var(--book-line);border-radius:12px;background:var(--book-panel)}h1{font:600 34px/1.4 var(--book-serif)}p{color:var(--book-muted)}a{color:var(--book-accent)}.author-login{display:inline-block;padding:10px 20px;margin:8px 0 18px;border-radius:6px;background:var(--book-accent);color:var(--book-panel);text-decoration:none}@media(max-width:600px){main{margin:10vh 20px}}
+    body{margin:0;min-height:100svh;display:grid;place-items:center;padding:24px;background:var(--ios-canvas,#f2f2f7);color:var(--ios-text,#2c2c2e);font:16px/1.75 var(--ios-sans,-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif)}
+    main{width:min(460px,100%);padding:34px 32px;border-radius:28px;background:var(--ios-surface,#fff);box-shadow:var(--ios-card-shadow,0 8px 28px -12px rgba(0,0,0,.1))}
+    .eyebrow{display:inline-block;margin-bottom:6px;color:var(--ios-blue,#007aff);font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+    h1{margin:0 0 10px;color:var(--ios-ink,#1c1c1e);font-size:28px;font-weight:750;line-height:1.25;letter-spacing:-.025em}
+    p{margin:0 0 14px;color:var(--ios-muted,#6e6e73)}
+    a{color:var(--ios-blue,#007aff);text-decoration:none}
+    .author-login{display:inline-flex;align-items:center;justify-content:center;width:100%;height:44px;margin:10px 0 18px;border-radius:999px;background:var(--ios-blue,#007aff);color:#fff;font-weight:600}
+    .author-login:hover{background:var(--ios-blue-hover,#0066d6)}
+    .back{font-size:14px;font-weight:500}
   </style>
 </head>
 <body class="morning-site">
   <main>
+    <span class="eyebrow">Theodore · 写作后台</span>
     <h1>作者登录</h1>
     <p>正在前往作者专用后台。使用作者的 GitHub 账号验证后即可进入。</p>
     <a class="author-login" href="{{ author_url | escape }}">进入作者登录 →</a>
-    <p><a href="{{ '/' | relative_url }}">← 返回博客阅读</a></p>
+    <p><a class="back" href="{{ '/' | relative_url }}">← 返回博客阅读</a></p>
   </main>
 </body>
 </html>

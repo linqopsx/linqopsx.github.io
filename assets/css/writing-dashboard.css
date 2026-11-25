@@ -1,40 +1,469 @@
-.writing-dashboard { margin: 0; background: var(--book-paper); color: var(--book-ink); font: 16px/1.75 Inter, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif; }
-.writing-dashboard * { box-sizing: border-box; }
-.writing-dashboard a { color: var(--book-accent); text-underline-offset: 4px; }
-.writing-dashboard button { font: inherit; cursor: pointer; }
-.writing-header, .writing-main { width: min(1020px, calc(100% - 40px)); margin-inline: auto; }
-.writing-header { min-height: 76px; display: flex; justify-content: space-between; align-items: center; gap: 20px; border-bottom: 1px solid var(--book-line); }
-.writing-brand { font: 700 25px/1.2 Georgia, serif; letter-spacing: -.03em; text-decoration: none; }
-.writing-account { display: flex; gap: 16px; align-items: center; }
-.writing-account form { margin: 0; }
-.writing-main { padding-block: 44px 50px; }
-.writing-main h1, .writing-main h2, .writing-main p { margin: 0; }
-.writing-main h1 { font: 700 clamp(32px, 5vw, 48px)/1.3 var(--book-serif); margin-bottom: 12px; }
-.writing-main h2 { font: 700 26px/1.35 var(--book-serif); }
-.writing-lead, .writing-note { color: var(--book-muted); }
-.writing-primary { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
-.writing-button, .writing-secondary { display: inline-flex; min-height: 44px; align-items: center; justify-content: center; padding: 9px 18px; border: 1px solid var(--book-accent); border-radius: 6px; text-decoration: none; font-weight: 600; }
-.writing-dashboard .writing-button { color: var(--book-panel); background: var(--book-accent); }
-.writing-secondary { background: var(--book-panel); }
-.writing-primary a:hover { filter: brightness(.92); }
-.writing-status { margin-block: 32px; padding: 24px; border: 1px solid var(--book-line); border-left: 3px solid var(--book-accent); border-radius: 8px; background: var(--book-panel); }
-.writing-status-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
-.writing-status h2 { font-size: 23px; }
-.writing-refresh { min-height: 38px; padding: 5px 12px; border: 1px solid var(--book-line); border-radius: 6px; color: var(--book-ink); background: var(--book-paper); }
-.writing-refresh:disabled { opacity: .6; cursor: wait; }
-.writing-status [data-publish-state] { font-size: 18px; font-weight: 600; margin-bottom: 5px; }
-.writing-status[data-state="failed"] { border-left-color: #b45a38; }
-.writing-status[data-state="failed"] [data-publish-state] { color: #a74528; }
-[data-bs-theme="dark"] .writing-status[data-state="failed"] [data-publish-state] { color: #f0b699; }
-.writing-status-links { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 14px; font-size: 14px; }
-.writing-links { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-.writing-card { display: block; padding: 22px; background: var(--book-panel); border: 1px solid var(--book-line); border-radius: 8px; text-decoration: none; }
-.writing-card:hover { border-color: var(--book-accent); }
-.writing-card h2 { font-size: 22px; margin-bottom: 8px; }
-.writing-card p { font-size: 14px; color: var(--book-muted); }
-.writing-note { margin-top: 22px !important; font-size: 14px; }
-.writing-more { margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--book-line); }
-.writing-more summary { cursor: pointer; color: var(--book-muted); }
-.writing-more ul { padding-left: 22px; }
-.writing-more li { margin-block: 9px; }
-@media (max-width: 700px) { .writing-links { grid-template-columns: 1fr; } .writing-main { padding-block: 30px; } .writing-status { padding: 20px; } .writing-header { min-height: 66px; font-size: 14px; flex-wrap: wrap; padding-block: 12px; } .writing-account { flex-wrap: wrap; gap: 12px; } }
+/* ==========================================================================
+   Theodore Blog — Writing Dashboard (iOS 26 Liquid Glass Unified Theme)
+   ========================================================================== */
+
+.writing-dashboard {
+  margin: 0;
+  min-height: 100svh;
+  background: var(--ios-canvas, #f2f2f7);
+  color: var(--ios-text, #2c2c2e);
+  font-family: var(--ios-sans, -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "PingFang SC", "Microsoft YaHei", sans-serif);
+  font-size: 16px;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+.writing-dashboard * {
+  box-sizing: border-box;
+}
+
+.writing-dashboard a {
+  color: var(--ios-blue, #007aff);
+  text-decoration: none;
+  text-underline-offset: 4px;
+}
+
+.writing-dashboard a:hover {
+  text-decoration: underline;
+}
+
+.writing-dashboard button {
+  font: inherit;
+  cursor: pointer;
+}
+
+/* Floating Liquid Glass Header Capsule */
+.writing-header-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  padding: 14px 0 8px;
+  pointer-events: none;
+}
+
+.writing-header {
+  pointer-events: auto;
+  width: min(1020px, calc(100% - 36px));
+  margin-inline: auto;
+  min-height: 54px;
+  padding: 7px 10px 7px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  border-radius: 999px;
+  border: 1px solid var(--ios-glass-border, rgba(255, 255, 255, 0.78));
+  background: var(--ios-glass-bg, rgba(255, 255, 255, 0.74));
+  backdrop-filter: saturate(200%) blur(24px);
+  -webkit-backdrop-filter: saturate(200%) blur(24px);
+  box-shadow: var(--ios-glass-shadow, 0 10px 30px -10px rgba(0, 0, 0, 0.12));
+}
+
+/* Support direct <header class="writing-header"> without wrapper (main index.html) */
+body.writing-dashboard > .writing-header {
+  position: sticky;
+  top: 14px;
+  z-index: 30;
+  margin-top: 14px;
+}
+
+.writing-brand {
+  color: var(--ios-ink, #1c1c1e) !important;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+  text-decoration: none !important;
+}
+
+.writing-brand span {
+  color: var(--ios-blue, #007aff);
+}
+
+.writing-account,
+.writing-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.writing-account a,
+.writing-nav a {
+  display: inline-flex;
+  align-items: center;
+  height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  color: var(--ios-muted, #6e6e73);
+  font-size: 0.86rem;
+  font-weight: 500;
+  text-decoration: none !important;
+  transition: color 0.16s ease, background-color 0.16s ease;
+}
+
+.writing-account a:hover,
+.writing-nav a:hover {
+  color: var(--ios-ink, #1c1c1e);
+  background: var(--ios-glass-active, rgba(0, 0, 0, 0.06));
+}
+
+.writing-nav a[aria-current="page"] {
+  color: var(--ios-ink, #1c1c1e);
+  background: var(--ios-glass-active, rgba(0, 0, 0, 0.06));
+  font-weight: 600;
+}
+
+.writing-account form {
+  margin: 0;
+}
+
+/* Main Content Container */
+.writing-main {
+  width: min(1020px, calc(100% - 36px));
+  margin-inline: auto;
+  padding: 28px 0 56px;
+}
+
+.writing-main h1,
+.writing-main h2,
+.writing-main p {
+  margin: 0;
+}
+
+.writing-eyebrow {
+  display: inline-block;
+  margin-bottom: 6px;
+  color: var(--ios-blue, #007aff);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.writing-main h1 {
+  color: var(--ios-ink, #1c1c1e);
+  font-size: clamp(1.85rem, 4vw, 2.5rem);
+  font-weight: 750;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  margin-bottom: 10px;
+}
+
+.writing-main h2 {
+  color: var(--ios-ink, #1c1c1e);
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+}
+
+.writing-lead,
+.writing-note {
+  color: var(--ios-muted, #6e6e73);
+}
+
+.writing-lead {
+  max-width: 680px;
+  font-size: 0.98rem;
+  line-height: 1.65;
+}
+
+/* Capsule Primary & Secondary Buttons */
+.writing-primary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.writing-button,
+.writing-secondary {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 18px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none !important;
+  transition: background-color 0.16s ease, color 0.16s ease, transform 0.15s ease;
+}
+
+.writing-dashboard .writing-button {
+  border: none;
+  color: #ffffff !important;
+  background: var(--ios-blue, #007aff);
+}
+
+.writing-dashboard .writing-button:hover {
+  background: var(--ios-blue-hover, #0066d6);
+}
+
+.writing-dashboard .writing-secondary {
+  border: 1px solid var(--ios-sep, rgba(60, 60, 67, 0.12));
+  color: var(--ios-ink, #1c1c1e) !important;
+  background: var(--ios-surface, #ffffff);
+}
+
+.writing-dashboard .writing-secondary:hover {
+  background: var(--ios-surface-2, #f2f2f7);
+}
+
+/* Pill Refresh / Logout Button */
+.writing-refresh {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  padding: 0 14px;
+  border: 1px solid var(--ios-sep, rgba(60, 60, 67, 0.12));
+  border-radius: 999px;
+  color: var(--ios-ink, #1c1c1e);
+  background: var(--ios-surface-2, #f2f2f7);
+  font-size: 0.84rem;
+  font-weight: 500;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.writing-refresh:hover {
+  background: var(--ios-blue-soft, rgba(0, 122, 255, 0.11));
+  color: var(--ios-blue, #007aff);
+}
+
+.writing-refresh:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+/* Solid iOS Squircle Panels & Status Card */
+.writing-status,
+.writing-panel {
+  margin-block: 22px;
+  padding: 24px 26px;
+  border-radius: 26px;
+  background: var(--ios-surface, #ffffff);
+  box-shadow: var(--ios-card-shadow, 0 1px 2px rgba(0, 0, 0, 0.03), 0 6px 20px -12px rgba(0, 0, 0, 0.08));
+}
+
+.writing-status {
+  position: relative;
+  overflow: hidden;
+}
+
+.writing-status::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--ios-blue, #007aff);
+}
+
+.writing-status[data-state="success"]::before {
+  background: var(--ios-green, #34c759);
+}
+
+.writing-status[data-state="failed"]::before {
+  background: #ff3b30;
+}
+
+.writing-status-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.writing-status [data-publish-state] {
+  color: var(--ios-ink, #1c1c1e);
+  font-size: 1.08rem;
+  font-weight: 650;
+  margin-bottom: 4px;
+}
+
+.writing-status[data-state="failed"] [data-publish-state] {
+  color: #d70015;
+}
+
+[data-bs-theme="dark"] .writing-status[data-state="failed"] [data-publish-state] {
+  color: #ff6961;
+}
+
+.writing-status-links {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+/* Bento 3-Column Feature Cards */
+.writing-links {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.writing-links.two-col {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.writing-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 22px 24px;
+  border-radius: 24px;
+  background: var(--ios-surface, #ffffff);
+  box-shadow: var(--ios-card-shadow, 0 1px 2px rgba(0, 0, 0, 0.03), 0 6px 20px -12px rgba(0, 0, 0, 0.08));
+  text-decoration: none !important;
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
+}
+
+a.writing-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px -12px rgba(0, 0, 0, 0.14);
+}
+
+.writing-card h2 {
+  font-size: 1.12rem;
+  margin-bottom: 8px;
+  color: var(--ios-ink, #1c1c1e);
+}
+
+a.writing-card:hover h2 {
+  color: var(--ios-blue, #007aff);
+}
+
+.writing-card p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--ios-muted, #6e6e73);
+}
+
+.writing-card .writing-primary {
+  margin-top: 18px;
+}
+
+/* Subpage Content Elements */
+.writing-panel h2 {
+  margin-bottom: 12px;
+}
+
+.writing-panel p + p,
+.writing-panel ul,
+.writing-panel ol {
+  margin-top: 12px;
+}
+
+.writing-panel ol,
+.writing-panel ul {
+  padding-left: 22px;
+  margin-bottom: 0;
+}
+
+.writing-panel li {
+  margin: 10px 0;
+  color: var(--ios-text, #2c2c2e);
+}
+
+.writing-dashboard code {
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: var(--ios-surface-2, #f2f2f7);
+  color: var(--ios-ink, #1c1c1e);
+  font-family: var(--ios-mono, ui-monospace, monospace);
+  font-size: 0.87em;
+  overflow-wrap: anywhere;
+}
+
+.writing-note {
+  margin-top: 16px !important;
+  font-size: 0.86rem;
+  line-height: 1.65;
+}
+
+/* Collapsible More Section */
+.writing-more {
+  margin-top: 24px;
+  padding: 18px 22px;
+  border-radius: 22px;
+  background: var(--ios-surface, #ffffff);
+  box-shadow: var(--ios-card-shadow, 0 1px 2px rgba(0, 0, 0, 0.03));
+}
+
+.writing-more summary {
+  cursor: pointer;
+  color: var(--ios-ink, #1c1c1e);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.writing-more ul {
+  padding-left: 20px;
+  margin: 12px 0 0;
+}
+
+.writing-more li {
+  margin-block: 8px;
+  font-size: 0.92rem;
+  color: var(--ios-muted, #6e6e73);
+}
+
+/* Harmonize #software-downloads inside Admin Downloads Page */
+.writing-dashboard #software-downloads {
+  --dl-border: var(--ios-sep, rgba(60, 60, 67, 0.12));
+  --dl-muted: var(--ios-muted, #6e6e73);
+  --dl-accent: var(--ios-blue, #007aff);
+  --dl-bg: var(--ios-surface-2, #f2f2f7);
+  margin-top: 0;
+}
+
+.writing-dashboard #software-downloads input,
+.writing-dashboard #software-downloads button,
+.writing-dashboard #software-downloads .download-primary {
+  border-radius: 999px;
+}
+
+/* Responsive */
+@media (max-width: 760px) {
+  .writing-header {
+    border-radius: 24px;
+    padding: 10px 14px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .writing-links,
+  .writing-links.two-col {
+    grid-template-columns: 1fr;
+  }
+
+  .writing-main {
+    padding: 20px 0 40px;
+  }
+
+  .writing-status,
+  .writing-panel,
+  .writing-card {
+    padding: 20px;
+    border-radius: 22px;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .writing-header {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: var(--ios-surface, #ffffff);
+  }
+}
