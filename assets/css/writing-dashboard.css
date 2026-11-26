@@ -467,3 +467,228 @@ a.writing-card:hover h2 {
     background: var(--ios-surface, #ffffff);
   }
 }
+
+
+/* ==========================================================================
+   POETIZE x iOS 26 Atmospheric Hero & Waves for Writing Dashboard
+   ========================================================================== */
+
+.writing-hero {
+  position: relative;
+  margin-top: -70px;
+  padding: 92px 0 68px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.writing-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 28%;
+  transform: scale(1.03);
+}
+
+.writing-hero-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    180deg,
+    rgba(12, 20, 36, 0.42) 0%,
+    rgba(12, 20, 36, 0.56) 65%,
+    rgba(12, 20, 36, 0.72) 100%
+  );
+}
+
+[data-bs-theme="dark"] .writing-hero-scrim {
+  background: linear-gradient(
+    180deg,
+    rgba(4, 8, 18, 0.58) 0%,
+    rgba(4, 8, 18, 0.76) 68%,
+    rgba(0, 0, 0, 0.90) 100%
+  );
+}
+
+.writing-hero-inner {
+  width: min(1020px, calc(100% - 36px));
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  color: #ffffff;
+}
+
+.writing-hero-copy {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+}
+
+.writing-avatar {
+  flex: 0 0 68px;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2.5px solid rgba(255, 255, 255, 0.75);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.writing-avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.writing-avatar:hover img {
+  transform: rotate(360deg);
+}
+
+.writing-hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 12px;
+  margin-bottom: 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: rgba(255, 255, 255, 0.94);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.writing-hero-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #34c759;
+  box-shadow: 0 0 8px #34c759;
+}
+
+.writing-hero h1 {
+  margin: 0 0 4px;
+  color: #ffffff !important;
+  font-size: clamp(1.75rem, 3.6vw, 2.35rem);
+  font-weight: 750;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.25);
+}
+
+.writing-hero-lead {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
+
+.writing-hero .writing-primary {
+  margin-top: 0;
+}
+
+.writing-hero .writing-secondary {
+  border-color: rgba(255, 255, 255, 0.34);
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: #ffffff !important;
+}
+
+.writing-hero .writing-secondary:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.writing-waves {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 44px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.writing-waves svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.writing-waves use {
+  fill: var(--ios-canvas, #f2f2f7);
+}
+
+.writing-waves .wave-back { opacity: 0.38; }
+.writing-waves .wave-mid { opacity: 0.68; }
+.writing-waves .wave-front { opacity: 1; }
+
+.writing-card-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.writing-card-head h2 {
+  margin-bottom: 0;
+}
+
+.writing-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  flex: 0 0 34px;
+}
+
+.writing-card-icon.is-indigo {
+  background: var(--ios-indigo-soft, rgba(88, 86, 214, 0.12));
+  color: var(--ios-indigo, #5856d6);
+}
+
+.writing-card-icon.is-blue {
+  background: var(--ios-blue-soft, rgba(0, 122, 255, 0.11));
+  color: var(--ios-blue, #007aff);
+}
+
+.writing-card-icon.is-green {
+  background: var(--ios-green-soft, rgba(52, 199, 89, 0.12));
+  color: var(--ios-green, #34c759);
+}
+
+@media (max-width: 760px) {
+  .writing-hero {
+    margin-top: -86px;
+    padding: 104px 0 56px;
+  }
+
+  .writing-hero-copy {
+    align-items: flex-start;
+  }
+
+  .writing-avatar {
+    flex: 0 0 54px;
+    width: 54px;
+    height: 54px;
+  }
+
+  .writing-waves {
+    height: 32px;
+  }
+}
