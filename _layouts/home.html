@@ -14,168 +14,246 @@ layout: default
 {% endif %}
 
 {% if page_number == 1 %}
-  <section class="ios-hero morning-shell" aria-labelledby="morning-hero-title">
-    <div class="ios-large-header">
-      <div class="ios-large-title-wrap">
-        <p class="ios-eyebrow">{{ site.title | escape }}</p>
-        <h1 id="morning-hero-title">记录学习，也记录生活。</h1>
-      </div>
-      {% if site.avatar %}
-        <a class="ios-avatar-link" href="{{ '/about/' | relative_url }}" aria-label="关于 {{ site.social.name | escape }}">
-          <img src="{{ site.avatar | relative_url }}" width="56" height="56" alt="{{ site.social.name | escape }}" loading="eager" decoding="async">
-        </a>
-      {% endif %}
+  <section class="poetize-hero" aria-labelledby="morning-hero-title">
+    <img
+      class="poetize-hero-bg"
+      src="{{ '/assets/img/morning/hero-fish.webp' | relative_url }}"
+      width="800"
+      height="450"
+      alt=""
+      fetchpriority="high"
+    >
+    <div class="poetize-hero-scrim" aria-hidden="true"></div>
+
+    <div class="poetize-hero-content morning-shell">
+      <span class="poetize-hero-pill">
+        <span class="poetize-hero-dot" aria-hidden="true"></span>
+        <span>{{ site.title | escape }}</span>
+      </span>
+      <h1 id="morning-hero-title">记录学习，也记录生活。</h1>
+      <p class="poetize-typewriter" aria-live="polite">
+        <span data-typewriter>写下 Agent 开发、编程工具与一路学到的东西。</span>
+        <span class="poetize-cursor" aria-hidden="true"></span>
+      </p>
+      <a class="poetize-scroll-down" href="#home-content" aria-label="向下浏览内容">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m6 9 6 6 6-6"/>
+        </svg>
+      </a>
     </div>
 
-    <div class="ios-bento">
-      <div class="ios-widget ios-widget-primary">
-        <div class="ios-widget-kicker">
-          <span class="ios-status-dot" aria-hidden="true"></span>
-          <span>个人笔记与实践</span>
-        </div>
-        <p class="ios-widget-desc">写下 Agent 开发、编程工具与一路学到的东西。这里记录从零实践的过程，也保留好用的工具与思考。</p>
-        <div class="ios-widget-actions">
-          <a class="ios-pill-primary" href="#post-list">开始阅读 <span aria-hidden="true">↓</span></a>
-          <span data-subscription-summary></span>
-        </div>
-      </div>
-
-      <div class="ios-widget ios-widget-summary">
-        <div class="ios-stat-row">
-          <div>
-            <span class="ios-stat-value">{{ ordered_posts | size }}</span>
-            <span class="ios-stat-label">已发布文章</span>
-          </div>
-          <div>
-            <span class="ios-stat-value">{{ site.categories | size }}</span>
-            <span class="ios-stat-label">内容分类</span>
-          </div>
-        </div>
-        <div class="ios-quick-links">
-          <a class="ios-quick-item" href="{{ '/archives/' | relative_url }}">
-            <span class="ios-icon-badge ios-badge-blue" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
-            </span>
-            <span>全部归档</span>
-            <span class="ios-chevron" aria-hidden="true">›</span>
-          </a>
-          <a class="ios-quick-item" href="{{ '/downloads/' | relative_url }}">
-            <span class="ios-icon-badge ios-badge-indigo" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            </span>
-            <span>软件下载</span>
-            <span class="ios-chevron" aria-hidden="true">›</span>
-          </a>
-        </div>
-      </div>
+    <div class="poetize-waves" aria-hidden="true">
+      <svg viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="poetize-wave-path" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"/>
+        </defs>
+        <g class="poetize-wave-parallax">
+          <use href="#poetize-wave-path" x="48" y="0" class="wave-back"/>
+          <use href="#poetize-wave-path" x="48" y="4" class="wave-mid"/>
+          <use href="#poetize-wave-path" x="48" y="7" class="wave-front"/>
+        </g>
+      </svg>
     </div>
   </section>
-
-  {% if featured_post %}
-    {% assign f_cover = featured_post.image.path | default: featured_post.image | strip %}
-    {% assign f_has_cover = false %}
-    {% if f_cover != empty %}
-      {% assign f_has_cover = true %}
-      {% capture f_cover_url %}{% include media-url.html src=f_cover subpath=featured_post.media_subpath %}{% endcapture %}
-    {% endif %}
-    {% assign post = featured_post %}
-    {% capture f_summary %}{% include post-summary.html max_length=160 %}{% endcapture %}
-    {% assign f_excerpt = f_summary | strip_html | normalize_whitespace | truncate: 160 %}
-    <section class="ios-featured-wrap morning-shell" aria-label="置顶精选">
-      <article class="ios-featured-card{% if f_has_cover %} has-cover{% endif %}">
-        <div class="ios-featured-copy">
-          <div class="ios-row-meta">
-            <span class="ios-featured-badge">
-              <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01L12 2z"/></svg>
-              置顶精选
-            </span>
-            <time datetime="{{ featured_post.date | date_to_xmlschema }}">{{ featured_post.date | date: '%Y-%m-%d' }}</time>
-            {% if featured_post.categories.size > 0 %}
-              <span class="ios-meta-dot" aria-hidden="true">·</span>
-              <span class="ios-meta-cat">{{ featured_post.categories | first | escape }}</span>
-            {% endif %}
-          </div>
-          <h2><a class="ios-row-link" href="{{ featured_post.url | relative_url }}">{{ featured_post.title | escape }}</a></h2>
-          {% if f_excerpt != empty %}
-            <p class="ios-featured-excerpt">{{ f_excerpt | escape_once }}</p>
-          {% endif %}
-          <div class="ios-featured-footer">
-            {% if featured_post.tags.size > 0 %}
-              <div class="ios-row-tags" aria-label="文章标签">
-                {% for tag in featured_post.tags limit: 3 %}
-                  <span class="ios-tag-pill">#{{ tag | escape }}</span>
-                {% endfor %}
-              </div>
-            {% endif %}
-            <span class="ios-featured-cta">阅读全文 <span aria-hidden="true">→</span></span>
-          </div>
-        </div>
-        {% if f_has_cover %}
-          <div class="ios-featured-thumb" aria-hidden="true">
-            <img src="{{ f_cover_url | strip | escape }}" width="480" height="300" alt="" loading="eager" decoding="async">
-          </div>
-        {% endif %}
-      </article>
-    </section>
-  {% endif %}
 {% endif %}
 
-<section class="morning-posts morning-shell" id="post-list" aria-labelledby="morning-posts-title">
-  <header class="ios-section-header">
-    <h2 id="morning-posts-title">近期文章{% if page_number > 1 %} · 第 {{ page_number }} 页{% endif %}</h2>
-    <a href="{{ '/archives/' | relative_url }}">查看全部 <span aria-hidden="true">›</span></a>
-  </header>
-
-  <div class="ios-grouped-list">
-    {% for post in ordered_posts offset: start limit: per_page %}
-      {% if featured_post and post.url == featured_post.url %}{% continue %}{% endif %}
-      {% assign cover = post.image.path | default: post.image | strip %}
-      {% assign has_cover = false %}
-      {% if cover != empty %}
-        {% assign has_cover = true %}
-        {% capture cover_url %}{% include media-url.html src=cover subpath=post.media_subpath %}{% endcapture %}
-      {% endif %}
-      {% capture summary %}{% include post-summary.html max_length=130 %}{% endcapture %}
-      {% assign excerpt = summary | strip_html | normalize_whitespace | truncate: 130 %}
-
-      <article class="ios-row{% if has_cover %} has-cover{% endif %}">
-        <div class="ios-row-main">
-          <div class="ios-row-meta">
-            {% if post.pin %}<span class="ios-pin-pill">置顶</span>{% endif %}
-            <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%Y-%m-%d' }}</time>
-            {% if post.categories.size > 0 %}
-              <span class="ios-meta-dot" aria-hidden="true">·</span>
-              <span class="ios-meta-cat">{{ post.categories | first | escape }}</span>
-            {% endif %}
-          </div>
-
-          <h3><a class="ios-row-link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a></h3>
-
-          {% if excerpt != empty %}
-            <p class="ios-row-excerpt">{{ excerpt | escape_once }}</p>
-          {% endif %}
-
-          {% if post.tags.size > 0 %}
-            <div class="ios-row-tags" aria-label="文章标签">
-              {% for tag in post.tags limit: 3 %}
-                <span class="ios-tag-pill">#{{ tag | escape }}</span>
-              {% endfor %}
-            </div>
-          {% endif %}
-        </div>
-
-        {% if has_cover %}
-          <a class="ios-row-thumb" href="{{ post.url | relative_url }}" aria-label="{{ post.title | escape }}" tabindex="-1">
-            <img src="{{ cover_url | strip | escape }}" width="280" height="180" alt="" loading="lazy" decoding="async">
+<div class="poetize-layout morning-shell" id="home-content">
+  <aside class="poetize-aside" aria-label="博主信息与快捷导航">
+    <section class="ios-widget poetize-profile-card">
+      <div class="poetize-profile-cover" aria-hidden="true"></div>
+      <div class="poetize-profile-body">
+        {% if site.avatar %}
+          <a class="poetize-avatar" href="{{ '/about/' | relative_url }}" aria-label="关于 {{ site.social.name | escape }}">
+            <img src="{{ site.avatar | relative_url }}" width="76" height="76" alt="{{ site.social.name | escape }}" loading="eager" decoding="async" onerror="this.onerror=null;this.src='{{ '/assets/img/favicons/web-app-manifest-192x192.png' | relative_url }}'">
           </a>
         {% endif %}
+        <h2 class="poetize-author-name">{{ site.social.name | escape }}</h2>
+        <p class="poetize-author-bio">写下 Agent 开发、编程工具与一路学到的东西。</p>
 
-        <span class="ios-row-chevron" aria-hidden="true">›</span>
-      </article>
-    {% endfor %}
+        <div class="poetize-stats">
+          <a href="{{ '/archives/' | relative_url }}">
+            <strong>{{ ordered_posts | size }}</strong>
+            <span>文章</span>
+          </a>
+          <a href="{{ '/categories/' | relative_url }}">
+            <strong>{{ site.categories | size }}</strong>
+            <span>分类</span>
+          </a>
+          <a href="{{ '/tags/' | relative_url }}">
+            <strong>{{ site.tags | size }}</strong>
+            <span>标签</span>
+          </a>
+        </div>
+
+        <div class="poetize-profile-actions">
+          <span data-subscription-summary></span>
+          {% if site.social.links and site.social.links.size > 0 %}
+            <a class="poetize-social-pill" href="{{ site.social.links[0] | escape }}" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.3c-3.3.7-4-1.4-4-1.4-.5-1.3-1.3-1.6-1.3-1.6-1.1-.8.1-.8.1-.8 1.2.1 1.9 1.2 1.9 1.2 1.1 1.9 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6a4.7 4.7 0 0 1 1.2-3.2c-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1a4.7 4.7 0 0 1 1.2 3.2c0 4.7-2.8 5.7-5.5 6 .5.4.8 1.1.8 2.2v3.3c0 .4.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>
+              <span>GitHub</span>
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+
+    <section class="ios-widget poetize-side-card">
+      <div class="poetize-card-title">
+        <span class="ios-status-dot" aria-hidden="true"></span>
+        <span>站点公告与直达</span>
+      </div>
+      <p class="poetize-notice-text">欢迎来到 Theodore 的个人空间。新文章与软件更新都会整理在这里，也支持通过邮箱订阅更新。</p>
+      <div class="ios-quick-links">
+        <a class="ios-quick-item" href="{{ '/downloads/' | relative_url }}">
+          <span class="ios-icon-badge ios-badge-indigo" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          </span>
+          <span>软件下载</span>
+          <span class="ios-chevron" aria-hidden="true">›</span>
+        </a>
+        <a class="ios-quick-item" href="{{ '/archives/' | relative_url }}">
+          <span class="ios-icon-badge ios-badge-blue" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+          </span>
+          <span>全部归档</span>
+          <span class="ios-chevron" aria-hidden="true">›</span>
+        </a>
+        <a class="ios-quick-item" href="{{ '/about/' | relative_url }}">
+          <span class="ios-icon-badge ios-badge-green" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
+          </span>
+          <span>关于我</span>
+          <span class="ios-chevron" aria-hidden="true">›</span>
+        </a>
+      </div>
+    </section>
+
+    {% if site.tags.size > 0 %}
+      <section class="ios-widget poetize-side-card">
+        <div class="poetize-card-title">
+          <span>热门标签</span>
+        </div>
+        <div class="poetize-tag-cloud">
+          {% for tag in site.tags limit: 16 %}
+            {% assign tag_name = tag[0] %}
+            {% assign tag_slug = tag_name | slugify | url_encode %}
+            <a class="poetize-tag-link" href="{{ '/tags/' | append: tag_slug | append: '/' | relative_url }}">
+              <span>#{{ tag_name | escape }}</span>
+              <small>{{ tag[1] | size }}</small>
+            </a>
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
+  </aside>
+
+  <div class="poetize-feed">
+    {% if featured_post %}
+      {% assign f_cover = featured_post.image.path | default: featured_post.image | strip %}
+      {% assign f_has_cover = false %}
+      {% if f_cover != empty %}
+        {% assign f_has_cover = true %}
+        {% capture f_cover_url %}{% include media-url.html src=f_cover subpath=featured_post.media_subpath %}{% endcapture %}
+      {% endif %}
+      {% assign post = featured_post %}
+      {% capture f_summary %}{% include post-summary.html max_length=150 %}{% endcapture %}
+      {% assign f_excerpt = f_summary | strip_html | normalize_whitespace | truncate: 150 %}
+      <section class="poetize-featured-section" aria-label="置顶精选">
+        <article class="ios-featured-card{% if f_has_cover %} has-cover{% endif %}">
+          <div class="ios-featured-copy">
+            <div class="ios-row-meta">
+              <span class="ios-featured-badge">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01L12 2z"/></svg>
+                置顶精选
+              </span>
+              <time datetime="{{ featured_post.date | date_to_xmlschema }}">{{ featured_post.date | date: '%Y-%m-%d' }}</time>
+              {% if featured_post.categories.size > 0 %}
+                <span class="ios-meta-dot" aria-hidden="true">·</span>
+                <span class="ios-meta-cat">{{ featured_post.categories | first | escape }}</span>
+              {% endif %}
+            </div>
+            <h2><a class="ios-row-link" href="{{ featured_post.url | relative_url }}">{{ featured_post.title | escape }}</a></h2>
+            {% if f_excerpt != empty %}
+              <p class="ios-featured-excerpt">{{ f_excerpt | escape_once }}</p>
+            {% endif %}
+            <div class="ios-featured-footer">
+              {% if featured_post.tags.size > 0 %}
+                <div class="ios-row-tags" aria-label="文章标签">
+                  {% for tag in featured_post.tags limit: 3 %}
+                    <span class="ios-tag-pill">#{{ tag | escape }}</span>
+                  {% endfor %}
+                </div>
+              {% endif %}
+              <span class="ios-featured-cta">阅读全文 <span aria-hidden="true">→</span></span>
+            </div>
+          </div>
+          {% if f_has_cover %}
+            <div class="ios-featured-thumb" aria-hidden="true">
+              <img src="{{ f_cover_url | strip | escape }}" width="480" height="300" alt="" loading="eager" decoding="async">
+            </div>
+          {% endif %}
+        </article>
+      </section>
+    {% endif %}
+
+    <section class="morning-posts" id="post-list" aria-labelledby="morning-posts-title">
+      <header class="ios-section-header">
+        <h2 id="morning-posts-title">近期文章{% if page_number > 1 %} · 第 {{ page_number }} 页{% endif %}</h2>
+        <a href="{{ '/archives/' | relative_url }}">查看全部 <span aria-hidden="true">›</span></a>
+      </header>
+
+      <div class="ios-grouped-list">
+        {% for post in ordered_posts offset: start limit: per_page %}
+          {% if featured_post and post.url == featured_post.url %}{% continue %}{% endif %}
+          {% assign cover = post.image.path | default: post.image | strip %}
+          {% assign has_cover = false %}
+          {% if cover != empty %}
+            {% assign has_cover = true %}
+            {% capture cover_url %}{% include media-url.html src=cover subpath=post.media_subpath %}{% endcapture %}
+          {% endif %}
+          {% capture summary %}{% include post-summary.html max_length=130 %}{% endcapture %}
+          {% assign excerpt = summary | strip_html | normalize_whitespace | truncate: 130 %}
+
+          <article class="ios-row{% if has_cover %} has-cover{% endif %}">
+            <div class="ios-row-main">
+              <div class="ios-row-meta">
+                {% if post.pin %}<span class="ios-pin-pill">置顶</span>{% endif %}
+                <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%Y-%m-%d' }}</time>
+                {% if post.categories.size > 0 %}
+                  <span class="ios-meta-dot" aria-hidden="true">·</span>
+                  <span class="ios-meta-cat">{{ post.categories | first | escape }}</span>
+                {% endif %}
+              </div>
+
+              <h3><a class="ios-row-link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a></h3>
+
+              {% if excerpt != empty %}
+                <p class="ios-row-excerpt">{{ excerpt | escape_once }}</p>
+              {% endif %}
+
+              {% if post.tags.size > 0 %}
+                <div class="ios-row-tags" aria-label="文章标签">
+                  {% for tag in post.tags limit: 3 %}
+                    <span class="ios-tag-pill">#{{ tag | escape }}</span>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+
+            {% if has_cover %}
+              <a class="ios-row-thumb" href="{{ post.url | relative_url }}" aria-label="{{ post.title | escape }}" tabindex="-1">
+                <img src="{{ cover_url | strip | escape }}" width="280" height="180" alt="" loading="lazy" decoding="async">
+              </a>
+            {% endif %}
+
+            <span class="ios-row-chevron" aria-hidden="true">›</span>
+          </article>
+        {% endfor %}
+      </div>
+
+      {% if paginator.total_pages > 1 %}
+        {% include post-paginator.html %}
+      {% endif %}
+    </section>
   </div>
-
-  {% if paginator.total_pages > 1 %}
-    {% include post-paginator.html %}
-  {% endif %}
-</section>
+</div>

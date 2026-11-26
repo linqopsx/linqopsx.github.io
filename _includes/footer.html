@@ -1,0 +1,30 @@
+<!-- The Footer (POETIZE x iOS 26 Style) -->
+
+<footer aria-label="Site Info" class="poetize-footer">
+  <div class="poetize-footer-accent" aria-hidden="true"></div>
+  <div class="poetize-footer-inner">
+    <div class="poetize-footer-left">
+      <p class="poetize-footer-copy">
+        &copy; <time>{{ 'now' | date: '%Y' }}</time>
+        {% if site.social.links %}
+          <a href="{{ site.social.links[0] }}">{{ site.social.name }}</a>
+        {% else %}
+          <span>{{ site.social.name }}</span>
+        {% endif %}
+        <span class="poetize-footer-sep" aria-hidden="true">·</span>
+        <span data-site-uptime="2026-10-25">记录学习，也记录生活</span>
+      </p>
+    </div>
+
+    <div class="poetize-footer-right">
+      <a href="{{ '/subscribe/' | relative_url }}">订阅更新</a>
+      <span class="poetize-footer-sep" aria-hidden="true">·</span>
+      <a href="{{ '/feed.xml' | relative_url }}">RSS</a>
+      <span class="poetize-footer-sep" aria-hidden="true">·</span>
+      <span class="poetize-footer-credit">
+        Powered by <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a> &amp;
+        <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a>
+      </span>
+    </div>
+  </div>
+</footer>

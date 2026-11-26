@@ -1447,3 +1447,523 @@
     background: var(--ios-surface) !important;
   }
 }
+
+
+/* ==========================================================================
+   POETIZE x iOS 26 Liquid Glass Fusion
+   1. Atmospheric Hero + Typewriter Poetry + Flowing SVG Waves
+   2. Dual-Column Homepage (Sticky Profile/Notice/Tags + Feed)
+   3. Gradient-Accent Footer with Site Running Days
+   ========================================================================== */
+
+.morning-home .poetize-hero {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: clamp(350px, 46vh, 450px);
+  margin-top: -74px;
+  padding-top: 84px;
+  padding-bottom: 64px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.poetize-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 28%;
+  transform: scale(1.03);
+}
+
+.poetize-hero-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    180deg,
+    rgba(12, 20, 36, 0.36) 0%,
+    rgba(12, 20, 36, 0.44) 60%,
+    rgba(12, 20, 36, 0.58) 100%
+  );
+}
+
+[data-bs-theme="dark"] .poetize-hero-scrim {
+  background: linear-gradient(
+    180deg,
+    rgba(4, 8, 18, 0.58) 0%,
+    rgba(4, 8, 18, 0.72) 65%,
+    rgba(0, 0, 0, 0.88) 100%
+  );
+}
+
+.poetize-hero-content {
+  text-align: center;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.poetize-hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: rgba(255, 255, 255, 0.94);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.poetize-hero-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #38bdf8;
+  box-shadow: 0 0 8px #38bdf8;
+}
+
+.poetize-hero-content h1 {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(2rem, 4.4vw, 3.1rem);
+  font-weight: 750;
+  line-height: 1.18;
+  letter-spacing: -0.025em;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.28);
+}
+
+.poetize-typewriter {
+  margin: 2px 0 0;
+  min-width: min(260px, 82vw);
+  min-height: 2.35em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 18px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.24);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.95);
+  font-size: clamp(0.9rem, 1.5vw, 1.02rem);
+  line-height: 1.5;
+}
+
+.poetize-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.05em;
+  margin-left: 4px;
+  background: #ffffff;
+  animation: poetize-blink 0.9s steps(1) infinite;
+}
+
+.poetize-scroll-down {
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  text-decoration: none;
+  animation: poetize-float 2.2s ease-in-out infinite;
+  transition: background-color 0.16s ease, color 0.16s ease;
+}
+
+.poetize-scroll-down:hover {
+  background: rgba(255, 255, 255, 0.24);
+  color: #ffffff;
+}
+
+/* Flowing Multi-Layer SVG Waves */
+.poetize-waves {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 54px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.poetize-waves svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.poetize-wave-parallax use {
+  fill: var(--ios-canvas);
+  animation: poetize-wave-move 16s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
+}
+
+.poetize-wave-parallax .wave-back {
+  opacity: 0.38;
+  animation-delay: -2s;
+  animation-duration: 18s;
+}
+
+.poetize-wave-parallax .wave-mid {
+  opacity: 0.68;
+  animation-delay: -4s;
+  animation-duration: 12s;
+}
+
+.poetize-wave-parallax .wave-front {
+  opacity: 1;
+  animation-delay: -5s;
+  animation-duration: 8s;
+}
+
+@keyframes poetize-wave-move {
+  0% { transform: translate3d(-90px, 0, 0); }
+  100% { transform: translate3d(85px, 0, 0); }
+}
+
+@keyframes poetize-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes poetize-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(5px); }
+}
+
+/* Dual-Column POETIZE Homepage Layout */
+.poetize-layout {
+  display: grid;
+  grid-template-columns: 288px minmax(0, 1fr);
+  gap: 22px;
+  align-items: start;
+  padding-top: 24px;
+  padding-bottom: 18px;
+  scroll-margin-top: 76px;
+}
+
+.poetize-aside {
+  position: sticky;
+  top: 78px;
+  display: grid;
+  gap: 16px;
+}
+
+.poetize-profile-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.poetize-profile-cover {
+  height: 76px;
+  background: linear-gradient(135deg, var(--ios-blue-soft), var(--ios-indigo-soft));
+}
+
+.poetize-profile-body {
+  padding: 0 22px 22px;
+  text-align: center;
+}
+
+.poetize-avatar {
+  display: inline-block;
+  width: 76px;
+  height: 76px;
+  margin-top: -38px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid var(--ios-surface);
+  box-shadow: var(--ios-card-shadow);
+  background: var(--ios-surface-2);
+}
+
+.poetize-avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.poetize-avatar:hover img {
+  transform: rotate(360deg);
+}
+
+.poetize-author-name {
+  margin: 10px 0 4px;
+  color: var(--ios-ink);
+  font-size: 1.2rem;
+  font-weight: 750;
+  letter-spacing: -0.02em;
+}
+
+.poetize-author-bio {
+  margin: 0;
+  color: var(--ios-muted);
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+.poetize-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 16px;
+  padding-block: 12px;
+  border-top: 1px solid var(--ios-sep);
+  border-bottom: 1px solid var(--ios-sep);
+}
+
+.poetize-stats a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.poetize-stats a:hover {
+  background: var(--ios-row-hover);
+}
+
+.poetize-stats strong {
+  color: var(--ios-ink);
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.poetize-stats span {
+  margin-top: 2px;
+  color: var(--ios-muted);
+  font-size: 0.74rem;
+}
+
+.poetize-profile-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.poetize-profile-actions .subscriber-count,
+.poetize-social-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.16s ease, color 0.16s ease;
+}
+
+.poetize-profile-actions .subscriber-count {
+  background: var(--ios-blue);
+  color: #ffffff !important;
+}
+
+.poetize-profile-actions .subscriber-count:hover {
+  background: var(--ios-blue-hover);
+  color: #ffffff !important;
+}
+
+.poetize-social-pill {
+  background: var(--ios-surface-2);
+  color: var(--ios-ink);
+}
+
+.poetize-social-pill:hover {
+  background: var(--ios-blue-soft);
+  color: var(--ios-blue);
+}
+
+.poetize-side-card {
+  padding: 20px 22px;
+}
+
+.poetize-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  color: var(--ios-ink);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.poetize-notice-text {
+  margin: 0 0 12px;
+  color: var(--ios-muted);
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+
+.ios-badge-green {
+  background: var(--ios-green-soft);
+  color: var(--ios-green);
+}
+
+.poetize-tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.poetize-tag-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--ios-surface-2);
+  color: var(--ios-muted);
+  font-size: 0.77rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.poetize-tag-link small {
+  opacity: 0.65;
+  font-family: var(--ios-mono);
+  font-size: 0.7rem;
+}
+
+.poetize-tag-link:hover {
+  background: var(--ios-blue-soft);
+  color: var(--ios-blue);
+}
+
+.poetize-feed {
+  min-width: 0;
+}
+
+.poetize-featured-section {
+  margin-bottom: 22px;
+}
+
+.poetize-feed .morning-posts {
+  padding-block: 0 20px;
+}
+
+/* Beautiful POETIZE x iOS 26 Footer */
+.morning-site footer.poetize-footer {
+  position: relative;
+  display: block !important;
+  height: auto !important;
+  padding: 22px 0 30px !important;
+  margin-top: 28px;
+  border-top: none !important;
+}
+
+.poetize-footer-accent {
+  height: 2px;
+  margin-bottom: 20px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--ios-blue) 28%,
+    var(--ios-indigo) 52%,
+    var(--ios-green) 76%,
+    transparent 100%
+  );
+  opacity: 0.55;
+}
+
+.poetize-footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 20px;
+  color: var(--ios-muted);
+  font-size: 0.83rem;
+}
+
+.poetize-footer-inner p {
+  margin: 0;
+}
+
+.poetize-footer-inner a {
+  color: var(--ios-ink);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.poetize-footer-inner a:hover {
+  color: var(--ios-blue);
+}
+
+.poetize-footer-sep {
+  margin-inline: 6px;
+  opacity: 0.45;
+}
+
+.poetize-footer-right {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+@media (max-width: 960px) {
+  .poetize-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .poetize-aside {
+    position: static;
+  }
+}
+
+@media (max-width: 700px) {
+  .morning-home .poetize-hero {
+    min-height: 310px;
+    margin-top: -64px;
+    padding-top: 76px;
+    padding-bottom: 52px;
+  }
+
+  .poetize-waves {
+    height: 38px;
+  }
+
+  .poetize-footer-inner {
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .poetize-wave-parallax use,
+  .poetize-cursor,
+  .poetize-scroll-down {
+    animation: none;
+  }
+
+  .poetize-avatar img {
+    transition: none;
+  }
+}
