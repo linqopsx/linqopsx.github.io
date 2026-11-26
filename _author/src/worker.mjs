@@ -137,7 +137,12 @@ export function createApp({ fetchImpl = fetch, now = () => Math.floor(Date.now()
     const configured = Boolean(env.GITHUB_CLIENT_ID && env.GITHUB_CLIENT_SECRET && env.SESSION_SECRET);
 
     if (url.pathname === '/health' && request.method === 'GET') {
-      return Response.json({ ok: true, configured, editorConfigured: Boolean(env.GITHUB_CONTENT_TOKEN) });
+      return Response.json({
+        ok: true,
+        configured,
+        editorConfigured: Boolean(env.GITHUB_CONTENT_TOKEN),
+        statsConfigured: Boolean(env.CF_ANALYTICS_TOKEN)
+      });
     }
     if (url.pathname === '/auth/logout' && request.method === 'POST') {
       if (request.headers.get('Origin') !== origin) return new Response('Forbidden', { status: 403 });
@@ -157,7 +162,84 @@ export function createApp({ fetchImpl = fetch, now = () => Math.floor(Date.now()
         return Response.json({ error: '非法来源请求' }, { status: 403 });
       }
       if (url.pathname === '/api/status' && request.method === 'GET') {
-        return Response.json({ ok: true, contentTokenConfigured: Boolean(env.GITHUB_CONTENT_TOKEN), repo: REPO, branch: BRANCH });
+        return Response.json({
+          ok: true,
+          contentTokenConfigured: Boolean(env.GITHUB_CONTENT_TOKEN),
+          statsTokenConfigured: Boolean(env.CF_ANALYTICS_TOKEN),
+          repo: REPO,
+          branch: BRANCH
+        });
+      }
+
+      if (url.pathname === '/api/stats' && request.method === 'GET') {
+        if (!env.CF_ANALYTICS_TOKEN || !env.CF_ACCOUNT_ID || !env.CF_SITE_TAG) {
+          return Response.json({ configured: false });
+        }
+        const days = url.searchParams.get('days') === '30' ? 30 : 7;
+        const endMs = now() * 1000;
+        const fmtDate = ms => new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Shanghai' }).format(new Date(ms));
+        const endDate = fmtDate(endMs);
+        const startDate = fmtDate(endMs - (days - 1) * 86400000);
+        const query = `query BlogStats($accountTag: String!, $siteTag: String!, $startDate: String!, $endDate: String!) {
+          viewer {
+            accounts(filter: { accountTag: $accountTag }) {
+              daily: rumPageloadEventsAdaptiveGroups(limit: 60, orderBy: [date_ASC], filter: { siteTag: $siteTag, date_geq: $startDate, date_leq: $endDate, bot: 0 }) {
+                count sum { visits } dimensions { date }
+              }
+              paths: rumPageloadEventsAdaptiveGroups(limit: 20, orderBy: [count_DESC], filter: { siteTag: $siteTag, date_geq: $startDate, date_leq: $endDate, bot: 0 }) {
+                count sum { visits } dimensions { requestPath }
+              }
+              referers: rumPageloadEventsAdaptiveGroups(limit: 12, orderBy: [count_DESC], filter: { siteTag: $siteTag, date_geq: $startDate, date_leq: $endDate, bot: 0 }) {
+                count sum { visits } dimensions { refererHost }
+              }
+              devices: rumPageloadEventsAdaptiveGroups(limit: 10, orderBy: [count_DESC], filter: { siteTag: $siteTag, date_geq: $startDate, date_leq: $endDate, bot: 0 }) {
+                count sum { visits } dimensions { deviceType }
+              }
+              countries: rumPageloadEventsAdaptiveGroups(limit: 12, orderBy: [count_DESC], filter: { siteTag: $siteTag, date_geq: $startDate, date_leq: $endDate, bot: 0 }) {
+                count sum { visits } dimensions { countryName }
+              }
+            }
+          }
+        }`;
+        const cfRes = await fetchImpl('https://api.cloudflare.com/client/v4/graphql', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${env.CF_ANALYTICS_TOKEN}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            query,
+            variables: { accountTag: env.CF_ACCOUNT_ID, siteTag: env.CF_SITE_TAG, startDate, endDate }
+          }),
+          signal: AbortSignal.timeout(20000)
+        });
+        const cfJson = await cfRes.json().catch(() => ({}));
+        if (!cfRes.ok || (Array.isArray(cfJson.errors) && cfJson.errors.length)) {
+          const msg = cfJson.errors?.[0]?.message || `Cloudflare 查询失败 (${cfRes.status})`;
+          return Response.json({ configured: true, error: msg }, { status: 502 });
+        }
+        const acct = cfJson.data?.viewer?.accounts?.[0] || {};
+        const mapGroup = (arr, key) => (Array.isArray(arr) ? arr : []).map(item => ({
+          label: item.dimensions?.[key] || '',
+          views: Number(item.count || 0),
+          visits: Number(item.sum?.visits || 0)
+        }));
+        const daily = mapGroup(acct.daily, 'date');
+        const totalViews = daily.reduce((s, d) => s + d.views, 0);
+        const totalVisits = daily.reduce((s, d) => s + d.visits, 0);
+        return Response.json({
+          configured: true,
+          days,
+          startDate,
+          endDate,
+          totalViews,
+          totalVisits,
+          daily,
+          paths: mapGroup(acct.paths, 'requestPath'),
+          referers: mapGroup(acct.referers, 'refererHost'),
+          devices: mapGroup(acct.devices, 'deviceType'),
+          countries: mapGroup(acct.countries, 'countryName')
+        });
       }
       if (!env.GITHUB_CONTENT_TOKEN) {
         return Response.json({ error: '尚未配置 GITHUB_CONTENT_TOKEN，请先在 Cloudflare Secrets 中添加单仓库写入令牌。' }, { status: 503 });

@@ -6,6 +6,39 @@
   <title>访问统计 · Theodore 的博客</title>
   <link rel="stylesheet" href="/assets/css/morning.css?v=20261126">
   <link rel="stylesheet" href="/assets/css/writing-dashboard.css?v=20261126">
+  <style>
+    .st-controls{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+    .st-seg{display:inline-flex;gap:4px;padding:4px;border-radius:999px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+    .st-seg button{border:0;height:34px;padding:0 16px;border-radius:999px;background:transparent;color:rgba(60,60,67,.72);font-size:13.5px;font-weight:600;transition:.15s}
+    .st-seg button.is-active{background:#007aff;color:#fff}
+    .st-range-text{font-size:13px;color:rgba(60,60,67,.66);font-family:ui-monospace,monospace}
+    .st-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:18px}
+    .st-kpi{padding:20px 22px;border-radius:22px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.03),0 6px 20px -12px rgba(0,0,0,.08)}
+    .st-kpi-label{font-size:12.5px;font-weight:600;color:rgba(60,60,67,.66);margin-bottom:6px}
+    .st-kpi-val{font-size:1.85rem;font-weight:750;line-height:1.15;letter-spacing:-.03em;color:#000;font-family:var(--ios-sans)}
+    .st-kpi-sub{font-size:12px;color:rgba(60,60,67,.56);margin-top:4px}
+    .st-banner{padding:20px 24px;border-radius:22px;background:rgba(0,122,255,.08);border:1px solid rgba(0,122,255,.22);color:#1c1c1e;font-size:14px;line-height:1.7;margin-bottom:20px}
+    .st-banner strong{color:#007aff}
+    .st-chart{display:flex;align-items:flex-end;gap:6px;height:180px;padding:18px 8px 6px;overflow-x:auto}
+    .st-bar-col{flex:1 0 18px;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0}
+    .st-bar-track{width:100%;max-width:28px;height:126px;display:flex;align-items:flex-end;justify-content:center;border-radius:8px;background:#f2f2f7;overflow:hidden}
+    .st-bar-fill{width:100%;border-radius:8px 8px 0 0;background:linear-gradient(180deg,#38bdf8,#007aff);transition:height .25s ease}
+    .st-bar-num{font-size:11px;font-weight:600;color:#1c1c1e;font-family:ui-monospace,monospace}
+    .st-bar-date{font-size:10.5px;color:rgba(60,60,67,.6);font-family:ui-monospace,monospace;white-space:nowrap}
+    .st-table-wrap{overflow-x:auto;margin-top:10px}
+    .st-table{width:100%;border-collapse:collapse;font-size:14px}
+    .st-table th{text-align:left;padding:10px 12px;font-size:12px;font-weight:650;color:rgba(60,60,67,.62);border-bottom:1px solid rgba(60,60,67,.12)}
+    .st-table td{padding:11px 12px;border-bottom:1px solid rgba(60,60,67,.08);vertical-align:middle}
+    .st-table tr:last-child td{border-bottom:0}
+    .st-table .num{text-align:right;font-family:ui-monospace,monospace;font-weight:600;white-space:nowrap}
+    .st-rank{width:34px;color:rgba(60,60,67,.5);font-family:ui-monospace,monospace;font-size:12.5px}
+    .st-progress{width:120px}
+    .st-progress-track{height:7px;border-radius:999px;background:#f2f2f7;overflow:hidden}
+    .st-progress-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#007aff,#5856d6)}
+    .st-grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+    .st-empty{padding:24px 0;text-align:center;color:rgba(60,60,67,.58);font-size:14px}
+    @media(max-width:860px){.st-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.st-grid-2{grid-template-columns:1fr}.st-progress{display:none}}
+  </style>
 </head>
 <body class="morning-site writing-dashboard">
   <header class="writing-header">
@@ -29,13 +62,14 @@
           <img src="/assets/img/avatar.png" width="56" height="56" alt="Theodore">
         </div>
         <div>
-          <span class="writing-hero-pill"><span class="writing-hero-dot" aria-hidden="true"></span><span>Cloudflare Analytics</span></span>
-          <h1 id="st-title">看看博客最近的访问情况</h1>
-          <p class="writing-hero-lead">查看访问次数、文章浏览量、来源网站，以及访客的大致地区和设备。</p>
+          <span class="writing-hero-pill"><span class="writing-hero-dot" aria-hidden="true"></span><span>实时访问统计</span></span>
+          <h1 id="st-title">博客访问统计表</h1>
+          <p class="writing-hero-lead">直接汇总 Cloudflare Web Analytics 真实访问数据（自动排除爬虫），无需跳转第三方后台。</p>
         </div>
       </div>
       <div class="writing-primary">
-        <a class="writing-button" href="https://dash.cloudflare.com/69a2bfe1b1630884634c93b9bcae6fba/web-analytics/overview/visits?siteTag~in=b9f7e8352abf49ce91fb5b07b953f066&amp;excludeBots=Yes" target="_blank" rel="noopener noreferrer">打开访问统计面板 ↗</a>
+        <button type="button" class="writing-button" data-refresh>刷新统计</button>
+        <a class="writing-secondary" href="https://dash.cloudflare.com/69a2bfe1b1630884634c93b9bcae6fba/web-analytics/overview/visits?siteTag~in=b9f7e8352abf49ce91fb5b07b953f066&amp;excludeBots=Yes" target="_blank" rel="noopener noreferrer">Cloudflare 原生面板 ↗</a>
       </div>
     </div>
     <div class="writing-waves" aria-hidden="true">
@@ -51,16 +85,112 @@
   </section>
 
   <main class="writing-main">
-    <section class="writing-panel">
-      <h2>进入面板后怎么看</h2>
-      <ul>
-        <li><strong>Visits / Page views：</strong>查看访问次数和页面浏览量，可切换统计日期范围。</li>
-        <li><strong>Path：</strong>查看哪些文章和页面被访问得更多。</li>
-        <li><strong>Referer：</strong>查看访问来自哪些网站。</li>
-        <li><strong>Country / Device / Browser：</strong>查看大致地区、设备类型和浏览器。</li>
-      </ul>
-      <p class="writing-note">统计从启用后开始，历史访问无法补录。这些数据用来了解博客阅读情况，不显示访问者的真实姓名或 GitHub 账号。</p>
+    <div class="st-banner" data-setup-banner hidden>
+      <strong>只需配置一枚只读令牌即可直接在这里展示统计表：</strong><br>
+      1. 打开 <a href="https://dash.cloudflare.com/profile/api-tokens" target="_blank" rel="noopener noreferrer">Cloudflare API Tokens ↗</a> → 点击 <strong>Create Token</strong> → <strong>Create Custom Token</strong>；<br>
+      2. Permissions 只选 <strong>Account → Account Analytics → Read</strong>，生成并复制令牌；<br>
+      3. 在 <code>theodore-blog-author</code> 的 Variables and secrets 中添加 Secret：Key 填 <code>CF_ANALYTICS_TOKEN</code>，勾选 <code>Secret</code> 并 Deploy，刷新本页即可看到完整图表！
+    </div>
+
+    <div class="st-controls">
+      <div class="st-seg" role="tablist" aria-label="统计周期">
+        <button type="button" class="is-active" data-days="7">近 7 天</button>
+        <button type="button" data-days="30">近 30 天</button>
+      </div>
+      <span class="st-range-text" data-range-text>正在读取统计数据…</span>
+    </div>
+
+    <section class="st-kpis" aria-label="核心指标">
+      <div class="st-kpi">
+        <div class="st-kpi-label">总浏览量（Page Views）</div>
+        <div class="st-kpi-val" data-kpi-views>—</div>
+        <div class="st-kpi-sub" data-kpi-days>统计周期内</div>
+      </div>
+      <div class="st-kpi">
+        <div class="st-kpi-label">总访次（Visits）</div>
+        <div class="st-kpi-val" data-kpi-visits>—</div>
+        <div class="st-kpi-sub">已过滤常见爬虫</div>
+      </div>
+      <div class="st-kpi">
+        <div class="st-kpi-label">日均浏览</div>
+        <div class="st-kpi-val" data-kpi-avg>—</div>
+        <div class="st-kpi-sub">次 / 天</div>
+      </div>
+      <div class="st-kpi">
+        <div class="st-kpi-label">已确认邮箱订阅</div>
+        <div class="st-kpi-val" data-kpi-subs>—</div>
+        <div class="st-kpi-sub">来自站内订阅服务</div>
+      </div>
     </section>
+
+    <section class="writing-panel" aria-label="每日访问趋势">
+      <h2>每日浏览趋势</h2>
+      <div class="st-chart" data-daily-chart>
+        <p class="st-empty">正在加载趋势图…</p>
+      </div>
+    </section>
+
+    <section class="writing-panel" aria-label="热门页面排行">
+      <h2>热门文章与页面排行</h2>
+      <div class="st-table-wrap">
+        <table class="st-table">
+          <thead>
+            <tr>
+              <th class="st-rank">#</th>
+              <th>页面路径</th>
+              <th class="num">浏览量</th>
+              <th class="num">访次</th>
+              <th class="st-progress">占比</th>
+            </tr>
+          </thead>
+          <tbody data-table-paths>
+            <tr><td colspan="5" class="st-empty">正在加载…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="st-grid-2">
+      <section class="writing-panel" style="margin-block:0" aria-label="来源网站">
+        <h2>来源网站排行</h2>
+        <div class="st-table-wrap">
+          <table class="st-table">
+            <thead>
+              <tr><th>来源域名</th><th class="num">浏览量</th><th class="st-progress">占比</th></tr>
+            </thead>
+            <tbody data-table-referers>
+              <tr><td colspan="3" class="st-empty">正在加载…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="writing-panel" style="margin-block:0" aria-label="设备与地区">
+        <h2>设备与访客地区</h2>
+        <div class="st-table-wrap">
+          <table class="st-table">
+            <thead>
+              <tr><th>设备类型</th><th class="num">浏览量</th><th class="st-progress">占比</th></tr>
+            </thead>
+            <tbody data-table-devices>
+              <tr><td colspan="3" class="st-empty">正在加载…</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="st-table-wrap" style="margin-top:16px">
+          <table class="st-table">
+            <thead>
+              <tr><th>国家 / 地区</th><th class="num">浏览量</th><th class="st-progress">占比</th></tr>
+            </thead>
+            <tbody data-table-countries>
+              <tr><td colspan="3" class="st-empty">正在加载…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
   </main>
+
+  <script type="module" src="/admin/stats/stats.js?v=20261126"></script>
 </body>
 </html>

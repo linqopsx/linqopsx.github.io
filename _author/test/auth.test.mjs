@@ -217,3 +217,14 @@ test('content API requires author session, same-origin on writes, and strict pat
   });
   assert.equal(delAbout.status, 400);
 });
+
+
+test('stats API requires author session and returns unconfigured cleanly without token', async () => {
+  const site = fixture();
+  assert.equal((await site.send('/api/stats')).status, 401);
+  const login = await startLogin(site);
+  const session = getCookie(await finishLogin(site, login), sessionName);
+  const res = await site.send('/api/stats?days=7', { headers: { Cookie: session } });
+  assert.equal(res.status, 200);
+  assert.equal((await res.json()).configured, false);
+});

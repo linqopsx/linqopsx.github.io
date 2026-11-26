@@ -16,6 +16,8 @@
     "BLOG_URL": "https://linqopsx.github.io",
     "PUBLIC_URL": "https://theodore-blog-author.theodore-blog-newsletter.workers.dev",
     "AUTHOR_ID": "240416179",
-    "GITHUB_CLIENT_ID": "Ov23liRDm1IvCsZpGcwZ"
+    "GITHUB_CLIENT_ID": "Ov23liRDm1IvCsZpGcwZ",
+    "CF_ACCOUNT_ID": "69a2bfe1b1630884634c93b9bcae6fba",
+    "CF_SITE_TAG": "b9f7e8352abf49ce91fb5b07b953f066"
   }
 }
