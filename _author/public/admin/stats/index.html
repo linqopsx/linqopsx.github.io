@@ -9,25 +9,48 @@
 </head>
 <body class="morning-site writing-dashboard">
   <header class="writing-header">
-    <a class="writing-brand" href="https://linqopsx.github.io/">Theodore<span>.</span></a>
+    <a class="writing-brand" href="/admin/">Theodore<span>.</span></a>
     <nav class="writing-nav" aria-label="后台导航">
       <a href="/admin/">写作后台</a>
+      <a href="/admin/editor/">写作编辑器</a>
       <a href="/admin/downloads/">软件上传</a>
       <a href="/admin/newsletter/">更新推送</a>
       <a href="/admin/stats/" aria-current="page">访问统计</a>
       <a href="/admin/help/">帮助</a>
     </nav>
   </header>
-  <main class="writing-main">
-    <section class="writing-panel">
-      <span class="writing-eyebrow">访问统计</span>
-      <h1>看看博客最近的访问情况</h1>
-      <p class="writing-lead">查看访问次数、文章浏览量、来源网站，以及访客的大致地区和设备。统计面板需要登录你的 Cloudflare 账号。</p>
+
+  <section class="writing-hero" style="padding:84px 0 56px" aria-labelledby="st-title">
+    <img class="writing-hero-bg" src="/assets/img/morning/hero-fish.webp" width="800" height="450" alt="">
+    <div class="writing-hero-scrim" aria-hidden="true"></div>
+    <div class="writing-hero-inner">
+      <div class="writing-hero-copy">
+        <div class="writing-avatar" style="width:56px;height:56px;flex-basis:56px">
+          <img src="/assets/img/avatar.png" width="56" height="56" alt="Theodore">
+        </div>
+        <div>
+          <span class="writing-hero-pill"><span class="writing-hero-dot" aria-hidden="true"></span><span>Cloudflare Analytics</span></span>
+          <h1 id="st-title">看看博客最近的访问情况</h1>
+          <p class="writing-hero-lead">查看访问次数、文章浏览量、来源网站，以及访客的大致地区和设备。</p>
+        </div>
+      </div>
       <div class="writing-primary">
         <a class="writing-button" href="https://dash.cloudflare.com/69a2bfe1b1630884634c93b9bcae6fba/web-analytics/overview/visits?siteTag~in=b9f7e8352abf49ce91fb5b07b953f066&amp;excludeBots=Yes" target="_blank" rel="noopener noreferrer">打开访问统计面板 ↗</a>
       </div>
-      <p class="writing-note">统计从启用后开始，历史访问无法补录。刚启用或刚访问后，数据可能需要几分钟才会显示。</p>
-    </section>
+    </div>
+    <div class="writing-waves" aria-hidden="true">
+      <svg viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs><path id="st-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"/></defs>
+        <g class="poetize-wave-parallax">
+          <use href="#st-wave" x="48" y="0" class="wave-back"/>
+          <use href="#st-wave" x="48" y="4" class="wave-mid"/>
+          <use href="#st-wave" x="48" y="7" class="wave-front"/>
+        </g>
+      </svg>
+    </div>
+  </section>
+
+  <main class="writing-main">
     <section class="writing-panel">
       <h2>进入面板后怎么看</h2>
       <ul>
@@ -36,7 +59,7 @@
         <li><strong>Referer：</strong>查看访问来自哪些网站。</li>
         <li><strong>Country / Device / Browser：</strong>查看大致地区、设备类型和浏览器。</li>
       </ul>
-      <p class="writing-note">这些数据用来了解博客阅读情况，不显示访问者的真实姓名或 GitHub 账号。</p>
+      <p class="writing-note">统计从启用后开始，历史访问无法补录。这些数据用来了解博客阅读情况，不显示访问者的真实姓名或 GitHub 账号。</p>
     </section>
   </main>
 </body>

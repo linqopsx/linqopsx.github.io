@@ -10,33 +10,56 @@
 </head>
 <body class="morning-site writing-dashboard">
   <header class="writing-header">
-    <a class="writing-brand" href="https://linqopsx.github.io/">Theodore<span>.</span></a>
+    <a class="writing-brand" href="/admin/">Theodore<span>.</span></a>
     <nav class="writing-nav" aria-label="后台导航">
       <a href="/admin/">写作后台</a>
+      <a href="/admin/editor/">写作编辑器</a>
       <a href="/admin/downloads/" aria-current="page">软件上传</a>
       <a href="/admin/newsletter/">更新推送</a>
       <a href="/admin/stats/">访问统计</a>
-      <a href="https://linqopsx.github.io/downloads/">查看下载页 ↗</a>
+      <a href="https://linqopsx.github.io/downloads/" target="_blank" rel="noopener noreferrer">查看下载页 ↗</a>
     </nav>
   </header>
-  <main class="writing-main">
-    <section class="writing-panel">
-      <span class="writing-eyebrow">文件与安装包</span>
-      <h1>把软件分享给博客读者</h1>
-      <p class="writing-lead">安装包上传到 GitHub 后，会自动显示在博客的“软件下载”页面。也可以复制下载链接，插入你正在写的文章。</p>
+
+  <section class="writing-hero" style="padding:84px 0 56px" aria-labelledby="dl-title">
+    <img class="writing-hero-bg" src="/assets/img/morning/hero-fish.webp" width="800" height="450" alt="">
+    <div class="writing-hero-scrim" aria-hidden="true"></div>
+    <div class="writing-hero-inner">
+      <div class="writing-hero-copy">
+        <div class="writing-avatar" style="width:56px;height:56px;flex-basis:56px">
+          <img src="/assets/img/avatar.png" width="56" height="56" alt="Theodore">
+        </div>
+        <div>
+          <span class="writing-hero-pill"><span class="writing-hero-dot" aria-hidden="true"></span><span>文件与安装包</span></span>
+          <h1 id="dl-title">把软件分享给博客读者</h1>
+          <p class="writing-hero-lead">安装包上传到 GitHub 后，会自动显示在博客的“软件下载”页面，也可一键复制文章链接。</p>
+        </div>
+      </div>
       <div class="writing-primary">
         <a class="writing-button" href="https://github.com/linqopsx/linqopsx.github.io/releases/edit/blog-downloads" target="_blank" rel="noopener noreferrer">在 GitHub 上传安装包 ↗</a>
       </div>
-      <p class="writing-note">支持 EXE、MSI、APK、DMG、ZIP 等文件，单个文件需小于 2 GiB。这里的文件公开下载。</p>
-    </section>
+    </div>
+    <div class="writing-waves" aria-hidden="true">
+      <svg viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs><path id="dl-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"/></defs>
+        <g class="poetize-wave-parallax">
+          <use href="#dl-wave" x="48" y="0" class="wave-back"/>
+          <use href="#dl-wave" x="48" y="4" class="wave-mid"/>
+          <use href="#dl-wave" x="48" y="7" class="wave-front"/>
+        </g>
+      </svg>
+    </div>
+  </section>
+
+  <main class="writing-main">
     <section class="writing-panel" aria-label="上传步骤">
       <h2>第一次上传，按这三步操作</h2>
       <ol>
         <li>点击上方按钮，使用你的 GitHub 账号登录，进入已经准备好的“博客软件下载”编辑页面。</li>
         <li>在正文编辑框下方找到 <strong>Attach binaries</strong> 或 <strong>choose your files</strong>，选择安装包，等待上传进度完成。文件名建议包含软件名称和版本号。</li>
-        <li>在版本说明中记下软件名称和版本，再点击页面底部的 <strong>Update release</strong> 保存。返回这里点“刷新列表”，再点“复制文章链接”，粘贴到文章的 Markdown 编辑器里即可。</li>
+        <li>在版本说明中记下软件名称和版本，再点击页面底部的 <strong>Update release</strong> 保存。返回这里点“刷新列表”，再点“复制文章链接”，粘贴到内置写作台即可。</li>
       </ol>
-      <p class="writing-note">不需要修改标签（Tag）和版本标题，也不需要重新创建令牌。文件传输速度取决于你与 GitHub 的连接。</p>
+      <p class="writing-note">支持 EXE、MSI、APK、DMG、ZIP 等文件，单个文件需小于 2 GiB。不需要修改标签（Tag）和版本标题。</p>
     </section>
     <section class="writing-panel" id="software-downloads" aria-label="已上传的软件">
       <h2>已上传的文件</h2>

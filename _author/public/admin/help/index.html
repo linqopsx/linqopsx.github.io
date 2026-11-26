@@ -8,84 +8,73 @@
 </head>
 <body class="morning-site writing-dashboard">
   <header class="writing-header">
-    <a class="writing-brand" href="https://linqopsx.github.io/">Theodore<span>.</span></a>
+    <a class="writing-brand" href="/admin/">Theodore<span>.</span></a>
     <nav class="writing-nav" aria-label="后台导航">
       <a href="/admin/">写作后台</a>
+      <a href="/admin/editor/">写作编辑器</a>
       <a href="/admin/downloads/">软件上传</a>
       <a href="/admin/newsletter/">更新推送</a>
       <a href="/admin/stats/">访问统计</a>
       <a href="/admin/help/" aria-current="page">帮助</a>
     </nav>
   </header>
-  <main class="writing-main">
-    <span class="writing-eyebrow">使用指南</span>
-    <h1>开始在网页上写文章</h1>
-    <p class="writing-lead">以后打开写作后台，填写标题、编辑正文、插入图片并保存，就会自动更新博客。</p>
 
+  <section class="writing-hero" style="padding:84px 0 56px" aria-labelledby="hlp-title">
+    <img class="writing-hero-bg" src="/assets/img/morning/hero-fish.webp" width="800" height="450" alt="">
+    <div class="writing-hero-scrim" aria-hidden="true"></div>
+    <div class="writing-hero-inner">
+      <div class="writing-hero-copy">
+        <div class="writing-avatar" style="width:56px;height:56px;flex-basis:56px">
+          <img src="/assets/img/avatar.png" width="56" height="56" alt="Theodore">
+        </div>
+        <div>
+          <span class="writing-hero-pill"><span class="writing-hero-dot" aria-hidden="true"></span><span>使用指南</span></span>
+          <h1 id="hlp-title">开始在网页上写文章</h1>
+          <p class="writing-hero-lead">打开内置写作台，填写标题、编辑正文、粘贴截图并保存，就会自动更新博客。</p>
+        </div>
+      </div>
+      <div class="writing-primary">
+        <a class="writing-button" href="/admin/editor/">打开写作编辑器 →</a>
+      </div>
+    </div>
+    <div class="writing-waves" aria-hidden="true">
+      <svg viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs><path id="hlp-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"/></defs>
+        <g class="poetize-wave-parallax">
+          <use href="#hlp-wave" x="48" y="0" class="wave-back"/>
+          <use href="#hlp-wave" x="48" y="4" class="wave-mid"/>
+          <use href="#hlp-wave" x="48" y="7" class="wave-front"/>
+        </g>
+      </svg>
+    </div>
+  </section>
+
+  <main class="writing-main">
     <section class="writing-panel">
-      <h2>使用 GitHub 账号登录</h2>
+      <h2>使用内置写作台（推荐）</h2>
       <ol>
-        <li>在博客顶部点击 <a href="/admin/">写作后台</a>，使用作者 GitHub 账号验证身份后，选择“新建文章”或“管理文章”。</li>
-        <li>在 Pages CMS 点击 <strong>Sign in with GitHub</strong>，使用自己的 GitHub 账号登录。</li>
-        <li>首次使用按提示安装 Pages CMS 应用，选择 <strong>Only select repositories</strong>，仅勾选 <code>linqopsx.github.io</code>，核对权限后确认授权。</li>
-        <li>进入 <code>linqopsx/linqopsx.github.io</code> 的 <code>main</code> 分支，选择“公开文章”开始写作；“关于我”用于编辑个人介绍。</li>
+        <li>在博客顶部点击「后台」，使用作者 GitHub 账号验证身份后进入 <a href="/admin/">写作后台</a>。</li>
+        <li>点击「新建文章」或「管理文章」进入 <a href="/admin/editor/">内置写作编辑器</a>，可在左侧切换<strong>公开文章</strong>、<strong>更新公告</strong>与<strong>关于我</strong>。</li>
+        <li>正文支持左右分栏实时预览，可直接按 <code>Ctrl+V</code> 粘贴截图自动上传，点击「保存并发布」后 GitHub Actions 会自动构建并更新博客。</li>
       </ol>
-      <p class="writing-note">以后使用 GitHub 账号登录即可，不必生成或粘贴访问令牌。文章仍保存到原来的博客仓库，保存后自动触发发布。登录页面属于 Pages CMS，首次使用请阅读它的服务条款和隐私政策。</p>
-      <details class="writing-more">
-        <summary>需要时使用备用编辑器（访问令牌登录）</summary>
-        <p class="writing-note">后台使用 GitHub 的细粒度访问令牌登录。它相当于只允许修改这个博客仓库的钥匙。</p>
-        <ol>
-          <li>打开 <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">GitHub 令牌创建页面</a>，确认当前账号为 <code>linqopsx</code>。</li>
-          <li><strong>Token name</strong> 填写 <code>博客写作后台</code>；<strong>Expiration</strong> 选择一个期限，例如 90 天。</li>
-          <li><strong>Repository access</strong> 选择 <strong>Only select repositories</strong>，公开写作选择个人账号下的 <code>linqopsx.github.io</code>。私人写作需另外以 <code>linqopsx-blog</code> 为 Resource owner，选择该组织下的 <code>blog-private-drafts</code>。</li>
-          <li>在 <strong>Permissions → Repository permissions</strong> 中，将 <strong>Contents</strong> 设置为 <strong>Read and write</strong>。Metadata 的读取权限会自动添加，其他权限不用开启。</li>
-          <li>点击 <strong>Generate token</strong>，复制新令牌。回到后台，点击“使用令牌登录 / Sign In with Token”，把令牌粘贴进去。</li>
-        </ol>
-        <p class="writing-note">令牌保存在当前浏览器中。不要把它发给别人、写进文章或提交到仓库。到期后生成新令牌，再次登录即可。</p>
-        <div class="writing-primary"><a class="writing-button" href="/admin/legacy/">进入写作后台 →</a></div>
-      </details>
+      <p class="writing-note">如需使用第三方可视化编辑器，后台底部折叠栏仍保留 <a href="https://app.pagescms.org/linqopsx/linqopsx.github.io/main/collection/posts" target="_blank" rel="noopener noreferrer">Pages CMS 备用入口 ↗</a> 与 <a href="/admin/legacy/">旧版 Sveltia 备用编辑器</a>。</p>
     </section>
 
     <section class="writing-panel">
       <h2>有些文章不想公开怎么办</h2>
-      <p>进入 <a href="/admin/private/">私人草稿</a>。这个编辑器把文章和图片保存在你的私有仓库中，保存后不会出现在博客首页、搜索、RSS 或公开仓库里。只有获得该私有仓库访问权限的账号才能读取。</p>
-      <p>博客的写作入口可以分别进入“公开文章”和“私人草稿”。两者的保存位置不同，选择前请看页面标题。新草稿默认就保存在私人空间，不需要额外打开隐藏开关。</p>
-      <p>如果想把某篇私人草稿公开，请在“公开文章”中新建文章，复制正文并上传需要公开的图片，再保存。私人草稿不会自动转为公开文章。</p>
-      <p>首次进入私人草稿若提示无权访问，请创建以 <code>linqopsx-blog</code> 为 Resource owner 的专用作者令牌，选择 <code>blog-private-drafts</code> 并授予 Contents 读写权限。不要把令牌写进文章。</p>
-      <p class="writing-note">已经公开过的文章可能仍留在公开仓库历史或他人的副本中；处理旧文章请单独确认。</p>
-    </section>
-
-    <section class="writing-panel">
-      <h2>发布第一篇文章</h2>
-      <ol>
-        <li>选择“文章”，点击新建按钮。</li>
-        <li>填写标题、发布时间、分类和标签，在正文编辑器中写作；可以切换可视化和 Markdown 模式。</li>
-        <li>通过图片按钮上传图片，也可以到素材库统一管理。</li>
-        <li>点击保存并确认。文章会提交到博客仓库，随后自动构建发布。</li>
-        <li>打开博客检查结果。后台内的预览用于查看内容，实际页面以发布后的博客为准。</li>
-      </ol>
+      <p>进入 <a href="/admin/private/">私人草稿</a>。这个编辑器把文章和图片保存在你的私有仓库中，保存后不会出现在博客首页、搜索、RSS 或公开仓库里。</p>
+      <p>如果想把某篇私人草稿公开，请在内置写作台的“公开文章”中新建文章，复制正文并上传需要公开的图片再保存。</p>
     </section>
 
     <section class="writing-panel">
       <h2>上传软件安装包</h2>
-      <p>打开 <a href="/admin/downloads/">软件上传</a>，点击“在 GitHub 上传安装包”。进入已准备好的版本编辑页后，在正文下方的 <strong>Attach binaries / choose your files</strong> 区域选择安装包，等待上传完成。在版本说明中记下软件名称和版本，再点击 <strong>Update release</strong> 保存，博客会自动更新下载清单。</p>
-      <p>返回上传页点“刷新列表”，即可复制下载链接或可直接粘贴到 Markdown 正文的“文章链接”。读者也可以从博客的 <a href="https://linqopsx.github.io/downloads/">软件下载</a> 页面下载。支持 EXE、MSI、APK、DMG、ZIP 等格式，单个文件小于 2 GiB。上传的文件公开可见，不需要重新创建令牌。</p>
+      <p>打开 <a href="/admin/downloads/">软件上传</a>，点击“在 GitHub 上传安装包”。在正文下方 <strong>Attach binaries</strong> 区域选择文件并保存 <strong>Update release</strong>，返回刷新即可复制下载链接或 Markdown 文章链接。</p>
     </section>
 
     <section class="writing-panel">
-      <h2>修改文章、语言与统计</h2>
-      <p>已有文章会出现在“文章”列表中，点开编辑后保存即可。“个人介绍 → 关于我”用来修改关于页面。</p>
-      <p>备用编辑器通常跟随浏览器语言。如果显示英文，登录后打开右上角账户菜单，进入 <strong>Settings → Language</strong>，选择 <strong>Chinese (China) — 中文（中国）</strong>。</p>
-      <p>打开 <a href="/admin/stats/">访问统计</a>，再点击“打开访问统计面板”，登录自己的 Cloudflare 账号。面板可查看访问次数、页面浏览量、文章路径、来源网站、大致地区及设备。数据从启用后开始记录，可能延迟几分钟显示；无法补录此前的访问。</p>
-      <p>保存后若没有看到更新，先查看 <a href="https://github.com/linqopsx/linqopsx.github.io/actions" target="_blank" rel="noopener noreferrer">博客发布进度</a>，等待最新任务出现绿色对勾，再刷新博客。如果发布时间设在未来，文章暂时不会显示，而且不会在该时间自动定时发布。</p>
-      <p class="writing-note">“公开文章”写入公开博客仓库，其文章、图片和修改历史可被他人查看；“私人草稿”写入私有仓库。参考：<a href="https://sveltiacms.app/en/docs/backends/github" target="_blank" rel="noopener noreferrer">Sveltia CMS 官方登录说明</a></p>
-    </section>
-
-    <section class="writing-panel">
-      <h2>给关注者推送更新与管理评论</h2>
-      <p>打开 <a href="/admin/newsletter/">更新推送</a>，进入 Pages CMS 的“更新公告”。填写公告标题、北京时间、邮件摘要和详细说明，先确认相关内容已在博客上线，再开启“发布公告”并保存。等待博客发布成功后，站内邮件后台会定期读取订阅源，通过作者的 QQ 邮箱通知已确认订阅的读者。</p>
-      <p>普通文章的修改和软件上传不会直接发邮件；每次想通知读者时新建一条公告。保持旧公告的日期和文件名不变，避免平台把它识别成新内容。已发送的邮件不能撤回。订阅者可在邮件中退订，订阅者无需注册其他平台账号，确认页与退订页均为中文；邮箱与发送状态保存在作者的 Cloudflare 数据库中，不公开显示。</p>
-      <p>公开文章底部已启用中文评论区。读者使用 GitHub 账号登录后，可以留言、回复和添加表情；评论公开可见。写作后台的“开放留言评论”默认开启，可进入 <a href="https://github.com/linqopsx/linqopsx.github.io/discussions/categories/announcements" target="_blank" rel="noopener noreferrer">评论管理</a> 回复、编辑、删除或锁定讨论。</p>
+      <h2>给关注者推送更新与查看统计</h2>
+      <p>打开 <a href="/admin/newsletter/">更新推送</a> → 点击「写更新公告」，在内置写作台的<strong>更新公告</strong>中填写标题、北京时间与摘要，勾选“发布公告（进入邮件订阅源）”保存，邮件 Worker 会每 5 分钟检查并推送给已确认订阅的读者。</p>
+      <p>打开 <a href="/admin/stats/">访问统计</a> 可登录 Cloudflare 查看访问次数、热门文章与来源；文章评论可在 <a href="https://github.com/linqopsx/linqopsx.github.io/discussions/categories/announcements" target="_blank" rel="noopener noreferrer">GitHub Discussions 评论管理 ↗</a> 回复或清理。</p>
     </section>
   </main>
 </body>

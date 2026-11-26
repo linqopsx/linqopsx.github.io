@@ -3,33 +3,60 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="robots" content="noindex,nofollow"><meta name="referrer" content="strict-origin-when-cross-origin">
-  <title>GitHub 账号登录 · Theodore 的写作后台</title>
+  <title>写作入口 · Theodore 的写作后台</title>
   <link rel="stylesheet" href="/assets/css/morning.css?v=20261126">
   <link rel="stylesheet" href="/assets/css/writing-dashboard.css?v=20261126">
 </head>
 <body class="morning-site writing-dashboard">
   <header class="writing-header">
-    <a class="writing-brand" href="https://linqopsx.github.io/">Theodore<span>.</span></a>
+    <a class="writing-brand" href="/admin/">Theodore<span>.</span></a>
     <nav class="writing-nav" aria-label="写作导航">
       <a href="/admin/">写作后台</a>
+      <a href="/admin/editor/">写作编辑器</a>
       <a href="/admin/downloads/">软件上传</a>
       <a href="/admin/stats/">访问统计</a>
       <a href="/admin/newsletter/">更新推送</a>
       <a href="/admin/help/">帮助</a>
     </nav>
   </header>
+
+  <section class="writing-hero" style="padding:84px 0 56px" aria-labelledby="gh-title">
+    <img class="writing-hero-bg" src="/assets/img/morning/hero-fish.webp" width="800" height="450" alt="">
+    <div class="writing-hero-scrim" aria-hidden="true"></div>
+    <div class="writing-hero-inner">
+      <div class="writing-hero-copy">
+        <div class="writing-avatar" style="width:56px;height:56px;flex-basis:56px">
+          <img src="/assets/img/avatar.png" width="56" height="56" alt="Theodore">
+        </div>
+        <div>
+          <span class="writing-hero-pill"><span class="writing-hero-dot" aria-hidden="true"></span><span>写作入口选择</span></span>
+          <h1 id="gh-title">选择你的写作空间</h1>
+          <p class="writing-hero-lead">公开文章直接使用内置 iOS 26 浅色写作台；私人草稿保存在独立私有仓库。</p>
+        </div>
+      </div>
+    </div>
+    <div class="writing-waves" aria-hidden="true">
+      <svg viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs><path id="gh-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"/></defs>
+        <g class="poetize-wave-parallax">
+          <use href="#gh-wave" x="48" y="0" class="wave-back"/>
+          <use href="#gh-wave" x="48" y="4" class="wave-mid"/>
+          <use href="#gh-wave" x="48" y="7" class="wave-front"/>
+        </g>
+      </svg>
+    </div>
+  </section>
+
   <main class="writing-main">
-    <span class="writing-eyebrow">GitHub 账号登录</span>
-    <h1>登录后，开始写作</h1>
-    <p class="writing-lead">通过 GitHub 账号进入 Pages CMS 写作后台，不用创建和粘贴访问令牌。</p>
     <div class="writing-links two-col">
       <section class="writing-card">
         <div>
-          <h2>公开文章</h2>
-          <p>编辑博客文章、添加图片、修改个人介绍。保存后自动更新博客。</p>
+          <h2>公开文章与更新公告</h2>
+          <p>在内置浅色 Markdown 写作台编辑文章、公告与个人介绍，保存后自动构建并更新博客。</p>
         </div>
         <div class="writing-primary">
-          <a class="writing-button" href="https://app.pagescms.org/linqopsx/linqopsx.github.io/main" target="_blank" rel="noopener noreferrer">用 GitHub 登录并写文章 ↗</a>
+          <a class="writing-button" href="/admin/editor/">进入内置写作台 →</a>
+          <a class="writing-secondary" href="https://app.pagescms.org/linqopsx/linqopsx.github.io/main" target="_blank" rel="noopener noreferrer">备用 Pages CMS ↗</a>
         </div>
       </section>
       <section class="writing-card">
@@ -42,8 +69,7 @@
         </div>
       </section>
     </div>
-    <p class="writing-note">公开写作会前往 Pages CMS。首次使用需在 GitHub 安装并授权应用，只选择 linqopsx.github.io 仓库。私人草稿继续使用原来的独立后台。</p>
-    <p class="writing-note">已写好的内容仍保存在原来的 GitHub 仓库。需要时可以继续使用 <a href="/admin/legacy/">备用公开文章编辑器</a> 或 <a href="/admin/private/">原私人草稿后台</a>。</p>
+    <p class="writing-note">已写好的内容仍保存在原来的 GitHub 仓库。需要时也可以继续使用 <a href="/admin/legacy/">备用公开文章编辑器</a>。</p>
   </main>
 </body>
 </html>
