@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-bs-theme="light">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -8,14 +8,11 @@
   {% assign author_url = 'https://theodore-blog-author.theodore-blog-newsletter.workers.dev' | append: page.author_path %}
   <meta http-equiv="refresh" content="0;url={{ author_url | escape }}">
   <title>作者登录 · Theodore 的博客</title>
-  <script src="{{ '/assets/js/dist/theme.min.js' | relative_url }}"></script>
-  <link rel="stylesheet" href="{{ '/assets/css/morning.css' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/morning.css' | relative_url }}?v=20261126">
   <style>
-    body{margin:0;min-height:100svh;display:grid;place-items:center;padding:24px;color:var(--ios-text,#1c1c1e);font:16px/1.75 var(--ios-sans,-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif);background:#0b1120 url('{{ "/assets/img/morning/hero-fish.webp" | relative_url }}') center 28%/cover no-repeat fixed}
-    body::before{content:"";position:fixed;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(12,20,36,.38),rgba(12,20,36,.58));backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-    [data-bs-theme="dark"] body::before{background:linear-gradient(180deg,rgba(4,8,18,.58),rgba(0,0,0,.78))}
-    main{width:min(440px,100%);padding:34px 32px;border-radius:28px;background:rgba(255,255,255,.86);border:1px solid rgba(255,255,255,.75);backdrop-filter:saturate(180%) blur(24px);-webkit-backdrop-filter:saturate(180%) blur(24px);box-shadow:0 20px 48px -18px rgba(0,0,0,.38);text-align:center}
-    [data-bs-theme="dark"] main{background:rgba(28,28,30,.82);border-color:rgba(255,255,255,.14)}
+    body{margin:0;min-height:100svh;display:grid;place-items:center;padding:24px;color:#1c1c1e;font:16px/1.75 -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;background:#f2f2f7 url('{{ "/assets/img/morning/hero-fish.webp" | relative_url }}') center 28%/cover no-repeat fixed}
+    body::before{content:"";position:fixed;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(242,242,247,.32),rgba(242,242,247,.58));backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+    main{width:min(440px,100%);padding:34px 32px;border-radius:28px;background:rgba(255,255,255,.88);border:1px solid rgba(255,255,255,.82);backdrop-filter:saturate(180%) blur(24px);-webkit-backdrop-filter:saturate(180%) blur(24px);box-shadow:0 20px 48px -18px rgba(0,0,0,.18);text-align:center}
     .avatar{width:64px;height:64px;margin:0 auto 12px;border-radius:50%;overflow:hidden;border:2.5px solid rgba(255,255,255,.85)}
     .avatar img{display:block;width:100%;height:100%;object-fit:cover}
     .eyebrow{display:inline-block;margin-bottom:6px;color:var(--ios-blue,#007aff);font-size:12px;font-weight:650;letter-spacing:.1em;text-transform:uppercase}
