@@ -36,6 +36,7 @@
     .ed-field.full{grid-column:1/-1}
     .ed-field label{font-size:12.5px;font-weight:600;color:rgba(60,60,67,.76)}
     .ed-row-inline{display:flex;gap:8px;align-items:center}
+    .ed-row-inline button{white-space:nowrap;flex-shrink:0}
     .ed-toggles{display:flex;flex-wrap:wrap;gap:14px;padding:12px 14px;border-radius:14px;background:#f2f2f7;margin-bottom:16px}
     .ed-toggle{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:500;color:#1c1c1e;cursor:pointer}
     .ed-toggle input{accent-color:#007aff;width:16px;height:16px}
@@ -116,7 +117,7 @@
         <button type="button" data-col="about">关于我</button>
       </div>
       <div class="ed-side-bar">
-        <input class="ed-input ed-search" type="search" data-filter placeholder="筛选文件名…">
+        <input class="ed-input ed-search" type="search" data-filter placeholder="搜索文章标题或文件名…">
       </div>
       <div class="ed-file-list" data-file-list>
         <p class="writing-note" style="margin:8px 6px!important">正在读取仓库文件…</p>
@@ -213,6 +214,6 @@
     </main>
   </div>
 
-  <script type="module" src="/admin/editor/editor.js?v=20261126"></script>
+  <script type="module" src="/admin/editor/editor.js?v=20261126b"></script>
 </body>
 </html>

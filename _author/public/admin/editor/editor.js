@@ -197,13 +197,13 @@ function resetNewEntry() {
 
 function renderFileList() {
   const kw = els.filter.value.trim().toLowerCase();
-  const visible = state.files.filter(f => f.name.toLowerCase().includes(kw));
+  const visible = state.files.filter(f => (f.title || '').toLowerCase().includes(kw) || f.name.toLowerCase().includes(kw));
   els.list.replaceChildren();
   if (!visible.length) {
     const p = document.createElement('p');
     p.className = 'writing-note';
     p.style.margin = '8px 6px';
-    p.textContent = state.tokenReady ? '没有匹配的文件' : '配置令牌后自动加载列表';
+    p.textContent = state.tokenReady ? '没有匹配的文章' : '配置令牌后自动加载列表';
     els.list.append(p);
     return;
   }
@@ -211,7 +211,10 @@ function renderFileList() {
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = `ed-file-item${state.currentPath === file.path ? ' is-active' : ''}`;
-    btn.innerHTML = `<span class="ed-file-name">${escapeHtml(file.name.replace(/\.md$/, ''))}</span><span class="ed-file-sub">${escapeHtml(file.path)}</span>`;
+    const displayTitle = file.title || file.name.replace(/\.md$/, '');
+    const dateMatch = /^(\d{4}-\d{2}-\d{2})/.exec(file.name);
+    const sub = dateMatch ? `${dateMatch[1]} · ${file.name}` : file.path;
+    btn.innerHTML = `<span class="ed-file-name">${escapeHtml(displayTitle)}</span><span class="ed-file-sub">${escapeHtml(sub)}</span>`;
     btn.addEventListener('click', () => openFile(file.path));
     els.list.append(btn);
   }

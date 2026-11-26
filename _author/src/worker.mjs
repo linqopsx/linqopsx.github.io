@@ -181,10 +181,23 @@ export function createApp({ fetchImpl = fetch, now = () => Math.floor(Date.now()
         const res = await gh(`contents/${dir}?ref=${BRANCH}`);
         if (!res.ok) return Response.json({ error: `读取列表失败 (${res.status})` }, { status: res.status });
         const items = await res.json();
-        const files = (Array.isArray(items) ? items : [])
+        const mdItems = (Array.isArray(items) ? items : [])
           .filter(item => item.type === 'file' && item.name.endsWith('.md'))
-          .map(item => ({ name: item.name, path: item.path, sha: item.sha, size: item.size }))
           .sort((a, b) => b.name.localeCompare(a.name));
+        const files = await Promise.all(mdItems.map(async item => {
+          let title = '';
+          try {
+            const fRes = await gh(`contents/${encodeGitHubPath(item.path)}?ref=${BRANCH}`);
+            if (fRes.ok) {
+              const fData = await fRes.json();
+              const text = fromBase64Utf8(fData.content);
+              const fm = /^---\r?\n([\s\S]*?)\r?\n---/.exec(text);
+              const m = fm && /^title:\s*(.+)$/m.exec(fm[1]);
+              if (m) title = m[1].trim().replace(/^["']|["']$/g, '');
+            }
+          } catch { /* fallback to filename */ }
+          return { name: item.name, path: item.path, sha: item.sha, size: item.size, title };
+        }));
         return Response.json({ files });
       }
 
