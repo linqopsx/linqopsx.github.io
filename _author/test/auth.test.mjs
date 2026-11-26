@@ -174,3 +174,46 @@ test('public styling never forwards browser credentials, and static assets canno
   assert.equal(config.assets.run_worker_first, true);
   assert.equal(config.preview_urls, false);
 });
+
+
+test('content API requires author session, same-origin on writes, and strict path allowlist', async () => {
+  const site = fixture();
+  site.env.GITHUB_CONTENT_TOKEN = 'test-content-pat';
+  // Unauthenticated blocked
+  assert.equal((await site.send('/api/status')).status, 401);
+  assert.equal((await site.send('/api/list?collection=posts')).status, 401);
+
+  const login = await startLogin(site);
+  const session = getCookie(await finishLogin(site, login), sessionName);
+
+  // Status works when signed in
+  const statusRes = await site.send('/api/status', { headers: { Cookie: session } });
+  assert.equal(statusRes.status, 200);
+  assert.equal((await statusRes.json()).contentTokenConfigured, true);
+
+  // Cross-origin write rejected
+  const crossPut = await site.send('/api/file', {
+    method: 'PUT',
+    headers: { Cookie: session, Origin: 'https://evil.example', 'Content-Type': 'application/json' },
+    body: JSON.stringify({ path: '_posts/test.md', content: 'hi' })
+  });
+  assert.equal(crossPut.status, 403);
+
+  // Disallowed path rejected (path traversal & config files)
+  for (const badPath of ['../_config.yml', '_config.yml', '_author/src/worker.mjs', '_posts/../secret.md']) {
+    const res = await site.send('/api/file', {
+      method: 'PUT',
+      headers: { Cookie: session, Origin: origin, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ path: badPath, content: 'hi' })
+    });
+    assert.equal(res.status, 400, badPath);
+  }
+
+  // Deleting _tabs/about.md is rejected
+  const delAbout = await site.send('/api/file', {
+    method: 'DELETE',
+    headers: { Cookie: session, Origin: origin, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ path: '_tabs/about.md', sha: 'abc' })
+  });
+  assert.equal(delAbout.status, 400);
+});

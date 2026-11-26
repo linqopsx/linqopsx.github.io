@@ -80,6 +80,45 @@ function loginPage(env, { status = 200, title = '作者登录', message = '使�
   </style></head><body><header><a href="${env.BLOG_URL}">Theodore<span>.</span></a></header><main><div class="avatar"><img src="/assets/img/avatar.png" width="68" height="68" alt="Theodore"></div><span class="eyebrow">THEODORE · 写作后台</span><h1>${title}</h1><p>${message}</p><a class="button" href="/auth/login?next=${encodeURIComponent(next)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.3c-3.3.7-4-1.4-4-1.4-.5-1.3-1.3-1.6-1.3-1.6-1.1-.8.1-.8.1-.8 1.2.1 1.9 1.2 1.9 1.2 1.1 1.9 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6a4.7 4.7 0 0 1 1.2-3.2c-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1a4.7 4.7 0 0 1 1.2 3.2c0 4.7-2.8 5.7-5.5 6 .5.4.8 1.1.8 2.2v3.3c0 .4.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>使用 GitHub 登录</a><a class="back" href="${env.BLOG_URL}">← 返回博客阅读</a><p class="note">此处仅供博客作者使用。登录其他 GitHub 账号无法进入管理页。</p></main></body></html>`, { status, headers: { 'Content-Type': 'text/html; charset=utf-8' } });
 }
 
+const REPO = 'linqopsx/linqopsx.github.io';
+const BRANCH = 'main';
+const MAX_UPLOAD_BYTES = 5 * 1024 * 1024;
+
+function isAllowedContentPath(path, allowDelete = false) {
+  if (typeof path !== 'string' || !path || path.length > 240 || path.includes('..') || path.includes('\\')) return false;
+  if (/^_(posts|updates)\/[^/]+\.md$/.test(path)) return true;
+  if (!allowDelete && path === '_tabs/about.md') return true;
+  return false;
+}
+
+function encodeGitHubPath(path) {
+  return path.split('/').map(encodeURIComponent).join('/');
+}
+
+function toBase64Utf8(text) {
+  const bytes = encoder.encode(text);
+  let binary = '';
+  for (let i = 0; i < bytes.length; i += 0x8000) {
+    binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+  }
+  return btoa(binary);
+}
+
+function fromBase64Utf8(base64) {
+  const binary = atob((base64 || '').replace(/\s+/g, ''));
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  return new TextDecoder().decode(bytes);
+}
+
+function sanitizeImageName(raw) {
+  const base = String(raw || 'image.png').split(/[\\/]/).pop().toLowerCase();
+  const match = /^([a-z0-9._-]{1,80})\.(png|jpe?g|webp|gif|svg)$/i.exec(base.replace(/[^a-z0-9._-]+/g, '-'));
+  const ext = match ? match[2].toLowerCase() : 'png';
+  const stem = (match ? match[1] : 'image').replace(/^-+|-+$/g, '').slice(0, 40) || 'image';
+  return `${stem}.${ext}`;
+}
+
 export function createApp({ fetchImpl = fetch, now = () => Math.floor(Date.now() / 1000) } = {}) {
   return {
     async fetch(request, env) {
@@ -98,7 +137,7 @@ export function createApp({ fetchImpl = fetch, now = () => Math.floor(Date.now()
     const configured = Boolean(env.GITHUB_CLIENT_ID && env.GITHUB_CLIENT_SECRET && env.SESSION_SECRET);
 
     if (url.pathname === '/health' && request.method === 'GET') {
-      return Response.json({ ok: true, configured });
+      return Response.json({ ok: true, configured, editorConfigured: Boolean(env.GITHUB_CONTENT_TOKEN) });
     }
     if (url.pathname === '/auth/logout' && request.method === 'POST') {
       if (request.headers.get('Origin') !== origin) return new Response('Forbidden', { status: 403 });
@@ -107,6 +146,119 @@ export function createApp({ fetchImpl = fetch, now = () => Math.floor(Date.now()
       response.headers.append('Set-Cookie', cookie(OAUTH, '', 0));
       return response;
     }
+
+    // Authenticated Author Content API (strictly scoped to blog repository allowlist)
+    if (url.pathname.startsWith('/api/')) {
+      if (!configured) return Response.json({ error: '服务未完成配置' }, { status: 503 });
+      const jar = cookies(request);
+      const session = await verify(jar.get(SESSION), env.SESSION_SECRET, 'session', now());
+      if (session?.sub !== env.AUTHOR_ID) return Response.json({ error: '需要作者登录' }, { status: 401 });
+      if (request.method !== 'GET' && request.headers.get('Origin') !== origin) {
+        return Response.json({ error: '非法来源请求' }, { status: 403 });
+      }
+      if (url.pathname === '/api/status' && request.method === 'GET') {
+        return Response.json({ ok: true, contentTokenConfigured: Boolean(env.GITHUB_CONTENT_TOKEN), repo: REPO, branch: BRANCH });
+      }
+      if (!env.GITHUB_CONTENT_TOKEN) {
+        return Response.json({ error: '尚未配置 GITHUB_CONTENT_TOKEN，请先在 Cloudflare Secrets 中添加单仓库写入令牌。' }, { status: 503 });
+      }
+      const ghHeaders = {
+        Accept: 'application/vnd.github+json',
+        Authorization: `Bearer ${env.GITHUB_CONTENT_TOKEN}`,
+        'User-Agent': 'Theodore-Blog-Author',
+        'X-GitHub-Api-Version': '2022-11-28'
+      };
+      const gh = (apiPath, init = {}) => fetchImpl(`https://api.github.com/repos/${REPO}/${apiPath}`, {
+        ...init,
+        headers: { ...ghHeaders, ...(init.headers || {}) },
+        signal: AbortSignal.timeout(20000)
+      });
+
+      if (url.pathname === '/api/list' && request.method === 'GET') {
+        const col = url.searchParams.get('collection');
+        const dir = col === 'updates' ? '_updates' : col === 'posts' ? '_posts' : null;
+        if (!dir) return Response.json({ error: '无效集合' }, { status: 400 });
+        const res = await gh(`contents/${dir}?ref=${BRANCH}`);
+        if (!res.ok) return Response.json({ error: `读取列表失败 (${res.status})` }, { status: res.status });
+        const items = await res.json();
+        const files = (Array.isArray(items) ? items : [])
+          .filter(item => item.type === 'file' && item.name.endsWith('.md'))
+          .map(item => ({ name: item.name, path: item.path, sha: item.sha, size: item.size }))
+          .sort((a, b) => b.name.localeCompare(a.name));
+        return Response.json({ files });
+      }
+
+      if (url.pathname === '/api/file' && request.method === 'GET') {
+        const filePath = url.searchParams.get('path');
+        if (!isAllowedContentPath(filePath)) return Response.json({ error: '路径不在允许范围内' }, { status: 400 });
+        const res = await gh(`contents/${encodeGitHubPath(filePath)}?ref=${BRANCH}`);
+        if (!res.ok) return Response.json({ error: `读取文件失败 (${res.status})` }, { status: res.status });
+        const data = await res.json();
+        return Response.json({ path: data.path, name: data.name, sha: data.sha, content: fromBase64Utf8(data.content) });
+      }
+
+      if (url.pathname === '/api/file' && request.method === 'PUT') {
+        const body = await request.json();
+        if (!isAllowedContentPath(body?.path) || typeof body?.content !== 'string') {
+          return Response.json({ error: '无效的文件路径或内容' }, { status: 400 });
+        }
+        const payload = {
+          message: String(body.message || `Update ${body.path}`).slice(0, 120),
+          content: toBase64Utf8(body.content),
+          branch: BRANCH
+        };
+        if (typeof body.sha === 'string' && body.sha) payload.sha = body.sha;
+        const res = await gh(`contents/${encodeGitHubPath(body.path)}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) return Response.json({ error: data.message || `保存失败 (${res.status})` }, { status: res.status });
+        return Response.json({ ok: true, path: data.content?.path || body.path, sha: data.content?.sha, commit: data.commit?.sha });
+      }
+
+      if (url.pathname === '/api/file' && request.method === 'DELETE') {
+        const body = await request.json();
+        if (!isAllowedContentPath(body?.path, true) || typeof body?.sha !== 'string' || !body.sha) {
+          return Response.json({ error: '无效的删除请求' }, { status: 400 });
+        }
+        const res = await gh(`contents/${encodeGitHubPath(body.path)}`, {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: String(body.message || `Delete ${body.path}`).slice(0, 120),
+            sha: body.sha,
+            branch: BRANCH
+          })
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) return Response.json({ error: data.message || `删除失败 (${res.status})` }, { status: res.status });
+        return Response.json({ ok: true });
+      }
+
+      if (url.pathname === '/api/upload' && request.method === 'POST') {
+        const body = await request.json();
+        const b64 = typeof body?.base64 === 'string' ? body.base64.replace(/^data:[^;]+;base64,/, '').replace(/\s+/g, '') : '';
+        if (!b64 || b64.length > Math.ceil(MAX_UPLOAD_BYTES * 4 / 3) + 64) {
+          return Response.json({ error: '图片无效或超过 5MB 限制' }, { status: 400 });
+        }
+        const safeName = sanitizeImageName(body?.filename);
+        const stamped = `${now()}-${safeName}`;
+        const targetPath = `assets/img/uploads/${stamped}`;
+        const res = await gh(`contents/${encodeGitHubPath(targetPath)}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: `Upload image ${stamped}`, content: b64, branch: BRANCH })
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) return Response.json({ error: data.message || `图片上传失败 (${res.status})` }, { status: res.status });
+        return Response.json({ ok: true, path: targetPath, url: `/${targetPath}` });
+      }
+
+      return Response.json({ error: '接口不存在' }, { status: 404 });
+    }
+
     if (!['GET', 'HEAD'].includes(request.method)) return new Response('Method not allowed', { status: 405 });
 
     // These files are public blog styling only. Never forward the author's cookies to the blog.

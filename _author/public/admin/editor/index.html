@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="zh-CN" data-bs-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>写作编辑器 · Theodore 的博客</title>
+  <link rel="stylesheet" href="/assets/css/morning.css?v=20261126">
+  <link rel="stylesheet" href="/assets/css/writing-dashboard.css?v=20261126">
+  <style>
+    .ed-wrap{width:min(1260px,calc(100% - 32px));margin:18px auto 48px;display:grid;grid-template-columns:280px minmax(0,1fr);gap:18px;align-items:start}
+    .ed-card{background:#fff;border-radius:24px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 8px 24px -14px rgba(0,0,0,.1);padding:18px}
+    .ed-sidebar{position:sticky;top:82px;display:flex;flex-direction:column;gap:12px;max-height:calc(100svh - 100px)}
+    .ed-seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:4px;border-radius:999px;background:#f2f2f7}
+    .ed-seg button{border:0;height:32px;border-radius:999px;background:transparent;color:rgba(60,60,67,.72);font-size:13px;font-weight:600;transition:.15s}
+    .ed-seg button.is-active{background:#fff;color:#000;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+    .ed-side-bar{display:flex;gap:8px}
+    .ed-input,.ed-textarea{width:100%;border:1px solid rgba(60,60,67,.14);border-radius:12px;background:#f8f9fb;color:#1c1c1e;font:inherit;font-size:14px;padding:9px 12px;transition:border-color .15s,background .15s}
+    .ed-input:focus,.ed-textarea:focus{outline:none;border-color:#007aff;background:#fff}
+    .ed-search{border-radius:999px;height:36px;padding:0 14px}
+    .ed-file-list{overflow:auto;display:flex;flex-direction:column;gap:4px;padding-right:2px}
+    .ed-file-item{width:100%;text-align:left;border:0;padding:10px 12px;border-radius:14px;background:transparent;color:#1c1c1e;display:flex;flex-direction:column;gap:2px;transition:background .14s}
+    .ed-file-item:hover{background:#f2f2f7}
+    .ed-file-item.is-active{background:rgba(0,122,255,.11);color:#007aff}
+    .ed-file-name{font-size:13.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .ed-file-sub{font-size:11.5px;color:rgba(60,60,67,.58);font-family:ui-monospace,monospace}
+    .ed-banner{padding:14px 18px;border-radius:18px;background:rgba(0,122,255,.09);border:1px solid rgba(0,122,255,.22);color:#1c1c1e;font-size:13.5px;line-height:1.65;margin-bottom:16px}
+    .ed-banner strong{color:#007aff}
+    .ed-main{padding:24px 26px}
+    .ed-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-bottom:16px;margin-bottom:18px;border-bottom:1px solid rgba(60,60,67,.1)}
+    .ed-top-title{font-size:1.25rem;font-weight:750;margin:0;color:#000}
+    .ed-path{font-size:12px;color:rgba(60,60,67,.58);font-family:ui-monospace,monospace}
+    .ed-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:16px}
+    .ed-field{display:flex;flex-direction:column;gap:5px}
+    .ed-field.full{grid-column:1/-1}
+    .ed-field label{font-size:12.5px;font-weight:600;color:rgba(60,60,67,.76)}
+    .ed-row-inline{display:flex;gap:8px;align-items:center}
+    .ed-toggles{display:flex;flex-wrap:wrap;gap:14px;padding:12px 14px;border-radius:14px;background:#f2f2f7;margin-bottom:16px}
+    .ed-toggle{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:500;color:#1c1c1e;cursor:pointer}
+    .ed-toggle input{accent-color:#007aff;width:16px;height:16px}
+    .ed-toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:8px 10px;border:1px solid rgba(60,60,67,.12);border-bottom:0;border-radius:16px 16px 0 0;background:#f8f9fb}
+    .ed-tools{display:flex;flex-wrap:wrap;gap:4px}
+    .ed-tool-btn{border:0;height:30px;padding:0 10px;border-radius:8px;background:transparent;color:#1c1c1e;font-size:12.5px;font-weight:600}
+    .ed-tool-btn:hover{background:rgba(0,0,0,.06);color:#007aff}
+    .ed-modes{display:inline-flex;gap:3px;padding:3px;border-radius:999px;background:#e9ecf2}
+    .ed-modes button{border:0;height:26px;padding:0 10px;border-radius:999px;background:transparent;font-size:12px;font-weight:600;color:rgba(60,60,67,.72)}
+    .ed-modes button.is-active{background:#fff;color:#007aff;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+    .ed-panes{display:grid;grid-template-columns:1fr 1fr;border:1px solid rgba(60,60,67,.12);border-radius:0 0 16px 16px;overflow:hidden;min-height:440px}
+    .ed-panes[data-mode="edit"]{grid-template-columns:1fr}.ed-panes[data-mode="edit"] .ed-preview{display:none}
+    .ed-panes[data-mode="preview"]{grid-template-columns:1fr}.ed-panes[data-mode="preview"] .ed-editor-area{display:none}
+    .ed-editor-area{width:100%;min-height:440px;border:0;padding:16px;font:14.5px/1.75 ui-monospace,"SF Mono",Consolas,"PingFang SC",monospace;color:#1c1c1e;background:#fff;resize:vertical}
+    .ed-editor-area:focus{outline:none}
+    .ed-preview{padding:18px 22px;background:#fafbfd;border-left:1px solid rgba(60,60,67,.1);overflow:auto;font-size:15px;line-height:1.8;color:#1c1c1e}
+    .ed-preview h1,.ed-preview h2,.ed-preview h3{margin:1em 0 .45em;font-weight:750;color:#000}
+    .ed-preview pre{background:#1c1c1e;color:#f5f5f7;padding:12px 14px;border-radius:12px;overflow:auto;font-size:13px}
+    .ed-preview code{background:#eef1f6;padding:2px 6px;border-radius:5px;font-size:.88em}
+    .ed-preview pre code{background:transparent;padding:0;color:inherit}
+    .ed-preview blockquote{margin:10px 0;padding:10px 14px;border-left:3px solid #007aff;background:rgba(0,122,255,.08);border-radius:0 12px 12px 0}
+    .ed-preview img{max-width:100%;border-radius:12px}
+    .ed-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:18px;padding-top:16px;border-top:1px solid rgba(60,60,67,.1)}
+    .ed-status{font-size:13.5px;color:rgba(60,60,67,.74)}
+    .ed-status.is-error{color:#d70015;font-weight:600}
+    .ed-status.is-ok{color:#1d8f3c;font-weight:600}
+    .ed-danger{border:1px solid rgba(255,59,48,.35);background:rgba(255,59,48,.08);color:#d70015;height:40px;padding:0 16px;border-radius:999px;font-size:14px;font-weight:600}
+    .ed-danger:hover{background:rgba(255,59,48,.16)}
+    @media(max-width:960px){.ed-wrap{grid-template-columns:1fr}.ed-sidebar{position:static;max-height:300px}.ed-grid,.ed-panes{grid-template-columns:1fr}.ed-preview{border-left:0;border-top:1px solid rgba(60,60,67,.1)}}
+  </style>
+</head>
+<body class="morning-site writing-dashboard">
+  <header class="writing-header">
+    <a class="writing-brand" href="/admin/">Theodore<span>.</span> 写作台</a>
+    <nav class="writing-nav" aria-label="后台导航">
+      <a href="/admin/">后台首页</a>
+      <a href="/admin/editor/" aria-current="page">写作编辑器</a>
+      <a href="/admin/downloads/">软件上传</a>
+      <a href="https://linqopsx.github.io/" target="_blank" rel="noopener noreferrer">查看博客 ↗</a>
+    </nav>
+  </header>
+
+  <section class="writing-hero" style="padding:84px 0 54px" aria-label="写作工作台横幅">
+    <img class="writing-hero-bg" src="/assets/img/morning/hero-fish.webp" width="800" height="450" alt="">
+    <div class="writing-hero-scrim" aria-hidden="true"></div>
+    <div class="writing-hero-inner" style="width:min(1260px,calc(100% - 32px))">
+      <div class="writing-hero-copy">
+        <div class="writing-avatar" style="width:54px;height:54px;flex-basis:54px">
+          <img src="/assets/img/avatar.png" width="54" height="54" alt="Theodore">
+        </div>
+        <div>
+          <h1 style="font-size:clamp(1.4rem,2.6vw,1.85rem)">专属 Markdown 写作台</h1>
+          <p class="writing-hero-lead">支持文章、更新公告与关于我编辑，粘贴图片自动上传，保存直推 main 自动发布。</p>
+        </div>
+      </div>
+      <div class="writing-primary">
+        <button type="button" class="writing-button" data-new-entry>+ 新建文章</button>
+        <button type="button" class="writing-secondary" data-save-top>保存并发布</button>
+      </div>
+    </div>
+    <div class="writing-waves" aria-hidden="true">
+      <svg viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs><path id="ed-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"/></defs>
+        <g class="poetize-wave-parallax">
+          <use href="#ed-wave" x="48" y="0" class="wave-back"/>
+          <use href="#ed-wave" x="48" y="4" class="wave-mid"/>
+          <use href="#ed-wave" x="48" y="7" class="wave-front"/>
+        </g>
+      </svg>
+    </div>
+  </section>
+
+  <div class="ed-wrap">
+    <aside class="ed-card ed-sidebar" aria-label="文章列表">
+      <div class="ed-seg" role="tablist">
+        <button type="button" class="is-active" data-col="posts">公开文章</button>
+        <button type="button" data-col="updates">更新公告</button>
+        <button type="button" data-col="about">关于我</button>
+      </div>
+      <div class="ed-side-bar">
+        <input class="ed-input ed-search" type="search" data-filter placeholder="筛选文件名…">
+      </div>
+      <div class="ed-file-list" data-file-list>
+        <p class="writing-note" style="margin:8px 6px!important">正在读取仓库文件…</p>
+      </div>
+    </aside>
+
+    <main class="ed-card ed-main">
+      <div class="ed-banner" data-token-banner hidden>
+        <strong>还差最后一步即可直接读写文章：</strong>请在 Cloudflare Secrets 中为 <code>theodore-blog-author</code> 添加一枚仅限 <code>linqopsx/linqopsx.github.io</code> 仓库 Contents 读写权限的令牌（Secret 名为 <code>GITHUB_CONTENT_TOKEN</code>）。配置完成前，您仍可先体验排版与实时预览。
+      </div>
+
+      <div class="ed-top">
+        <div>
+          <h2 class="ed-top-title" data-editor-heading>新建公开文章</h2>
+          <div class="ed-path" data-file-path>_posts/新建文件</div>
+        </div>
+        <div class="ed-row-inline">
+          <button type="button" class="writing-refresh" data-reload-list>刷新列表</button>
+        </div>
+      </div>
+
+      <form data-editor-form>
+        <div class="ed-grid" data-meta-grid>
+          <div class="ed-field full">
+            <label for="f-title">标题 *</label>
+            <input class="ed-input" id="f-title" name="title" placeholder="输入文章标题" required>
+          </div>
+          <div class="ed-field">
+            <label for="f-date">发布时间（北京时间 +0800）*</label>
+            <input class="ed-input" id="f-date" name="date" placeholder="2026-11-26 19:20:00 +0800" required>
+          </div>
+          <div class="ed-field" data-post-only>
+            <label for="f-categories">分类（最多两级，用逗号分隔）</label>
+            <input class="ed-input" id="f-categories" name="categories" placeholder="例如：agent开发, 学习笔记">
+          </div>
+          <div class="ed-field" data-post-only>
+            <label for="f-tags">标签（多个用逗号分隔）</label>
+            <input class="ed-input" id="f-tags" name="tags" placeholder="例如：Agent, Python, GitHub">
+          </div>
+          <div class="ed-field" data-post-only>
+            <label for="f-image">封面图片（可选）</label>
+            <div class="ed-row-inline">
+              <input class="ed-input" id="f-image" name="image" placeholder="/assets/img/uploads/...">
+              <button type="button" class="writing-refresh" data-upload-cover>上传</button>
+            </div>
+          </div>
+          <div class="ed-field full">
+            <label for="f-description">摘要 / 邮件更新简介</label>
+            <input class="ed-input" id="f-description" name="description" placeholder="一两句话概括这篇内容">
+          </div>
+        </div>
+
+        <div class="ed-toggles" data-toggles>
+          <label class="ed-toggle" data-post-only><input type="checkbox" id="f-comments" checked> 开放留言评论</label>
+          <label class="ed-toggle" data-post-only><input type="checkbox" id="f-pin"> 首页置顶</label>
+          <label class="ed-toggle" data-post-only><input type="checkbox" id="f-math"> 数学公式</label>
+          <label class="ed-toggle" data-post-only><input type="checkbox" id="f-mermaid"> 流程图</label>
+          <label class="ed-toggle" data-update-only hidden><input type="checkbox" id="f-published"> 发布公告（进入邮件订阅源）</label>
+        </div>
+
+        <div class="ed-toolbar">
+          <div class="ed-tools">
+            <button type="button" class="ed-tool-btn" data-insert="## ">H2</button>
+            <button type="button" class="ed-tool-btn" data-insert="### ">H3</button>
+            <button type="button" class="ed-tool-btn" data-wrap="**">加粗</button>
+            <button type="button" class="ed-tool-btn" data-wrap="*">斜体</button>
+            <button type="button" class="ed-tool-btn" data-wrap="`">行内代码</button>
+            <button type="button" class="ed-tool-btn" data-insert="> ">引用</button>
+            <button type="button" class="ed-tool-btn" data-insert="```&#10;&#10;```&#10;">代码块</button>
+            <button type="button" class="ed-tool-btn" data-insert="[链接文字](https://)">链接</button>
+            <button type="button" class="ed-tool-btn" data-upload-inline>插入图片</button>
+          </div>
+          <div class="ed-modes" role="tablist">
+            <button type="button" data-mode-btn="edit">纯编辑</button>
+            <button type="button" class="is-active" data-mode-btn="split">分栏预览</button>
+            <button type="button" data-mode-btn="preview">纯预览</button>
+          </div>
+        </div>
+
+        <div class="ed-panes" data-panes data-mode="split">
+          <textarea class="ed-editor-area" id="f-body" name="body" placeholder="在这里用 Markdown 写作（支持直接 Ctrl+V 粘贴截图自动上传）…"></textarea>
+          <div class="ed-preview" data-preview></div>
+        </div>
+
+        <div class="ed-footer">
+          <span class="ed-status" data-status role="status" aria-live="polite">就绪</span>
+          <div class="ed-row-inline">
+            <button type="button" class="ed-danger" data-delete hidden>删除</button>
+            <button type="submit" class="writing-button" data-save>保存并发布</button>
+          </div>
+        </div>
+      </form>
+      <input type="file" accept="image/*" data-file-picker hidden>
+    </main>
+  </div>
+
+  <script type="module" src="/admin/editor/editor.js?v=20261126"></script>
+</body>
+</html>
