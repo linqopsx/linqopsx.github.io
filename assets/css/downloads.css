@@ -1,18 +1,252 @@
-#software-downloads{--dl-border:#d9e1eb;--dl-muted:#64748b;--dl-accent:#245bd1;--dl-bg:#f7f9fc;margin-top:1.5rem}
-#software-downloads .download-toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:24px 0 8px}
-#software-downloads input{flex:1;min-width:150px;border:1px solid var(--dl-border);border-radius:10px;padding:11px 14px;background:transparent;color:inherit;font:inherit}
-#software-downloads button,#software-downloads .download-primary{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:8px 14px;border:1px solid var(--dl-border);border-radius:9px;font:inherit;font-size:14px;cursor:pointer;background:transparent;color:inherit;text-decoration:none;box-sizing:border-box}
-#software-downloads button:disabled{opacity:.55;cursor:wait}
-#software-downloads .download-primary{color:#fff;background:var(--dl-accent);border-color:var(--dl-accent)}
-#software-downloads .download-card{padding:22px 0;border-bottom:1px solid var(--dl-border);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-#software-downloads .download-info{flex:1;min-width:180px}
-#software-downloads .download-name{font-size:18px;line-height:1.5;margin:0;overflow-wrap:anywhere}
-#software-downloads .download-meta,#software-downloads [data-status],#software-downloads [data-count]{font-size:13px;color:var(--dl-muted);margin:6px 0}
-#software-downloads .download-actions{display:flex;gap:8px;flex-wrap:wrap}
-#software-downloads .download-empty{padding:32px 20px;background:var(--dl-bg);border-radius:12px;color:var(--dl-muted);line-height:1.8}
-#software-downloads .download-checksum{width:100%;font-size:13px;color:var(--dl-muted)}
-#software-downloads .download-checksum code{display:block;overflow-wrap:anywhere;margin-top:8px}
-#software-downloads textarea{width:100%;min-height:90px;font:13px/1.6 monospace;box-sizing:border-box}
-#software-downloads :focus-visible{outline:3px solid #90b4ff;outline-offset:3px}
-html[data-bs-theme=dark] #software-downloads{--dl-border:#354155;--dl-muted:#a2adc0;--dl-bg:#202733;--dl-accent:#386fe7}
-@media(max-width:560px){#software-downloads .download-card{align-items:flex-start}#software-downloads .download-info,#software-downloads .download-actions{width:100%}#software-downloads .download-actions button,#software-downloads .download-actions a{flex:1;font-size:12px;padding:8px}}
+/* ==========================================================================
+   Downloads Page — iOS 26 Inset Grouped Component Styling
+   ========================================================================== */
+
+#software-downloads {
+  --dl-border: var(--ios-sep, rgba(60, 60, 67, 0.14));
+  --dl-muted: var(--ios-muted, rgba(60, 60, 67, 0.72));
+  --dl-accent: var(--ios-blue, #007aff);
+  --dl-accent-hover: var(--ios-blue-hover, #0066d6);
+  --dl-bg: var(--ios-surface-2, #f2f2f7);
+  --dl-surface: var(--ios-surface, #ffffff);
+  margin-top: 1.5rem;
+}
+
+#software-downloads .download-toolbar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 20px 0 12px;
+}
+
+#software-downloads input {
+  flex: 1;
+  min-width: 180px;
+  height: 42px;
+  border: 1px solid var(--dl-border);
+  border-radius: 999px;
+  padding: 0 16px;
+  background: var(--dl-bg);
+  color: inherit;
+  font: inherit;
+  font-size: 0.92rem;
+  transition: border-color 0.16s ease, background-color 0.16s ease;
+}
+
+#software-downloads input:focus {
+  outline: none;
+  border-color: var(--dl-accent);
+  background: var(--dl-surface);
+}
+
+#software-downloads button,
+#software-downloads .download-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 14px;
+  border: 1px solid var(--dl-border);
+  border-radius: 999px;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 500;
+  cursor: pointer;
+  background: var(--dl-bg);
+  color: inherit;
+  text-decoration: none;
+  box-sizing: border-box;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+#software-downloads button:hover {
+  border-color: var(--dl-accent);
+  color: var(--dl-accent);
+}
+
+#software-downloads button[data-copied="true"] {
+  border-color: var(--ios-green, #34c759);
+  background: var(--ios-green-soft, rgba(52, 199, 89, 0.12));
+  color: var(--ios-green, #34c759);
+}
+
+#software-downloads button:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+#software-downloads .download-primary {
+  color: #ffffff !important;
+  background: var(--dl-accent);
+  border-color: var(--dl-accent);
+  font-weight: 600;
+}
+
+#software-downloads .download-primary:hover {
+  background: var(--dl-accent-hover);
+  border-color: var(--dl-accent-hover);
+  color: #ffffff !important;
+}
+
+#software-downloads [data-file-list] {
+  border-radius: 20px;
+  border: 1px solid var(--dl-border);
+  background: var(--dl-surface);
+  overflow: hidden;
+  margin-block: 12px 16px;
+}
+
+#software-downloads .download-card {
+  position: relative;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  transition: background-color 0.15s ease;
+}
+
+#software-downloads .download-card + .download-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 20px;
+  right: 20px;
+  height: 1px;
+  background: var(--dl-border);
+}
+
+#software-downloads .download-card:hover {
+  background: var(--ios-row-hover, rgba(120, 120, 128, 0.06));
+}
+
+#software-downloads .download-lead {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+  min-width: 200px;
+}
+
+#software-downloads .download-ext {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  border-radius: 12px;
+  font-family: var(--ios-mono, ui-monospace, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  background: var(--ios-blue-soft, rgba(0, 122, 255, 0.11));
+  color: var(--dl-accent);
+}
+
+#software-downloads .download-ext[data-kind="archive"] {
+  background: var(--ios-indigo-soft, rgba(88, 86, 214, 0.12));
+  color: var(--ios-indigo, #5856d6);
+}
+
+#software-downloads .download-ext[data-kind="mobile"] {
+  background: var(--ios-green-soft, rgba(52, 199, 89, 0.12));
+  color: var(--ios-green, #34c759);
+}
+
+#software-downloads .download-ext[data-kind="mac"] {
+  background: var(--ios-orange-soft, rgba(255, 149, 0, 0.12));
+  color: var(--ios-orange, #ff9500);
+}
+
+#software-downloads .download-info {
+  flex: 1;
+  min-width: 0;
+}
+
+#software-downloads .download-name {
+  font-size: 1rem;
+  font-weight: 650;
+  line-height: 1.4;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  overflow-wrap: anywhere;
+}
+
+#software-downloads .download-meta,
+#software-downloads [data-status],
+#software-downloads [data-count] {
+  font-size: 0.8rem;
+  color: var(--dl-muted);
+  margin: 4px 0;
+}
+
+#software-downloads .download-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+#software-downloads .download-empty {
+  padding: 32px 20px;
+  margin: 0;
+  background: var(--dl-bg);
+  color: var(--dl-muted);
+  line-height: 1.8;
+  text-align: center;
+}
+
+#software-downloads .download-checksum {
+  width: 100%;
+  font-size: 0.78rem;
+  color: var(--dl-muted);
+  padding-left: 56px;
+}
+
+#software-downloads .download-checksum code {
+  display: block;
+  overflow-wrap: anywhere;
+  margin-top: 6px;
+}
+
+#software-downloads textarea {
+  width: 100%;
+  min-height: 84px;
+  font: 13px/1.6 monospace;
+  box-sizing: border-box;
+  border-radius: 12px;
+  padding: 8px 12px;
+}
+
+#software-downloads :focus-visible {
+  outline: 2px solid var(--dl-accent);
+  outline-offset: 2px;
+}
+
+@media (max-width: 560px) {
+  #software-downloads .download-card {
+    align-items: flex-start;
+    padding: 16px;
+  }
+
+  #software-downloads .download-lead,
+  #software-downloads .download-actions {
+    width: 100%;
+  }
+
+  #software-downloads .download-actions button,
+  #software-downloads .download-actions a {
+    flex: 1;
+    font-size: 0.78rem;
+    padding: 0 10px;
+  }
+
+  #software-downloads .download-checksum {
+    padding-left: 0;
+  }
+}

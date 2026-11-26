@@ -1,11 +1,172 @@
-.newsletter-box{margin:1.5rem 0 2.5rem;padding:1.75rem;border:1px solid var(--main-border-color,#dbe2ec);border-radius:16px;background:var(--card-bg,#f7f9fc)}
-.newsletter-kicker{font-size:.75rem;letter-spacing:.13em;color:var(--text-muted-color,#667085);margin-bottom:.6rem}
-.newsletter-box h2{margin:0 0 .9rem!important;font-size:1.55rem}.newsletter-box p{line-height:1.8}
-.newsletter-form>label:first-child{display:block;font-weight:600;margin:1.3rem 0 .5rem}.newsletter-fields{display:flex;gap:.75rem;flex-wrap:wrap}
-.newsletter-fields input{flex:1 1 220px;min-width:0;border:1px solid var(--main-border-color,#cbd5e1);border-radius:8px;background:var(--main-bg,#fff);color:var(--text-color,#172338);padding:.75rem 1rem;font:inherit}
-.newsletter-fields button{border:0;border-radius:8px;background:#285bd4;color:#fff;padding:.75rem 1.3rem;font:inherit;font-weight:600;cursor:pointer}
-.newsletter-consent{display:flex;align-items:flex-start;gap:.55rem;margin:1rem 0;font-size:.9rem}.newsletter-consent input{margin-top:.45rem;flex:none}
-.newsletter-note{font-size:.85rem;color:var(--text-muted-color,#667085);margin:.75rem 0 0}.newsletter-pending{padding:.8rem 1rem;border-radius:8px;border:1px dashed var(--main-border-color,#cbd5e1)}
-.newsletter-post-link{font-size:.9rem;white-space:nowrap;margin-right:1rem}.update-list{list-style:none;padding:0!important}.update-list li{padding:1.2rem 0;border-bottom:1px solid var(--main-border-color,#dbe2ec)}
-.update-list h3{margin:.35rem 0 .5rem;font-size:1.15rem}.update-list time,.update-date{font-size:.85rem;color:var(--text-muted-color,#667085)}
-@media(max-width:560px){.newsletter-box{padding:1.2rem}.newsletter-fields{display:block}.newsletter-fields input,.newsletter-fields button{width:100%}.newsletter-fields button{margin-top:.75rem}.newsletter-post-link{margin-right:.65rem}}
+/* ==========================================================================
+   Newsletter Subscribe Box & Updates List — iOS 26 Unified Component
+   ========================================================================== */
+
+.newsletter-box {
+  margin: 1rem 0 2.2rem;
+  padding: 26px 28px;
+  border: 1px solid var(--ios-sep, rgba(60, 60, 67, 0.14));
+  border-radius: 24px;
+  background: var(--ios-surface-2, #f2f2f7);
+}
+
+.newsletter-kicker {
+  font-size: 0.74rem;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  color: var(--ios-blue, #007aff);
+  margin: 0 0 8px;
+}
+
+.newsletter-box h2 {
+  margin: 0 0 10px !important;
+  padding: 0 !important;
+  border: none !important;
+  font-size: 1.45rem;
+  font-weight: 750;
+  letter-spacing: -0.02em;
+}
+
+.newsletter-box p {
+  line-height: 1.75;
+}
+
+.newsletter-form > label:first-child {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin: 18px 0 8px;
+  color: var(--ios-ink, #1c1c1e);
+}
+
+.newsletter-fields {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.newsletter-fields input {
+  flex: 1 1 220px;
+  min-width: 0;
+  height: 44px;
+  border: 1px solid var(--ios-sep, rgba(60, 60, 67, 0.14));
+  border-radius: 999px;
+  background: var(--ios-surface, #ffffff);
+  color: var(--ios-ink, #1c1c1e);
+  padding: 0 18px;
+  font: inherit;
+  font-size: 0.94rem;
+  transition: border-color 0.16s ease;
+}
+
+.newsletter-fields input:focus {
+  outline: none;
+  border-color: var(--ios-blue, #007aff);
+}
+
+.newsletter-fields button {
+  height: 44px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ios-blue, #007aff);
+  color: #ffffff;
+  padding: 0 22px;
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.16s ease;
+}
+
+.newsletter-fields button:hover {
+  background: var(--ios-blue-hover, #0066d6);
+}
+
+.newsletter-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 14px 0;
+  font-size: 0.88rem;
+  color: var(--ios-muted, rgba(60, 60, 67, 0.72));
+}
+
+.newsletter-consent input {
+  margin-top: 4px;
+  flex: none;
+  accent-color: var(--ios-blue, #007aff);
+}
+
+.newsletter-note {
+  font-size: 0.83rem;
+  color: var(--ios-muted, rgba(60, 60, 67, 0.72));
+  margin: 10px 0 0;
+}
+
+.newsletter-pending {
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: 1px dashed var(--ios-sep, rgba(60, 60, 67, 0.2));
+}
+
+.newsletter-post-link {
+  font-size: 0.88rem;
+  white-space: nowrap;
+  margin-right: 1rem;
+}
+
+.update-list {
+  list-style: none;
+  padding: 0 !important;
+  margin: 14px 0 0;
+  border-radius: 20px;
+  border: 1px solid var(--ios-sep, rgba(60, 60, 67, 0.14));
+  background: var(--ios-surface, #ffffff);
+  overflow: hidden;
+}
+
+.update-list li {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--ios-sep, rgba(60, 60, 67, 0.14));
+}
+
+.update-list li:last-child {
+  border-bottom: none;
+}
+
+.update-list h3 {
+  margin: 4px 0 6px;
+  font-size: 1.08rem;
+  font-weight: 650;
+}
+
+.update-list time,
+.update-date {
+  font-family: var(--ios-mono, ui-monospace, monospace);
+  font-size: 0.8rem;
+  color: var(--ios-muted, rgba(60, 60, 67, 0.72));
+}
+
+@media (max-width: 560px) {
+  .newsletter-box {
+    padding: 20px;
+    border-radius: 20px;
+  }
+
+  .newsletter-fields {
+    display: block;
+  }
+
+  .newsletter-fields input,
+  .newsletter-fields button {
+    width: 100%;
+  }
+
+  .newsletter-fields button {
+    margin-top: 10px;
+  }
+
+  .newsletter-post-link {
+    margin-right: 0.65rem;
+  }
+}

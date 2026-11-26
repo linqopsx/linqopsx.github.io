@@ -34,12 +34,28 @@ if (root) {
     try {
       await navigator.clipboard.writeText(text);
       status.textContent = '已复制，可以粘贴到文章中。';
+      const original = button.textContent;
+      button.dataset.copied = 'true';
+      button.textContent = '✓ 已复制';
+      setTimeout(() => {
+        delete button.dataset.copied;
+        button.textContent = original;
+      }, 1800);
     } catch {
       let input = button.parentElement.querySelector('textarea');
       if (!input) { input = node('textarea'); input.readOnly = true; input.setAttribute('aria-label', '待复制的下载链接'); button.parentElement.append(input); }
       input.value = text; input.focus(); input.select();
       status.textContent = '自动复制未成功，链接已选中，请按 Ctrl+C 复制。';
     }
+  }
+  function extInfo(name) {
+    const clean = name.replace(/\.\d+$/, '');
+    const match = /\.([a-z0-9]{1,5})$/i.exec(clean);
+    const ext = (match ? match[1] : 'file').toLowerCase();
+    const kind = /^(zip|7z|rar|tar|gz)$/.test(ext) ? 'archive'
+      : /^(apk|ipa)$/.test(ext) ? 'mobile'
+      : /^(dmg|pkg)$/.test(ext) ? 'mac' : 'app';
+    return { ext: ext.slice(0, 4), kind };
   }
   function render() {
     const keyword = search.value.trim().toLocaleLowerCase();
@@ -52,10 +68,16 @@ if (root) {
     }
     for (const asset of visible) {
       const card = node('article', undefined, 'download-card');
+      const lead = node('div', undefined, 'download-lead');
+      const badgeInfo = extInfo(asset.name);
+      const badge = node('span', badgeInfo.ext, 'download-ext');
+      badge.dataset.kind = badgeInfo.kind;
+      badge.setAttribute('aria-hidden', 'true');
       const info = node('div', undefined, 'download-info');
       info.append(node('h2', asset.name, 'download-name'));
       const date = new Date(asset.updated);
       info.append(node('p', formatSize(asset.size) + (Number.isNaN(date.getTime()) ? '' : ` · 更新于 ${date.toLocaleDateString('zh-CN', {timeZone: 'Asia/Shanghai'})}`), 'download-meta'));
+      lead.append(badge, info);
       const actions = node('div', undefined, 'download-actions');
       const download = node('a', '下载安装包', 'download-primary');
       download.href = asset.url; download.rel = 'noopener noreferrer';
@@ -64,7 +86,7 @@ if (root) {
         const button = node('button', label); button.type = 'button';
         button.addEventListener('click', () => copy(text, button)); actions.append(button);
       }
-      card.append(info, actions);
+      card.append(lead, actions);
       if (asset.digest) {
         const details = node('details', undefined, 'download-checksum');
         details.append(node('summary', '查看 SHA-256 校验值'), node('code', asset.digest.slice(7)));

@@ -27,7 +27,7 @@
   }
 
   const currentPath = location.pathname.replace(/\/+$/, '') || '/';
-  document.querySelectorAll('.morning-navigation nav a').forEach(link => {
+  document.querySelectorAll('.morning-navigation nav a, .ios-mobile-tabbar a').forEach(link => {
     const linkPath = new URL(link.href, location.origin).pathname.replace(/\/+$/, '') || '/';
     if (linkPath === currentPath) {
       link.setAttribute('aria-current', 'page');

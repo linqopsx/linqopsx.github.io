@@ -6,22 +6,28 @@
    ========================================================================== */
 
 .morning-site {
-  /* Content Layer — Light Mode (iOS System Grouped) */
+  /* Content Layer — Light Mode (Apple iOS 26 HIG Semantic Tokens) */
   --ios-canvas: #f2f2f7;
   --ios-surface: #ffffff;
   --ios-surface-2: #f2f2f7;
-  --ios-row-hover: #f7f7fa;
-  --ios-ink: #1c1c1e;
-  --ios-text: #2c2c2e;
-  --ios-muted: #6e6e73;
-  --ios-faint: #8e8e93;
-  --ios-sep: rgba(60, 60, 67, 0.12);
+  --ios-row-hover: rgba(120, 120, 128, 0.06);
+  --ios-ink: #000000;
+  --ios-text: #1c1c1e;
+  --ios-muted: rgba(60, 60, 67, 0.72);
+  --ios-faint: rgba(60, 60, 67, 0.42);
+  --ios-fill: rgba(120, 120, 128, 0.12);
+  --ios-sep: rgba(60, 60, 67, 0.14);
   --ios-blue: #007aff;
   --ios-blue-hover: #0066d6;
   --ios-blue-soft: rgba(0, 122, 255, 0.11);
   --ios-indigo: #5856d6;
   --ios-indigo-soft: rgba(88, 86, 214, 0.12);
   --ios-green: #34c759;
+  --ios-green-soft: rgba(52, 199, 89, 0.12);
+  --ios-orange: #ff9500;
+  --ios-orange-soft: rgba(255, 149, 0, 0.12);
+  --ios-red: #ff3b30;
+  --ios-red-soft: rgba(255, 59, 48, 0.12);
 
   /* Navigation Layer — Liquid Glass (Light) */
   --ios-glass-bg: rgba(255, 255, 255, 0.72);
@@ -75,22 +81,28 @@
 }
 
 [data-bs-theme="dark"] .morning-site {
-  /* Content Layer — Dark Mode (iOS Pure / Elevated Dark) */
+  /* Content Layer — Dark Mode (Apple iOS 26 HIG Semantic Tokens) */
   --ios-canvas: #000000;
   --ios-surface: #1c1c1e;
   --ios-surface-2: #2c2c2e;
-  --ios-row-hover: #242426;
-  --ios-ink: #f5f5f7;
-  --ios-text: #d1d1d6;
-  --ios-muted: #98989f;
-  --ios-faint: #636366;
-  --ios-sep: rgba(255, 255, 255, 0.11);
+  --ios-row-hover: rgba(120, 120, 128, 0.18);
+  --ios-ink: #ffffff;
+  --ios-text: #e5e5ea;
+  --ios-muted: rgba(235, 235, 245, 0.68);
+  --ios-faint: rgba(235, 235, 245, 0.36);
+  --ios-fill: rgba(120, 120, 128, 0.28);
+  --ios-sep: rgba(84, 84, 88, 0.45);
   --ios-blue: #0a84ff;
   --ios-blue-hover: #409cff;
   --ios-blue-soft: rgba(10, 132, 255, 0.18);
   --ios-indigo: #5e5ce6;
   --ios-indigo-soft: rgba(94, 92, 230, 0.22);
   --ios-green: #30d158;
+  --ios-green-soft: rgba(48, 209, 88, 0.16);
+  --ios-orange: #ff9f0a;
+  --ios-orange-soft: rgba(255, 159, 10, 0.16);
+  --ios-red: #ff453a;
+  --ios-red-soft: rgba(255, 69, 58, 0.16);
 
   /* Navigation Layer — Liquid Glass (Dark) */
   --ios-glass-bg: rgba(36, 36, 40, 0.72);
@@ -1177,7 +1189,261 @@
   .ios-row-chevron,
   .morning-navigation nav a,
   .morning-theme-toggle,
-  .morning-admin {
+  .morning-admin,
+  .ios-featured-card,
+  .ios-mobile-tabbar a {
     transition: none;
+  }
+}
+
+/* ==========================================================================
+   Scheme 1 + 2 Additions:
+   1. Featured Pinned Post Card
+   2. Post Reading Kit (Callouts, Prev/Next Nav Cards, Related Cards)
+   3. iOS 26 Mobile Floating Liquid Glass Bottom Tab Bar
+   ========================================================================== */
+
+.ios-featured-wrap {
+  padding-top: 14px;
+}
+
+.ios-featured-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: 24px;
+  padding: 26px 28px;
+  border-radius: 26px;
+  background: var(--ios-surface);
+  box-shadow: var(--ios-card-shadow);
+  overflow: hidden;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.ios-featured-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--ios-blue), var(--ios-indigo));
+}
+
+.ios-featured-card.has-cover {
+  grid-template-columns: minmax(0, 1.25fr) minmax(220px, 0.85fr);
+}
+
+.ios-featured-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px -14px rgba(0, 122, 255, 0.22), var(--ios-card-shadow);
+}
+
+.ios-featured-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--ios-blue-soft);
+  color: var(--ios-blue);
+  font-size: 0.74rem;
+  font-weight: 650;
+}
+
+.ios-featured-copy h2 {
+  margin: 8px 0 0;
+  font-size: clamp(1.32rem, 2.5vw, 1.62rem);
+  font-weight: 750;
+  line-height: 1.3;
+  letter-spacing: -0.025em;
+}
+
+.ios-featured-card:hover .ios-row-link {
+  color: var(--ios-blue);
+}
+
+.ios-featured-excerpt {
+  margin: 10px 0 0;
+  color: var(--ios-muted);
+  font-size: 0.94rem;
+  line-height: 1.65;
+}
+
+.ios-featured-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.ios-featured-footer .ios-row-tags {
+  margin-top: 0;
+}
+
+.ios-featured-cta {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--ios-blue);
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.ios-featured-thumb {
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  background: var(--ios-surface-2);
+}
+
+.ios-featured-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Post Reading Kit — iOS Callout Prompts */
+.morning-site blockquote[class^="prompt-"] {
+  border-radius: 18px;
+  border-left-width: 4px;
+  padding: 14px 18px 14px 44px;
+}
+
+.morning-site blockquote.prompt-tip {
+  border-left-color: var(--ios-green);
+  background: var(--ios-green-soft);
+}
+
+.morning-site blockquote.prompt-info {
+  border-left-color: var(--ios-blue);
+  background: var(--ios-blue-soft);
+}
+
+.morning-site blockquote.prompt-warning {
+  border-left-color: var(--ios-orange);
+  background: var(--ios-orange-soft);
+}
+
+.morning-site blockquote.prompt-danger {
+  border-left-color: var(--ios-red);
+  background: var(--ios-red-soft);
+}
+
+/* Post Reading Kit — Prev/Next & Related Post Squircle Cards */
+.morning-post .post-navigation {
+  gap: 14px;
+  padding-top: 24px;
+}
+
+.morning-post .post-navigation .btn {
+  border-radius: 20px !important;
+  border: 1px solid var(--ios-sep) !important;
+  background: var(--ios-surface) !important;
+  box-shadow: var(--ios-card-shadow);
+  padding: 14px 18px;
+  transition: transform 0.16s ease, border-color 0.16s ease;
+}
+
+.morning-post .post-navigation .btn:not(.disabled):hover {
+  transform: translateY(-2px);
+  border-color: var(--ios-blue) !important;
+  background: var(--ios-surface) !important;
+  color: var(--ios-blue) !important;
+}
+
+.morning-post #related-posts .card {
+  border-radius: 20px !important;
+  border: 1px solid var(--ios-sep) !important;
+  background: var(--ios-surface) !important;
+  box-shadow: var(--ios-card-shadow);
+  transition: transform 0.16s ease, border-color 0.16s ease;
+}
+
+.morning-post #related-posts .card:hover {
+  transform: translateY(-2px);
+  border-color: var(--ios-blue) !important;
+}
+
+/* Mobile Floating Liquid Glass Bottom Tab Bar (iOS 26 Signature) */
+.ios-mobile-tabbar {
+  display: none;
+}
+
+@media (max-width: 849px) {
+  .morning-site {
+    padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .morning-site #back-to-top {
+    bottom: calc(90px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  .ios-mobile-tabbar {
+    position: fixed;
+    left: 14px;
+    right: 14px;
+    bottom: max(12px, env(safe-area-inset-bottom, 12px));
+    z-index: 45;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 2px;
+    padding: 5px;
+    border-radius: 999px;
+    border: 1px solid var(--ios-glass-border);
+    background: var(--ios-glass-bg);
+    backdrop-filter: saturate(200%) blur(24px);
+    -webkit-backdrop-filter: saturate(200%) blur(24px);
+    box-shadow: var(--ios-glass-shadow);
+  }
+
+  .ios-mobile-tabbar a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: 6px 4px;
+    border-radius: 999px;
+    color: var(--ios-muted);
+    font-size: 0.68rem;
+    font-weight: 500;
+    line-height: 1.1;
+    text-decoration: none;
+    transition: color 0.15s ease, background-color 0.15s ease;
+  }
+
+  .ios-mobile-tabbar a[aria-current="page"] {
+    color: var(--ios-blue);
+    background: var(--ios-glass-active);
+    font-weight: 650;
+  }
+}
+
+@media (max-width: 700px) {
+  .ios-featured-card {
+    padding: 20px;
+    border-radius: 22px;
+  }
+
+  .ios-featured-card.has-cover {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ios-featured-thumb {
+    order: -1;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .ios-mobile-tabbar {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: var(--ios-surface) !important;
   }
 }

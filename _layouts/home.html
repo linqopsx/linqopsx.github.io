@@ -8,6 +8,10 @@ layout: default
 {% assign page_number = paginator.page | default: 1 %}
 {% assign per_page = paginator.per_page | default: site.paginate %}
 {% assign start = page_number | minus: 1 | times: per_page %}
+{% assign featured_post = nil %}
+{% if page_number == 1 and pinned.size > 0 %}
+  {% assign featured_post = pinned | first %}
+{% endif %}
 
 {% if page_number == 1 %}
   <section class="ios-hero morning-shell" aria-labelledby="morning-hero-title">
@@ -66,6 +70,54 @@ layout: default
       </div>
     </div>
   </section>
+
+  {% if featured_post %}
+    {% assign f_cover = featured_post.image.path | default: featured_post.image | strip %}
+    {% assign f_has_cover = false %}
+    {% if f_cover != empty %}
+      {% assign f_has_cover = true %}
+      {% capture f_cover_url %}{% include media-url.html src=f_cover subpath=featured_post.media_subpath %}{% endcapture %}
+    {% endif %}
+    {% assign post = featured_post %}
+    {% capture f_summary %}{% include post-summary.html max_length=160 %}{% endcapture %}
+    {% assign f_excerpt = f_summary | strip_html | normalize_whitespace | truncate: 160 %}
+    <section class="ios-featured-wrap morning-shell" aria-label="置顶精选">
+      <article class="ios-featured-card{% if f_has_cover %} has-cover{% endif %}">
+        <div class="ios-featured-copy">
+          <div class="ios-row-meta">
+            <span class="ios-featured-badge">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01L12 2z"/></svg>
+              置顶精选
+            </span>
+            <time datetime="{{ featured_post.date | date_to_xmlschema }}">{{ featured_post.date | date: '%Y-%m-%d' }}</time>
+            {% if featured_post.categories.size > 0 %}
+              <span class="ios-meta-dot" aria-hidden="true">·</span>
+              <span class="ios-meta-cat">{{ featured_post.categories | first | escape }}</span>
+            {% endif %}
+          </div>
+          <h2><a class="ios-row-link" href="{{ featured_post.url | relative_url }}">{{ featured_post.title | escape }}</a></h2>
+          {% if f_excerpt != empty %}
+            <p class="ios-featured-excerpt">{{ f_excerpt | escape_once }}</p>
+          {% endif %}
+          <div class="ios-featured-footer">
+            {% if featured_post.tags.size > 0 %}
+              <div class="ios-row-tags" aria-label="文章标签">
+                {% for tag in featured_post.tags limit: 3 %}
+                  <span class="ios-tag-pill">#{{ tag | escape }}</span>
+                {% endfor %}
+              </div>
+            {% endif %}
+            <span class="ios-featured-cta">阅读全文 <span aria-hidden="true">→</span></span>
+          </div>
+        </div>
+        {% if f_has_cover %}
+          <div class="ios-featured-thumb" aria-hidden="true">
+            <img src="{{ f_cover_url | strip | escape }}" width="480" height="300" alt="" loading="eager" decoding="async">
+          </div>
+        {% endif %}
+      </article>
+    </section>
+  {% endif %}
 {% endif %}
 
 <section class="morning-posts morning-shell" id="post-list" aria-labelledby="morning-posts-title">
@@ -76,6 +128,7 @@ layout: default
 
   <div class="ios-grouped-list">
     {% for post in ordered_posts offset: start limit: per_page %}
+      {% if featured_post and post.url == featured_post.url %}{% continue %}{% endif %}
       {% assign cover = post.image.path | default: post.image | strip %}
       {% assign has_cover = false %}
       {% if cover != empty %}
