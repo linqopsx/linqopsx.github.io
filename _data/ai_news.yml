@@ -1,3 +1,7 @@
-# AI 前沿资讯后端接口地址（ai-news-bot）
-# 本地调试可使用 http://127.0.0.1:8000/api/v1；上线后改为你的 HTTPS 域名（如 https://news-api.example.com/api/v1）
-api_base: "http://127.0.0.1:8000/api/v1"
+# AI 前沿资讯数据源配置
+# 方案 1（零服务器费用，默认）：直接读取由 GitHub Actions 定时导出的静态 JSON 与 RSS
+static_data: "/assets/ai-news/data.json"
+rss_url: "/assets/ai-news/feed.xml"
+
+# 如未来单独部署了公网 FastAPI 后端，可填写 api_base（留空则优先使用 static_data）
+api_base: ""

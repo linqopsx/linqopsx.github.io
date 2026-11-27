@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Theodore · AI 前沿资讯</title>
+    <link>https://linqopsx.github.io/ai-news/</link>
+    <description>聚合国内外主流大模型最新动态与 AI 日报</description>
+    <language>zh-CN</language>
+    <lastBuildDate>Fri, 27 Nov 2026 09:36:44 +0000</lastBuildDate>
+    <item>
+      <title>[P1] Google Search 的 Personal Intelligence 扩展至 Wallet、Drive 与 Gemini</title>
+      <link>https://blog.google/products-and-platforms/products/search/google-search-personal-intelligence-apps/</link>
+      <guid isPermaLink="false">ai-news-2</guid>
+      <pubDate>Mon, 23 Nov 2026 17:00:00 +0000</pubDate>
+      <description>Google 为 Search AI Mode 接入更多个人数据源，并让 AI Overviews 和 AI Mode 根据近期搜索上下文提供更个性化的回答。
+核心看点：用户可选择将 Google Wallet 连接至 Personal Intelligence，用于分析支出、节省机会及信用卡权益；AI Mode 仅能读取信息，不能转账、管理或投资资金。；Google Drive 支持将在未来几周推出，可结合文档、表格和 PDF 内容生成个性化回答与行动方案。；Gemini app 与 Search AI Mode 将共享用户授权的上下文，使两端对话和探索可以相互延续。；用户可随时启用或关闭应用连接，并将能查看 AI Mode 在定制回答中使用的上下文。；AI Overviews 和 AI Mode 将参考近期搜索上下文，让用户跨新搜索线程继续此前任务。
+简评：这是 Google 将搜索从通用问答进一步推向个人上下文助手的重要产品迭代。Wallet、Drive、Gemini、Gmail、Calendar 和 Photos 的组合，显著扩大了 AI Mode 可调用的信息范围，尤其覆盖财务、工作文件与对话历史。文中强调连接需用户主动选择、权限可随时撤销，且 Wallet 为只读；但跨应用个人数据集中用于生成回答，仍使授权透明度、上下文准确性与隐私控制成为落地关键。</description>
+    </item>
+    <item>
+      <title>[P0] Google 在 Gemini API 中推出 Tool Retrieval，按需加载 Agent 工具 Schema</title>
+      <link>https://blog.google/innovation-and-ai/technology/developers-tools/gemini-api-tool-retrieval/</link>
+      <guid isPermaLink="false">ai-news-3</guid>
+      <pubDate>Thu, 19 Nov 2026 18:00:00 +0000</pubDate>
+      <description>Gemini API 预览 Tool Retrieval，可按任务动态加载工具 Schema，降低大型工具库的 token、延迟与工具选择负担。
+核心看点：Tool Retrieval 已在 Interactions API 中提供预览，支持 Gemini 3.6 及后续模型，包括全部 Gemini 4 模型。；开发者可通过 tool_search 与 defer_loading 延迟加载工具参数 Schema；模型仍能看到工具名称和描述。；服务端检索无需自建或托管索引，搜索、Schema 加载和 function_call 可在同一次 API 请求内完成。；支持远程 MCP server、prefix caching，以及自有工具注册表、向量索引和权限过滤场景下的客户端检索。；该功能不单独收费，仍按模型标准输入、输出 token 费率计费；加载后的 Schema 会计入输入 token。
+简评：这是面向大规模 Agent 工具编排的重要 API 更新。其核心价值不是增加工具数量，而是避免每轮请求都携带完整参数 Schema，从而缓解 Context Window 占用、输入成本、延迟和候选工具过多导致的选择准确率下降。服务端模式接入成本较低，客户端模式则保留权限控制和动态集成能力。实际节省取决于工具库规模、调用分布及被加载 Schema 的数量，且当前仍处于预览阶段。</description>
+    </item>
+    <item>
+      <title>[P1] Gemini App 登陆低内存 Android Go 设备</title>
+      <link>https://blog.google/innovation-and-ai/products/gemini-app/gemini-lower-memory-devices/</link>
+      <guid isPermaLink="false">ai-news-5</guid>
+      <pubDate>Wed, 18 Nov 2026 17:00:00 +0000</pubDate>
+      <description>Google 重构 Gemini App，使其可在内存较小的 Android Go 设备上运行，并向更多用户开放多语言语音、视觉理解和图像生成能力。
+核心看点：Gemini App 已面向符合条件的 Android Go edition 设备推出。；Google 重新设计应用架构，以便核心 Gemini 体验在低内存硬件上流畅运行。；Gemini Live 支持使用超过 45 种语言进行语音交流和面试练习。；用户可通过摄像头识别、学习和翻译笔记或表单，并使用 Nano Banana 创建自定义图像。；应用可从 Google Play 下载，也将预装于 Transsion 等合作伙伴的部分新设备。
+简评：这是一次重要的产品覆盖范围扩展，而非新模型或基础能力突破。其价值在于降低端侧硬件门槛，让依赖入门级手机的用户也能使用 Gemini 的语音、视觉和图像生成能力。文章未披露最低内存要求、支持机型范围、端云计算方式或性能数据，因此实际体验与覆盖规模仍有待验证。</description>
+    </item>
+    <item>
+      <title>[P1] 谷歌在六国免费推出 Gemini 任务模式，支持电话预约和跨应用操作</title>
+      <link>https://blog.google/innovation-and-ai/products/gemini-app/tasks-in-gemini-free-new-features/</link>
+      <guid isPermaLink="false">ai-news-6</guid>
+      <pubDate>Tue, 17 Nov 2026 17:00:00 +0000</pubDate>
+      <description>谷歌开始在美国、日本、韩国、加拿大、澳大利亚和印度免费推送基于 Gemini 4 Hydrogen 的任务模式，部分高级功能率先在美国上线。
+核心看点：Gemini 可并行拨打商家电话，结合 Google Calendar 的空闲时段完成预约，并将预约写入日历。通话开始时会表明 AI 身份，商家可选择退出。；经用户授权，Gemini 可通过 Google Password Manager 登录网站，并结合 Gmail 中的历史账单分析费用变化。；购物功能整合 Google Pay 和 Agent Payments Protocol（AP2），支持预设支出上限，并在购买前要求确认或预先授权。；Gemini 已连接超过 60 款应用，美国用户还可通过 RCS 短信或转发邮件发起任务。；谷歌称任务在账户专属的硬件隔离虚拟机中运行，并使用提示注入过滤和 Google Safe Browsing 限制网页风险。
+简评：这次产品迭代把日历、邮件、电话和支付串进同一项任务，减少了用户在多个应用之间切换的次数。对于购买等关键操作，谷歌保留了用户确认环节。官方案例展示了端到端执行的可能性，但谷歌也承认部分网站仍需用户接手最后一步，跨网站的实际完成率有待观察。</description>
+    </item>
+  </channel>
+</rss>

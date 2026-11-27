@@ -9,7 +9,13 @@ toc: false
 
 <link rel="stylesheet" href="{{ '/assets/css/ai-news.css' | relative_url }}?v=20261127">
 
-<section id="ai-news-app" data-api-base="{{ site.data.ai_news.api_base | default: '/ai-news-api' | escape }}" aria-label="AI 前沿资讯">
+<section
+  id="ai-news-app"
+  data-static-data="{{ site.data.ai_news.static_data | default: '/assets/ai-news/data.json' | relative_url | escape }}"
+  data-rss-url="{{ site.data.ai_news.rss_url | default: '/assets/ai-news/feed.xml' | relative_url | escape }}"
+  data-api-base="{{ site.data.ai_news.api_base | default: '' | escape }}"
+  aria-label="AI 前沿资讯"
+>
   <header class="ainews-head">
     <p class="ainews-subtitle">聚合 OpenAI、Gemini、Claude、DeepSeek、通义千问等主流大模型的最新动态，支持按大模型分页浏览。</p>
     <div class="ainews-head-actions">
@@ -67,4 +73,4 @@ toc: false
 </section>
 
 <noscript>请启用 JavaScript 以加载 AI 前沿资讯列表。</noscript>
-<script type="module" src="{{ '/assets/js/ai-news.mjs' | relative_url }}?v=20261127"></script>
+<script type="module" src="{{ '/assets/js/ai-news.mjs' | relative_url }}?v=20261127b"></script>

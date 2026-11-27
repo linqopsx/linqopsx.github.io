@@ -1,20 +1,23 @@
 const root = document.querySelector('#ai-news-app');
 if (root) {
   const urlOverride = new URLSearchParams(location.search).get('api');
-  const API_BASE = (urlOverride || root.dataset.apiBase || '/ai-news-api').replace(/\/+$/, '');
+  const API_BASE = (urlOverride || root.dataset.apiBase || '').replace(/\/+$/, '');
+  const STATIC_URL = root.dataset.staticData || '/assets/ai-news/data.json';
+  const STATIC_RSS = root.dataset.rssUrl || '/assets/ai-news/feed.xml';
+  const USE_STATIC = !API_BASE;
 
   // Dedicated LLM Model Pagination Tabs
   const MODEL_TABS = [
     { id: 'all', label: '全部大模型', color: '#007aff', aliases: [] },
-    { id: 'openai', label: 'OpenAI / GPT', color: '#10a37f', aliases: ['OpenAI', 'GPT', 'ChatGPT'] },
-    { id: 'gemini', label: 'Google Gemini', color: '#4285f4', aliases: ['Gemini', 'Google', 'DeepMind'] },
+    { id: 'openai', label: 'OpenAI / GPT', color: '#10a37f', aliases: ['OpenAI', 'GPT', 'ChatGPT', 'o1', 'o3'] },
+    { id: 'gemini', label: 'Google Gemini', color: '#4285f4', aliases: ['Gemini', 'Google', 'DeepMind', 'Gemma'] },
     { id: 'claude', label: 'Claude', color: '#d97706', aliases: ['Claude', 'Anthropic'] },
     { id: 'deepseek', label: 'DeepSeek', color: '#2563eb', aliases: ['DeepSeek'] },
     { id: 'qwen', label: '通义 Qwen', color: '#6366f1', aliases: ['Qwen', '通义千问', '通义', 'Alibaba'] },
-    { id: 'seed', label: '字节 Seed', color: '#06b6d4', aliases: ['Seed', '豆包', 'ByteDance'] },
+    { id: 'seed', label: '字节 Seed', color: '#06b6d4', aliases: ['Seed', '豆包', 'ByteDance', '字节'] },
     { id: 'zhipu', label: '智谱 GLM', color: '#8b5cf6', aliases: ['GLM', '智谱', 'Zhipu'] },
     { id: 'kimi', label: 'Kimi', color: '#ec4899', aliases: ['Kimi', '月之暗面', 'Moonshot'] },
-    { id: 'hunyuan', label: '腾讯混元', color: '#14b8a6', aliases: ['混元', 'Hunyuan', 'Tencent'] }
+    { id: 'hunyuan', label: '腾讯混元', color: '#14b8a6', aliases: ['混元', 'Hunyuan', 'Tencent', '腾讯'] }
   ];
 
   const CATEGORY_NAMES = {
@@ -33,7 +36,9 @@ if (root) {
     page: 1,
     pageSize: 20,
     total: 0,
-    metaTags: []
+    metaTags: [],
+    staticArticles: [],
+    generatedAt: ''
   };
 
   const els = {
@@ -56,7 +61,7 @@ if (root) {
     pageInfo: root.querySelector('[data-page-info]')
   };
 
-  if (els.rss) els.rss.href = `${API_BASE}/feed.xml`;
+  if (els.rss) els.rss.href = USE_STATIC ? STATIC_RSS : `${API_BASE}/feed.xml`;
 
   const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -82,8 +87,12 @@ if (root) {
     const out = [];
     let inList = false;
     for (const line of lines) {
+      const hm = /^\s*#{1,4}\s+(.+)$/.exec(line);
       const m = /^\s*[-*]\s+(.+)$/.exec(line);
-      if (m) {
+      if (hm) {
+        if (inList) { out.push('</ul>'); inList = false; }
+        out.push(`<p><strong>${hm[1]}</strong></p>`);
+      } else if (m) {
         if (!inList) { out.push('<ul>'); inList = true; }
         out.push(`<li>${m[1]}</li>`);
       } else {
@@ -95,8 +104,24 @@ if (root) {
     return out.join('');
   }
 
+  function articleMatchesModel(article, model) {
+    if (!model || model.id === 'all') return true;
+    const aliases = model.aliases.map(a => a.toLowerCase());
+    const hay = [
+      article.title_zh || '',
+      article.summary_one_liner || '',
+      article.source_name || '',
+      ...(Array.isArray(article.tags) ? article.tags : [])
+    ].join(' ').toLowerCase();
+    return aliases.some(alias => hay.includes(alias));
+  }
+
   function matchModelTag(model) {
-    if (!model || model.id === 'all') return { tag: '', qFallback: '', count: null };
+    if (!model || model.id === 'all') return { tag: '', qFallback: '', count: USE_STATIC ? state.staticArticles.length : null };
+    if (USE_STATIC) {
+      const count = state.staticArticles.filter(a => articleMatchesModel(a, model)).length;
+      return { tag: '', qFallback: '', count };
+    }
     const lowerMap = new Map(state.metaTags.map(t => [t.name.toLowerCase(), t]));
     for (const alias of model.aliases) {
       const hit = lowerMap.get(alias.toLowerCase());
@@ -114,7 +139,7 @@ if (root) {
       btn.className = `ainews-model-tab${state.modelId === model.id ? ' is-active' : ''}`;
       btn.setAttribute('aria-selected', String(state.modelId === model.id));
       const matched = matchModelTag(model);
-      const countHtml = matched.count != null ? `<span class="ainews-model-count">${matched.count}</span>` : '';
+      const countHtml = matched.count != null && matched.count > 0 ? `<span class="ainews-model-count">${matched.count}</span>` : '';
       btn.innerHTML = `<span class="ainews-model-dot" style="background:${model.color}" aria-hidden="true"></span><span>${esc(model.label)}</span>${countHtml}`;
       btn.addEventListener('click', () => {
         if (state.modelId === model.id) return;
@@ -182,7 +207,8 @@ if (root) {
     state.total = Number(data?.total || 0);
     const totalPages = Math.max(1, Math.ceil(state.total / state.pageSize));
     const currentModel = MODEL_TABS.find(m => m.id === state.modelId);
-    els.summary.textContent = `${currentModel?.label || '全部大模型'} · 共 ${state.total} 条资讯`;
+    const updatedHint = state.generatedAt ? ` · 更新于 ${formatTime(state.generatedAt)}` : '';
+    els.summary.textContent = `${currentModel?.label || '全部大模型'} · 共 ${state.total} 条资讯${updatedHint}`;
     els.clearBtn.hidden = !hasActiveFilters();
 
     if (!items.length) {
@@ -255,7 +281,34 @@ if (root) {
     els.pageInfo.textContent = `第 ${state.page} / ${totalPages} 页`;
   }
 
+  function queryStaticArticles() {
+    const activeModel = MODEL_TABS.find(m => m.id === state.modelId);
+    const qLower = state.q.toLowerCase();
+    const tagLower = state.tag.toLowerCase();
+    const filtered = state.staticArticles.filter(a => {
+      if (state.region && a.region !== state.region) return false;
+      if (state.priority && String(a.priority).toUpperCase() !== state.priority.toUpperCase()) return false;
+      if (tagLower) {
+        const tags = Array.isArray(a.tags) ? a.tags.map(t => String(t).toLowerCase()) : [];
+        if (!tags.includes(tagLower)) return false;
+      } else if (activeModel && activeModel.id !== 'all') {
+        if (!articleMatchesModel(a, activeModel)) return false;
+      }
+      if (qLower) {
+        const hay = `${a.title_zh || ''} ${a.summary_one_liner || ''} ${a.source_name || ''}`.toLowerCase();
+        if (!hay.includes(qLower)) return false;
+      }
+      return true;
+    });
+    const start = (state.page - 1) * state.pageSize;
+    renderArticles({ total: filtered.length, page: state.page, page_size: state.pageSize, items: filtered.slice(start, start + state.pageSize) });
+  }
+
   async function loadArticles() {
+    if (USE_STATIC) {
+      queryStaticArticles();
+      return;
+    }
     showSkeletons();
     const params = new URLSearchParams({
       page: String(state.page),
@@ -277,13 +330,12 @@ if (root) {
     try {
       const res = await fetch(`${API_BASE}/articles?${params.toString()}`, { signal: AbortSignal.timeout(15000) });
       if (!res.ok) throw new Error(`接口返回 ${res.status}`);
-      const data = await res.json();
-      renderArticles(data);
-    } catch (err) {
+      renderArticles(await res.json());
+    } catch {
       els.summary.textContent = '资讯服务暂时无法连接';
       els.pager.hidden = true;
       els.list.innerHTML = `<div class="ainews-state-box">
-        <p>未能连接到 AI 资讯后端（<code>${esc(API_BASE)}</code>）。请确认 <code>ai-news-bot</code> 服务已启动且允许跨域访问。</p>
+        <p>未能连接到 AI 资讯后端（<code>${esc(API_BASE)}</code>）。</p>
         <button type="button" class="ainews-state-btn" data-retry>重新加载</button>
       </div>`;
       els.list.querySelector('[data-retry]')?.addEventListener('click', loadArticles);
@@ -323,8 +375,35 @@ if (root) {
   els.prevBtn.addEventListener('click', () => { if (state.page > 1) { state.page -= 1; loadArticles(); } });
   els.nextBtn.addEventListener('click', () => { state.page += 1; loadArticles(); });
 
-  // Initial Parallel Load (per BLOG_API_SPEC.md §4.1)
-  (async () => {
+  async function initStatic() {
+    showSkeletons();
+    try {
+      const res = await fetch(STATIC_URL, { cache: 'no-cache', signal: AbortSignal.timeout(15000) });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const bundle = await res.json();
+      state.staticArticles = Array.isArray(bundle.articles) ? bundle.articles : [];
+      state.metaTags = Array.isArray(bundle.meta?.tags) ? bundle.meta.tags : [];
+      state.generatedAt = bundle.generated_at || '';
+      if (bundle.digest) {
+        els.digestDate.textContent = bundle.digest.digest_date || '';
+        els.digestTitle.textContent = bundle.digest.title || 'AI 今日焦点';
+        els.digestBody.innerHTML = renderSimpleMd(bundle.digest.overview_md || '');
+        els.digestBox.hidden = false;
+      }
+      renderModelTabs();
+      renderHotTags();
+      queryStaticArticles();
+    } catch {
+      els.summary.textContent = '资讯数据加载失败';
+      els.list.innerHTML = `<div class="ainews-state-box">
+        <p>暂时无法加载静态资讯清单（<code>${esc(STATIC_URL)}</code>）。</p>
+        <button type="button" class="ainews-state-btn" data-retry>重新加载</button>
+      </div>`;
+      els.list.querySelector('[data-retry]')?.addEventListener('click', initStatic);
+    }
+  }
+
+  async function initApi() {
     renderModelTabs();
     showSkeletons();
     const [digestRes, metaRes, articlesRes] = await Promise.allSettled([
@@ -355,10 +434,16 @@ if (root) {
     } else {
       els.summary.textContent = '资讯服务暂时无法连接';
       els.list.innerHTML = `<div class="ainews-state-box">
-        <p>未能连接到 AI 资讯后端（<code>${esc(API_BASE)}</code>）。请确认 <code>ai-news-bot</code> 服务已启动且在 <code>_data/ai_news.yml</code> 中配置了正确的 <code>api_base</code>。</p>
+        <p>未能连接到 AI 资讯后端（<code>${esc(API_BASE)}</code>）。</p>
         <button type="button" class="ainews-state-btn" data-retry>重新加载</button>
       </div>`;
-      els.list.querySelector('[data-retry]')?.addEventListener('click', loadArticles);
+      els.list.querySelector('[data-retry]')?.addEventListener('click', initApi);
     }
-  })();
+  }
+
+  if (USE_STATIC) {
+    initStatic();
+  } else {
+    initApi();
+  }
 }
