@@ -343,6 +343,21 @@
   font-weight: 600;
 }
 
+.ainews-x-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--ios-ink, #1c1c1e);
+  color: var(--ios-surface, #ffffff);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
 .ainews-card-meta time {
   margin-left: auto;
   font-family: var(--ios-mono, ui-monospace, monospace);

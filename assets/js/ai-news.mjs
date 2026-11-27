@@ -29,6 +29,7 @@ if (root) {
 
   const state = {
     modelId: 'all',
+    source: '',
     region: '',
     priority: '',
     tag: '',
@@ -48,6 +49,7 @@ if (root) {
     digestTitle: root.querySelector('[data-digest-title]'),
     digestBody: root.querySelector('[data-digest-body]'),
     modelTabs: root.querySelector('[data-model-tabs]'),
+    sourceSeg: root.querySelector('[data-filter-source]'),
     regionSeg: root.querySelector('[data-filter-region]'),
     prioritySeg: root.querySelector('[data-filter-priority]'),
     search: root.querySelector('[data-search]'),
@@ -64,6 +66,12 @@ if (root) {
   if (els.rss) els.rss.href = USE_STATIC ? STATIC_RSS : `${API_BASE}/feed.xml`;
 
   const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  function isXArticle(article) {
+    const name = String(article?.source_name || '').trim();
+    const url = String(article?.source_url || '').toLowerCase();
+    return name.startsWith('X · ') || name.startsWith('X·') || /(?:^|\/\/|\.)x\.com(?:\/|$)/.test(url);
+  }
 
   function formatTime(iso) {
     const d = new Date(iso);
@@ -184,17 +192,19 @@ if (root) {
   }
 
   function hasActiveFilters() {
-    return Boolean(state.modelId !== 'all' || state.region || state.priority || state.tag || state.q);
+    return Boolean(state.modelId !== 'all' || state.source || state.region || state.priority || state.tag || state.q);
   }
 
   function clearFilters() {
     state.modelId = 'all';
+    state.source = '';
     state.region = '';
     state.priority = '';
     state.tag = '';
     state.q = '';
     state.page = 1;
     els.search.value = '';
+    els.sourceSeg?.querySelectorAll('button').forEach(b => b.classList.toggle('is-active', b.dataset.val === ''));
     els.regionSeg.querySelectorAll('button').forEach(b => b.classList.toggle('is-active', b.dataset.val === ''));
     els.prioritySeg.querySelectorAll('button').forEach(b => b.classList.toggle('is-active', b.dataset.val === ''));
     renderModelTabs();
@@ -227,6 +237,9 @@ if (root) {
       card.className = 'ainews-card';
       const pClass = String(a.priority).toUpperCase() === 'P0' ? 'is-p0' : 'is-p1';
       const pLabel = String(a.priority).toUpperCase() === 'P0' ? 'P0 重磅' : 'P1 值得看';
+      const isX = isXArticle(a);
+      const xBadgeHtml = isX ? '<span class="ainews-x-badge" title="来自 X (Twitter)" aria-label="X 动态">𝕏</span>' : '';
+      const displaySource = isX ? String(a.source_name || '').replace(/^X\s*·\s*/, '') : String(a.source_name || '');
       const regionLabel = a.region === 'cn' ? '国内' : '海外';
       const catLabel = CATEGORY_NAMES[a.category] || a.category || '';
       const highlightsHtml = Array.isArray(a.highlights) && a.highlights.length
@@ -239,7 +252,8 @@ if (root) {
       card.innerHTML = `
         <div class="ainews-card-meta">
           <span class="ainews-priority ${pClass}">${pLabel}</span>
-          <span>${esc(a.source_name || '')}</span>
+          ${xBadgeHtml}
+          <span>${esc(displaySource)}</span>
           <span class="ainews-region-pill">${regionLabel}</span>
           ${catLabel ? `<span>${esc(catLabel)}</span>` : ''}
           <time datetime="${esc(a.published_at || '')}">${esc(formatTime(a.published_at))}</time>
@@ -286,6 +300,8 @@ if (root) {
     const qLower = state.q.toLowerCase();
     const tagLower = state.tag.toLowerCase();
     const filtered = state.staticArticles.filter(a => {
+      if (state.source === 'x' && !isXArticle(a)) return false;
+      if (state.source === 'blog' && isXArticle(a)) return false;
       if (state.region && a.region !== state.region) return false;
       if (state.priority && String(a.priority).toUpperCase() !== state.priority.toUpperCase()) return false;
       if (tagLower) {
@@ -343,6 +359,15 @@ if (root) {
   }
 
   // Filter Events
+  els.sourceSeg?.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-val]');
+    if (!btn) return;
+    state.source = btn.dataset.val;
+    state.page = 1;
+    els.sourceSeg.querySelectorAll('button').forEach(b => b.classList.toggle('is-active', b === btn));
+    loadArticles();
+  });
+
   els.regionSeg.addEventListener('click', e => {
     const btn = e.target.closest('button[data-val]');
     if (!btn) return;

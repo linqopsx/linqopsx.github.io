@@ -7,7 +7,7 @@ permalink: /ai-news/
 toc: false
 ---
 
-<link rel="stylesheet" href="{{ '/assets/css/ai-news.css' | relative_url }}?v=20261127">
+<link rel="stylesheet" href="{{ '/assets/css/ai-news.css' | relative_url }}?v=20261127c">
 
 <section
   id="ai-news-app"
@@ -41,6 +41,11 @@ toc: false
 
   <div class="ainews-filters" aria-label="筛选与搜索">
     <div class="ainews-filter-row">
+      <div class="ainews-seg" data-filter-source role="tablist" aria-label="来源筛选">
+        <button type="button" class="is-active" data-val="">全部</button>
+        <button type="button" data-val="x">𝕏 动态</button>
+        <button type="button" data-val="blog">博客与媒体</button>
+      </div>
       <div class="ainews-seg" data-filter-region role="tablist" aria-label="地区筛选">
         <button type="button" class="is-active" data-val="">全部地区</button>
         <button type="button" data-val="cn">国内</button>
@@ -73,4 +78,4 @@ toc: false
 </section>
 
 <noscript>请启用 JavaScript 以加载 AI 前沿资讯列表。</noscript>
-<script type="module" src="{{ '/assets/js/ai-news.mjs' | relative_url }}?v=20261127b"></script>
+<script type="module" src="{{ '/assets/js/ai-news.mjs' | relative_url }}?v=20261127c"></script>
