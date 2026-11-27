@@ -5,7 +5,25 @@
     <link>https://linqopsx.github.io/ai-news/</link>
     <description>聚合国内外主流大模型最新动态与 AI 日报</description>
     <language>zh-CN</language>
-    <lastBuildDate>Fri, 27 Nov 2026 11:58:50 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 27 Nov 2026 20:55:26 +0000</lastBuildDate>
+    <item>
+      <title>[P0] 众擎首发人形机器人行为基座模型 EngineAI-BFM，计划开放权重并提供10亿元生态支持</title>
+      <link>https://www.qbitai.com/2026/11/513352.html</link>
+      <guid isPermaLink="false">ai-news-101</guid>
+      <pubDate>Fri, 27 Nov 2026 14:07:33 +0000</pubDate>
+      <description>众擎发布 EngineAI-BFM，拟开放机器人任务规划与运动控制相关技术，并计划在未来五年为开发者及生态伙伴提供10亿元产业级支持。
+核心看点：EngineAI-BFM 从近5000小时、覆盖五类行为的人类动作数据中学习，可适配 T800 和 PM01；众擎计划开放模型权重、使用接口及感知、运控和避障 API。；众擎拟共享全身移动操作基础模型、评测基准、仿真环境及部分训练数据。；据众擎披露，预训练所用的人类全身动作数据从5000小时增至5万小时后，Awaken-HI 在相应真机测试中的任务成功率从56.7%升至90%。；CoRun 机制将经真机验证的新增贡献记录为 CoRunit，便于后续团队基于已有版本和测试结果继续开发。；五年10亿元支持计划覆盖开发者支持、科研合作、人才培养和商业生态合作，包括设备借测和 PoC 样机支持。
+简评：这次发布的技术看点是把模型、评测和真机接口一并纳入开放计划，有望让开发者不必从头解决仿真到真机的部署问题。报道确认了 EngineAI-BFM 首发，但权重仍属计划开放；实际复用价值要看开放许可、工具链成熟度及第三方能否在不同本体和场景中复现结果。90%的成功率来自特定真机测试，不能直接视为通用任务成功率。</description>
+    </item>
+    <item>
+      <title>[P1] 商汤大装置获中国信通院Token工厂智算能力最高评级</title>
+      <link>https://www.qbitai.com/2026/11/513346.html</link>
+      <guid isPermaLink="false">ai-news-102</guid>
+      <pubDate>Fri, 27 Nov 2026 11:18:24 +0000</pubDate>
+      <description>商汤大装置获中国信通院“全栈服务型·领先级”认证；据商汤披露，截至2026年10月，平台日均Token服务量达6万亿。
+核心看点：中国信通院从Token产能、生产能效、服务交付、智能运营和安全合规五个维度开展评估，共设14项指标。；商汤称平台已适配20余款国产AI芯片；在同等成本下，异构混合推理方案的Token产出为国产同构推理方案的2.5倍。；平台基于Kubernetes在推理低峰期调度训练任务，并在推理需求回升时回收训练资源。
+简评：这项评估的看点是把Token产能、能效和服务交付放在同一框架下衡量，而不只看芯片峰值算力。商汤披露的2.5倍产出来自厂商供稿，文中未给出测试所用的模型、负载及延迟约束，不宜直接用于跨平台比较。</description>
+    </item>
     <item>
       <title>[P1] DeepSeek 网页和 App 上线对话用量账单，聊天仍免费</title>
       <link>https://www.qbitai.com/2026/11/513305.html</link>
@@ -79,6 +97,15 @@
 简评：这次升级的重点是让生成资产更容易进入后续制作，而不只是让展示效果更好。更平整的表面和更清晰的部件边界有助于美术师判断哪些区域可以保留、哪些需要精修或重建，PBR 贴图则可用于渲染和引擎内验证。不过，发布材料尚未给出重拓扑、烘焙等环节的实测返工时间，实际生产效率仍需验证。</description>
     </item>
     <item>
+      <title>[P1] Hugging Face 优化 Trainium3 上的 LTX-2.5：22–23 秒生成 10 秒带声视频</title>
+      <link>https://huggingface.co/blog/video-trainium3</link>
+      <guid isPermaLink="false">ai-news-104</guid>
+      <pubDate>Fri, 27 Nov 2026 00:00:00 +0000</pubDate>
+      <description>模型加载后，LTX-2.5 在 32 个 Trainium3 NeuronCores 上生成一段 10 秒、2048×1024 的带声视频耗时 22–23 秒，接近 LTX API 的官方标称速度。
+核心看点：初版用 4 个 NeuronCores 生成 960×544 视频耗时 5 分 20 秒；优化版用 32 核，在像素数约为初版 4 倍的情况下，端到端耗时缩短至约 1/14。；4 路张量并行让 Transformer 装入设备，叠加 8 路序列并行后，高分辨率阶段的计算图才能加载。；最大端到端收益来自主机侧优化：消除重复文本编码、调整 CPU 线程分配，并将视频解码移至 NeuronCores；主机侧耗时从约 280 秒降至约 8 秒。；工作流用 JSON 分镜编排短片，并以相邻镜头的首尾帧作为生成条件，帮助维持角色外观和动作连续性。
+简评：这是一篇有实测数据的推理工程复盘：序列并行解决了高分辨率计算图无法加载的问题，而最大的延迟降幅来自主机侧优化。约 14 倍的差距来自不同核数和分辨率下的两套配置，不能视为同配置加速；与 LTX API 的比较也只是参考，双方分辨率不同，本地计时不含模型加载，文章也没有提供可直接对比的 CUDA 实测。</description>
+    </item>
+    <item>
       <title>[P1] Sam Altman 回顾 OpenAI 早期用模型挑战千禧年大奖难题的设想</title>
       <link>https://x.com/sama/status/2125990371897557278</link>
       <guid isPermaLink="false">ai-news-52</guid>
@@ -113,6 +140,15 @@
       <description>NVIDIA 开放约 1888 万条合成文档训练样本及 SFT、RLVR 微调方案；单张 H200 测试中，DFlash2 将并发 1 和 512 时的吞吐分别提升至未启用推测解码时的 7.62 倍和 1.52 倍。
 核心看点：三个开放数据集覆盖图表、表格和多语言 OCR，附带图像、结构化标注、生成文档和训练格式。；Nemotron 3.5 Parse 将页面图像转换为带阅读顺序、内容类别和边界框的结构化数据，供 RAG 和 Agent 使用。；在开发检查点的对照评估中，SFT 后加入基于 GRPO 的 RLVR，整体评分从 66.24 升至 71.38，被标记为重复循环的页面从 126 个降至 29 个。；单张 H200 的 BF16 单遍测试中，并发 512 时启用 DFlash2 后，吞吐由 13.48 页/秒升至 20.44 页/秒。；对难解析区域追加处理，双遍和三遍方案较单遍分别提高 2.18 和 2.46 个 ParseBench 分数，可按需求权衡精度与吞吐。
 简评：这次更新的重点不是发布新模型，而是把专用文档解析的训练和部署方法开放给开发者。合成数据提供可核对的表格与图表标注，RLVR 则能在不要求输出逐字一致的情况下检查抽取结果，并惩罚重复和未完成输出。推理端的收益明显依赖并发；牙科表单微调的高成功率也来自同一合成生成器的留出集，不能直接视为真实文档上的表现。</description>
+    </item>
+    <item>
+      <title>[P1] Qwen-Audio-3.1 扩展多语言支持，语音识别覆盖 8 种中文方言</title>
+      <link>https://x.com/Alibaba_Qwen/status/2125798914490249411</link>
+      <guid isPermaLink="false">ai-news-105</guid>
+      <pubDate>Thu, 26 Nov 2026 03:48:51 +0000</pubDate>
+      <description>Qwen 更新了已发布的 Qwen-Audio-3.1 系列，扩展语音识别、语音合成和实时语音的语言覆盖，重点增强中文方言识别与合成。
+核心看点：ASR（语音识别）支持 59 种语言和 8 种中文方言。；TTS（语音合成）支持 65 种语言和 6 种中文方言。；Realtime（实时语音）支持 53 种语言和 6 种中文方言。
+简评：这是现有模型系列的语言覆盖更新，并非新一代模型发布。需要同时识别和合成同一种方言的应用，应分别核对各功能的支持范围。公告未列出具体方言，也未提供识别准确率或合成质量的对比数据，因此覆盖数量不能说明实际效果提升了多少。</description>
     </item>
     <item>
       <title>[P1] GPT-6.2 Astra 和 Sol 修正计费错误，相同任务将消耗更多套餐额度</title>
@@ -239,42 +275,6 @@
       <description>OpenAI 报告称，GPT‑6 系列可用通用推理和代码独立提出蛋白质结构或序列设计；在 Onava 的实验中，基于 GPT‑6.2 结构设计的候选物在五个靶点上均有结合阳性结果。
 核心看点：内部研究模型在多项计算评估中达到或超过专用模型，但完整蛋白质结构预测仍是短板。；基于 GPT‑6.2 结构设计的 322 个候选物中，35 个（10.9%）检测到与预定靶点结合，覆盖全部五个靶点。；部分由 GPT‑6.2 重新设计的抗体片段保留了对原靶点的结合能力。；模型提出设计时可不调用专用生物模型，但实验验证流程仍借助专用模型补全部分序列或筛选候选。
 简评：研究的亮点是通用模型在部分任务中能承担原本由专用模型完成的设计工作，并能通过自然语言接收结构约束。但独立提出设计不等于端到端流程无需专用模型；实验中观察到结合，也不代表已证实功能或疗效。文中还指出，候选筛选标准和阳性判定会影响命中率，因此不宜据此直接比较不同研究的模型表现。</description>
-    </item>
-    <item>
-      <title>[P1] 业余天文学家用 Codex 和 Astra 筛查系外行星候选信号</title>
-      <link>https://openai.com/index/searching-for-distant-planets-with-astra</link>
-      <guid isPermaLink="false">ai-news-23</guid>
-      <pubDate>Tue, 24 Nov 2026 11:00:00 +0000</pubDate>
-      <description>两名业余天文学家分别用 Codex 和 Astra 分析公开望远镜数据；其中两条候选信号被研究人员独立检出，但尚未证实来自行星。
-核心看点：Kevin Bond 用 Codex 搭建双 Agent 流水线，分别负责扫描恒星光变曲线和复核候选信号。；Bond 从约 10 万颗恒星的 Kepler 数据中筛出 200 多条信号，其中 10 条来自已确认的行星；SETI 研究所的一名天文学家独立检出了其中两条待验证信号。；Ethan Byrd 用 Astra 分析约 1900 万颗恒星的公开观测数据，首轮筛出 49 个候选，其中一个已提交给 NASA 的 TESS 任务研究人员，等待进一步分析。
-简评：这项实践的价值在于，AI 帮助业余研究者把公开方法变成可运行的搜索流程，从大规模档案中筛出值得跟进的目标。独立检出说明信号并非只出现在一套流程的输出中，却不能确定成因：双星互食和仪器变化也可能造成类似的亮度下降，仍需后续观测或其他方法验证。</description>
-    </item>
-    <item>
-      <title>[P0] 腾讯开源第三代翻译模型 Hy MT3：支持 102 种语言，联合王者荣耀优化游戏本地化</title>
-      <link>https://mp.weixin.qq.com/s?__biz=MzkwODU2OTQyNQ==&amp;mid=2247499070&amp;idx=1&amp;sn=7788bc7d2ecb56b16dbb4711a1cfda45</link>
-      <guid isPermaLink="false">ai-news-24</guid>
-      <pubDate>Tue, 24 Nov 2026 08:44:00 +0000</pubDate>
-      <description>Hy MT3 开放 1.8B、7B 和 30B-A3B MoE 三个版本的权重与代码，支持语种从 38 种增至 102 种；腾讯称旗舰版较同尺寸前代的漏译／增译样本占比下降 74%。
-核心看点：腾讯真实场景评测显示，Hy MT3-30B-A3B 较同尺寸前代的误译、漏译／增译和指令遵循错误样本占比分别下降 43%、74% 和 40%。；在腾讯采用 TransRubric 进行的横评中，Hy MT3-30B-A3B 仅激活约 3B 参数，综合得分在参测模型的快思考模式中排名第一。；腾讯混元与王者荣耀团队针对占位符、富文本标签和术语一致性优化游戏翻译，王者荣耀团队同步开源游戏翻译工具链。；图片翻译增强了对 OCR 识别错误的纠正能力；腾讯还开源了基于评分细则的翻译自动评估方案 TransRubric。；模型已上线混元官网及腾讯 Hy 翻译 App 和小程序，权重与代码可通过 Hugging Face、ModelScope 和 GitHub 获取。
-简评：这次发布的看点不只是语种扩容：开放三个尺寸的权重，让开发者能按设备资源选择模型；游戏本地化优化则瞄准了会直接影响客户端运行的格式错误。横评领先结论来自腾讯发布的 TransRubric 自动评分，不能直接外推到全部 102 个语种或所有生产场景。接入前可用自有语料验证漏译率、术语一致性和占位符保留率。</description>
-    </item>
-    <item>
-      <title>[P1] Cisco 与 OpenAI 推出 Shirudo：让防御 Agent 在不停机的情况下缓解漏洞风险</title>
-      <link>https://x.com/thsottiaux/status/2125141302501417232</link>
-      <guid isPermaLink="false">ai-news-65</guid>
-      <pubDate>Tue, 24 Nov 2026 08:15:44 +0000</pubDate>
-      <description>Shirudo 是一款开源 Linux 运行时，允许防御 Agent 动态编写 eBPF 控制规则，在正式补丁上线前提供临时防护。
-核心看点：Shirudo 由 Cisco 与 OpenAI 联合开发。；Agent 可动态编写 eBPF 控制规则，在不停止服务的情况下缓解漏洞被利用的风险。；临时防护旨在为防御团队争取测试和部署正式补丁的时间。
-简评：Shirudo 的价值在于把紧急缓解与正式修补分开：Agent 可以先施加临时防护，运维团队再按流程测试和部署补丁。帖子未披露规则如何验证、权限如何约束或误拦截后如何回滚，因此还无法判断这套机制能否在生产环境中安全地自动运行。</description>
-    </item>
-    <item>
-      <title>[P1] LiberAI 用 Kimi 辅助机器人研发，单项仿真任务成功率一周从 45% 升至 95%</title>
-      <link>https://mp.weixin.qq.com/s?__biz=MzcwMjM3ODEzOA==&amp;mid=2247487982&amp;idx=1&amp;sn=7a560111ce7ded7173c6fdea94a6fa79</link>
-      <guid isPermaLink="false">ai-news-25</guid>
-      <pubDate>Tue, 24 Nov 2026 05:15:00 +0000</pubDate>
-      <description>LiberAI 将 Kimi K3.1 Pro 用于分析失败轨迹、筛选数据和调整训练配置，结合仿真数据扩充与后训练，使 Liber-0 在一项线上仿真任务中的成功率从 45% 升至 95%。
-核心看点：Researcher Agent 根据用户回流的约 20 小时执行轨迹提出改进假设，LiberAI 负责运行训练并通过统一评测验证改动。；Kimi 通过 Computer Use 操作 Blender；据官方披露，已统计的仿真资产构建任务中，99.1% 无需人工建模干预即可交付。；在覆盖 60 项任务的 600 次真机测试中，Liber-0 未使用目标任务的机器人示范数据，抓放组成功率为 63.5%，高难度多步骤非抓放组为 10.5%。
-简评：这项实践的看点是让 Agent 把失败轨迹转化为可验证的实验方案，而不只是辅助调参。45% 到 95% 是单项仿真任务的结果，且迭代同时包含数据扩充和后训练，不能据此量化 Kimi 的独立贡献，也不能外推到真机。真机测试中两类任务的成功率差距表明，多步骤灵巧操作仍是难点。</description>
     </item>
   </channel>
 </rss>
