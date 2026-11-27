@@ -16,10 +16,58 @@ const els = {
 };
 
 let currentDays = 7;
+let titleMap = new Map();
 const deviceNames = { desktop: '桌面电脑', mobile: '手机端', tablet: '平板电脑' };
+const staticNames = {
+  '/': '博客首页',
+  '/archives/': '全部归档',
+  '/categories/': '文章分类',
+  '/tags/': '文章标签',
+  '/downloads/': '软件下载',
+  '/subscribe/': '订阅更新',
+  '/about/': '关于我',
+  '/admin/': '写作后台入口'
+};
 
 function esc(s) {
   return String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+}
+
+function normalizePath(raw) {
+  let p = String(raw || '/').split('?')[0].split('#')[0];
+  try { p = decodeURIComponent(p); } catch { /* keep raw */ }
+  if (!p.startsWith('/')) p = '/' + p;
+  if (!p.endsWith('/')) p += '/';
+  return p;
+}
+
+function resolvePageTitle(rawPath) {
+  const norm = normalizePath(rawPath);
+  if (titleMap.has(norm)) return titleMap.get(norm);
+  if (staticNames[norm]) return staticNames[norm];
+  const pageMatch = /^\/page(\d+)\/$/.exec(norm);
+  if (pageMatch) return `博客首页（第 ${pageMatch[1]} 页）`;
+  const catMatch = /^\/categories\/(.+)\/$/.exec(norm);
+  if (catMatch) return `分类：${catMatch[1]}`;
+  const tagMatch = /^\/tags\/(.+)\/$/.exec(norm);
+  if (tagMatch) return `标签：#${tagMatch[1]}`;
+  return norm;
+}
+
+async function loadTitleIndex() {
+  try {
+    const r = await fetch('/assets/js/data/search.json', { cache: 'no-cache' });
+    if (!r.ok) return;
+    const list = await r.json();
+    if (!Array.isArray(list)) return;
+    const next = new Map();
+    for (const item of list) {
+      if (item?.url && item?.title) {
+        next.set(normalizePath(item.url), String(item.title));
+      }
+    }
+    titleMap = next;
+  } catch { /* fallback to raw path */ }
 }
 
 function barCell(val, total) {
@@ -52,10 +100,15 @@ function renderPaths(items, total) {
   els.paths.innerHTML = items.map((item, idx) => {
     const p = item.label || '/';
     const decoded = (() => { try { return decodeURIComponent(p); } catch { return p; } })();
+    const title = resolvePageTitle(p);
+    const showSub = title !== normalizePath(p) && title !== decoded;
     const href = `https://linqopsx.github.io${p.startsWith('/') ? p : '/' + p}`;
     return `<tr>
       <td class="st-rank">${idx + 1}</td>
-      <td><a href="${esc(href)}" target="_blank" rel="noopener noreferrer">${esc(decoded)}</a></td>
+      <td>
+        <a class="st-path-title" href="${esc(href)}" target="_blank" rel="noopener noreferrer">${esc(title)}</a>
+        ${showSub ? `<div class="st-path-sub">${esc(decoded)}</div>` : ''}
+      </td>
       <td class="num">${item.views.toLocaleString()}</td>
       <td class="num">${item.visits.toLocaleString()}</td>
       ${barCell(item.views, total)}
@@ -89,7 +142,10 @@ async function loadStats() {
   els.refresh.disabled = true;
   els.rangeText.textContent = '正在读取统计数据…';
   try {
-    const res = await fetch(`/api/stats?days=${currentDays}`, { credentials: 'same-origin', cache: 'no-store' });
+    const [res] = await Promise.all([
+      fetch(`/api/stats?days=${currentDays}`, { credentials: 'same-origin', cache: 'no-store' }),
+      titleMap.size ? Promise.resolve() : loadTitleIndex()
+    ]);
     const data = await res.json().catch(() => ({}));
     if (data.configured === false) {
       els.banner.hidden = false;
@@ -128,6 +184,6 @@ document.querySelectorAll('[data-days]').forEach(btn => {
   });
 });
 
-els.refresh.addEventListener('click', () => { loadStats(); loadSubscribers(); });
+els.refresh.addEventListener('click', () => { titleMap = new Map(); loadStats(); loadSubscribers(); });
 loadStats();
 loadSubscribers();

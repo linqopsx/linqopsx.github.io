@@ -36,6 +36,9 @@
     .st-progress-track{height:7px;border-radius:999px;background:#f2f2f7;overflow:hidden}
     .st-progress-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#007aff,#5856d6)}
     .st-grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+    .st-path-title{font-weight:600;color:#1c1c1e!important}
+    .st-path-title:hover{color:#007aff!important}
+    .st-path-sub{font-size:11.5px;color:rgba(60,60,67,.54);font-family:ui-monospace,monospace;margin-top:2px}
     .st-empty{padding:24px 0;text-align:center;color:rgba(60,60,67,.58);font-size:14px}
     @media(max-width:860px){.st-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.st-grid-2{grid-template-columns:1fr}.st-progress{display:none}}
   </style>
@@ -137,7 +140,7 @@
           <thead>
             <tr>
               <th class="st-rank">#</th>
-              <th>页面路径</th>
+              <th>文章标题 / 页面</th>
               <th class="num">浏览量</th>
               <th class="num">访次</th>
               <th class="st-progress">占比</th>
@@ -191,6 +194,6 @@
     </div>
   </main>
 
-  <script type="module" src="/admin/stats/stats.js?v=20261126"></script>
+  <script type="module" src="/admin/stats/stats.js?v=20261127"></script>
 </body>
 </html>
