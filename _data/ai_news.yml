@@ -1,0 +1,3 @@
+# AI 前沿资讯后端接口地址（ai-news-bot）
+# 本地调试可使用 http://127.0.0.1:8000/api/v1；上线后改为你的 HTTPS 域名（如 https://news-api.example.com/api/v1）
+api_base: "http://127.0.0.1:8000/api/v1"
