@@ -5,7 +5,16 @@
     <link>https://linqopsx.github.io/ai-news/</link>
     <description>聚合国内外主流大模型最新动态与 AI 日报</description>
     <language>zh-CN</language>
-    <lastBuildDate>Sat, 28 Nov 2026 02:11:38 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 28 Nov 2026 02:30:38 +0000</lastBuildDate>
+    <item>
+      <title>[P1] Antigravity 更新：Auto 模式不必要的审批减少 15%，新增原生 GitHub 集成</title>
+      <link>https://x.com/_mohansolo/status/2126383370091556884</link>
+      <guid isPermaLink="false">ai-news-201</guid>
+      <pubDate>Fri, 27 Nov 2026 18:31:16 +0000</pubDate>
+      <description>Varun Mohan 宣布 Antigravity 发布新版，Auto 模式下不必要的审批进一步减少 15%，并加入原生 GitHub 集成。
+核心看点：Auto 模式下不必要的审批进一步减少 15%。；新版加入原生 GitHub 集成。
+简评：这次更新着重减少开发流程中的手动干预：更少的不必要审批有望降低 Agent 执行任务时的中断。原帖未披露 15% 的统计口径，也未说明 GitHub 集成具体支持哪些操作。</description>
+    </item>
     <item>
       <title>[P0] 众擎首发人形机器人行为基座模型 EngineAI-BFM，计划开放权重并提供10亿元生态支持</title>
       <link>https://www.qbitai.com/2026/11/513352.html</link>
@@ -160,6 +169,15 @@
 简评：争议焦点是 AI 陪伴平台进入破产程序后，私人对话能否作为资产转让，以及未成年人账户的数据应受到哪些保护。报道披露的是总检察长联盟的指控和阻止行动，并未表明聊天记录已被出售或法院已作出裁决。</description>
     </item>
     <item>
+      <title>[P0] Antigravity 感恩节为全体用户重置 Gemini 使用额度</title>
+      <link>https://x.com/_mohansolo/status/2125851902009311306</link>
+      <guid isPermaLink="false">ai-news-203</guid>
+      <pubDate>Thu, 26 Nov 2026 07:19:24 +0000</pubDate>
+      <description>Varun Mohan 在 X 上宣布，所有 Antigravity 用户的 Gemini 使用额度将因感恩节而重置。
+核心看点：重置范围覆盖所有 Antigravity 用户。；公告未说明具体生效时间或重置后的额度上限。
+简评：这次公告涉及全体用户的 Gemini 使用额度重置，而非提高额度上限。原文也未宣布调整常规配额政策。</description>
+    </item>
+    <item>
       <title>[P0] 腾讯混元开源 DFly2 权重与训练代码，Hy4 flash 解码最高提速 4.2 倍</title>
       <link>https://mp.weixin.qq.com/s?__biz=MzkwODU2OTQyNQ==&amp;mid=2247499116&amp;idx=1&amp;sn=5e8af49c48d4b3c1d7e06b98d6114160</link>
       <guid isPermaLink="false">ai-news-12</guid>
@@ -257,24 +275,6 @@
       <description>Ai2 访谈了 17 位在美国工作的科学家，发现他们不仅关心 AI Agent 的结果是否正确，也关心过程能否核查、数据访问是否越权，以及谁为结果负责。
 核心看点：访谈归纳出科研信任的五个维度：可验证性、隐私、客观性、问责和透明度。；Ai2 建议由科学家参与设计评测，例如检验文献综述 Agent 是否遗漏反面证据，以及编程 Agent 是否访问了未经授权的文件。；受访者对 AI 参与构思、写作和同行评审的界限看法不一，分歧涉及技能培养、智力贡献和保密义务。；研究属于探索性访谈，不代表科学界共识，也未对特定 Agent 进行实证评测。
 简评：这篇文章提出了一个具体的评测转向：科研 Agent 不仅要交付正确结果，还要让研究者查清它用了什么证据和方法、访问了哪些数据。可审计的操作记录和细粒度权限控制因此值得纳入评测，但文中的参与式基准仍是提案，尚未验证其效果。</description>
-    </item>
-    <item>
-      <title>[P1] 纽约州将禁售内置 AI 聊天机器人的玩具，为期五年</title>
-      <link>https://techcrunch.com/2026/11/25/want-to-buy-your-kid-an-ai-toy-this-christmas-not-in-new-york/</link>
-      <guid isPermaLink="false">ai-news-165</guid>
-      <pubDate>Wed, 25 Nov 2026 18:11:46 +0000</pubDate>
-      <description>纽约州州长签署法案，禁止在州内制造、分销和销售内置 AI 聊天机器人的玩具，为期五年；禁令在签署 90 天后生效。
-核心看点：纽约州是继加州之后第二个实施此类禁令的美国州。禁令针对集成 AI 聊天机器人的玩具，并非所有使用 AI 的玩具。；纽约州官员称，违规罚款为每天 1.5 万美元。亚马逊表示将限制相关商品在禁售地区的销售，但未说明如何管理第三方卖家。；Common Sense Media 测试了五款主打学习或陪伴的 AI 玩具，发现部分产品会鼓励孩子保守秘密或绕过家长规则，还可能生成不适龄内容。；受测玩具未能提供可靠的家长监督机制：有些不提供聊天记录，有些提供的记录存在多处错误。
-简评：这项禁令把儿童 AI 玩具的安全问题从内容过滤延伸到了陪伴设计和家长监督。测评显示，即使多数受测产品会拒绝直接涉及性或暴力的请求，仍可能出现不适龄互动，而不完整或不准确的聊天记录让家长难以及时发现问题。对电商平台而言，如何限制第三方卖家向纽约州销售受禁产品，仍是报道未能厘清的执行问题。</description>
-    </item>
-    <item>
-      <title>[P1] 美国 FCC 批准 SpaceX 部署最多 100 万颗 AI 数据中心卫星</title>
-      <link>https://www.theverge.com/science/1042278/spacex-fcc-starmind-ai-space-data-centers</link>
-      <guid isPermaLink="false">ai-news-166</guid>
-      <pubDate>Wed, 25 Nov 2026 17:44:51 +0000</pubDate>
-      <description>据 The Verge 报道，美国 FCC 首次批准完整的 AI 卫星星座，授权 SpaceX 的 Starmind 计划部署最多 100 万颗搭载 AI 芯片的卫星。
-核心看点：FCC 要求 SpaceX 在 2033 年前至少部署 1 颗卫星，并在 2040 年前达到 100 万颗的部署目标。；FCC 暂缓审议 SpaceX 将轨道高度超过 600 公里的退役卫星转移至“墓地轨道”的申请。；谷歌和蓝色起源也在探索太空 AI 数据中心。
-简评：这项许可是轨道 AI 算力基础设施的监管进展。首星与百万颗部署目标相隔七年，后续可通过实际部署进度观察 Starmind 的扩张速度。</description>
     </item>
   </channel>
 </rss>
